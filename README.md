@@ -13,7 +13,7 @@
 You can run Uindow from any CI/CD pipeline or command-line interface.
 
 ```bash
-npm install uindow
+npm install @uindow/cli
 npx uindow --help
 ```
 
@@ -44,3 +44,4 @@ Building Uindow modules is easy:
 1. Visit the [Uindow SDK Reference](https://uindow.com/docs/?ref=github)
 2. Download the sample module and import it into Uindow
 3. Start experimenting with dollar-sign methods - the integrated editor features auto-complete and code hints
+
