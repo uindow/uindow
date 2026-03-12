@@ -1,7 +1,7 @@
 {
-    "name": "@uindow/cli",
-    "version": "0.0.106",
-    "description": "CLI for Uindow",
+    "name": "uindow",
+    "version": "0.0.107",
+    "description": "UI testing and web automation",
     "homepage": "https://uindow.com/",
     "author": "Uindow",
     "main": "run.js",
