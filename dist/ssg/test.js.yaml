@@ -556,7 +556,7 @@ srcFunctions:
       const url = "http://localhost:7199/manifest.json";
 
       const resJson = await $.doRequest(url);
-      if ("object" !== typeof resJson.data || null == resJson.data || "Oglama" !== resJson.data.name) {
+      if ("object" !== typeof resJson.data || null == resJson.data || "Uindow" !== resJson.data.name) {
         throw new Error("$.doRequest failed for JSON response");
       }
 
@@ -564,7 +564,7 @@ srcFunctions:
       if (
         "string" !== typeof resString.data ||
         !resString.data.length ||
-        !resString.data.match(/"Oglama"/g)
+        !resString.data.match(/"Uindow"/g)
       ) {
         throw new Error("$.doRequest failed for string response");
       }
@@ -573,7 +573,7 @@ srcFunctions:
       if (
         "object" !== typeof resDevJson.data ||
         null == resDevJson.data ||
-        "Oglama" !== resDevJson.data.name
+        "Uindow" !== resDevJson.data.name
       ) {
         throw new Error("$.osRequest failed for JSON response");
       }
@@ -582,7 +582,7 @@ srcFunctions:
       if (
         "string" !== typeof resDevString.data ||
         !resDevString.data.length ||
-        !resDevString.data.match(/"Oglama"/g)
+        !resDevString.data.match(/"Uindow"/g)
       ) {
         throw new Error("$.doRequest failed for string response");
       }

@@ -1,13 +1,13 @@
 {
-    "name": "oglama",
-    "version": "0.0.105",
+    "name": "uindow",
+    "version": "0.0.106",
     "description": "Private web automation",
-    "homepage": "https://oglama.com/",
-    "author": "Oglama",
+    "homepage": "https://uindow.com/",
+    "author": "Uindow",
     "main": "run.js",
     "bin": {
-        "oglama": "bin.js"
+        "uindow": "bin.js"
     },
     "res": true,
-    "license": "Oglama-1.0"
+    "license": "Uindow-1.0"
 }

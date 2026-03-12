@@ -1,6 +1,6 @@
 {
     "name": "oglama",
-    "version": "0.0.105",
+    "version": "0.0.106",
     "description": "Private, community-driven web automation",
     "author": "Oglama (https://oglama.com)",
     "license": "Oglama-1.0",
@@ -30,7 +30,7 @@
         "asar": true,
         "appId": "com.oglama",
         "productName": "Oglama",
-        "copyright": "Copyright © 2024-2026 Oglama (https://oglama.com)",
+        "copyright": "Copyright © 2024-2026 Uindow (https://uindow.com)",
         "directories": {
             "output": "out"
         },

@@ -1,15 +1,15 @@
 ---
-title: Oglama SDK
-description: Welcome to the Oglama SDK Documentation.
+title: Uindow SDK
+description: Welcome to the Uindow SDK Documentation.
 ---
 
 ### Founding principles
 
-Defined by the Roman architect Vitruvius, the principles of Strength, Utility, and Delight (firmitas, utilitas, venustas) form the foundation of good architecture, and they are central to Oglama's philosophy.
+Defined by the Roman architect Vitruvius, the principles of Strength, Utility, and Delight (firmitas, utilitas, venustas) form the foundation of good architecture, and they are central to Uindow's philosophy.
 
 #### Firmitas
 
-Oglama opens the door to automations that are simply not possible with other software. It maintains a good balance between AI flexibility and JavaScript programming determinism, all while protecting your privacy.
+Uindow opens the door to automations that are simply not possible with other software. It maintains a good balance between AI flexibility and JavaScript programming determinism, all while protecting your privacy.
 
 #### Utilitas
 
@@ -17,15 +17,15 @@ Effortlessly install, run, and edit modules directly from the built-in source co
 
 #### Venustas
 
-Oglama is designed with simplicity at its core. You don't need to be a programmer to get value from this software. Just search our repository for a module that solves your problem, install it, run it, and modify it to your liking.
+Uindow is designed with simplicity at its core. You don't need to be a programmer to get value from this software. Just search our repository for a module that solves your problem, install it, run it, and modify it to your liking.
 
 * * *
 
 ### Getting started
 
-Oglama is a desktop application built on top of Chromium that allows you to automate web actions.
+Uindow is a desktop application built on top of Chromium that allows you to automate web actions.
 
-[Create an account] and download the latest version to get started. Alternatively, clone [oglama/oglama] and run `npm start` to use the latest pre-release version.
+[Create an account] and download the latest version to get started. Alternatively, clone [uindow/uindow] and run `npm start` to use the latest pre-release version.
 
 #### 1\. Agents
 
@@ -63,17 +63,17 @@ Supported input and output types are: `integer`, `string`, `boolean`,`table` and
 
 #### 3\. Collaboration
 
-You can publish your modules to the module repository, allowing others to install and use your work. You can also import and export your automations as `.oglama.yaml` files, giving you complete privacy and control over your work.
+You can publish your modules to the module repository, allowing others to install and use your work. You can also import and export your automations as `.js.yaml` files, giving you complete privacy and control over your work.
 
 * * *
 
 ### Example
 
-Here is an example of a small Oglama module (`search.oglama.yaml`) that performs a Google search.
+Here is an example of a small Uindow module (`search.js.yaml`) that performs a Google search.
 
 Please note that the module is exported as a YAML file, but each function and finite-state machine state is written in pure JavaScript and relies on the dollar sign object (`$`) for operations.
 
-**search.oglama.yaml**
+**search.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -105,21 +105,21 @@ srcInputs:
     desc: A search term for Google
     max: 1024
     options: []
-    default: oglama
+    default: uindow
 srcOutputs: []
 ```
 
 Import this and other modules by following these steps:
 
-*   Launch Oglama, select an agent, and click on Options
+*   Launch Uindow, select an agent, and click on Options
 *   Click Source Code, go to Source Control, and select 'Import from YAML'
-*   Choose the module file ( `search.oglama.yaml` )
+*   Choose the module file ( `search.js.yaml` )
 
 * * *
 
 ### The SDK
 
-> All available Oglama SDK methods and properties are described below. The SDK has a flat structure, with every method and property attached to the dollar sign object (`$`).
+> All available Uindow SDK methods and properties are described below. The SDK has a flat structure, with every method and property attached to the dollar sign object (`$`).
 
 * * *
 
@@ -135,7 +135,7 @@ Import this and other modules by following these steps:
 
 Although you can use [$.global\*()] methods to store and retrieve data from a global store, it is sometimes better to simply pass arguments from one state to another.
 
-**example-args.oglama.yaml**
+**example-args.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -178,10 +178,10 @@ srcOutputs: []
 > 
 > Current state key.<br/>
 
-At the core of every Oglama module is a finite-state machine where each state is uniquely identified by its key.  
+At the core of every Uindow module is a finite-state machine where each state is uniquely identified by its key.  
 You may need to reference the current or the [$.previous] state key inside functions.
 
-**example-current.oglama.yaml**
+**example-current.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -232,7 +232,7 @@ srcOutputs: []
 
 Following the example for the [$.current] property, here's how one would use the previous state key.
 
-**example-previous.oglama.yaml**
+**example-previous.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -285,7 +285,7 @@ srcOutputs: []
 Functions allow you to organize your module better and prevent code duplication.  
 Here's a simple example for counting down using functions - recursively.
 
-**example-fn.oglama.yaml**
+**example-fn.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -322,10 +322,10 @@ srcOutputs: []
 > 
 > <i>@throws</i> {Error} If the LLM is not ready<br/>
 
-Oglama provides easy access to a locally running large language model for complex tasks such as text summarization and sentiment analysis. Please note that LLMs are neither accurate nor deterministic.  
+Uindow provides easy access to a locally running large language model for complex tasks such as text summarization and sentiment analysis. Please note that LLMs are neither accurate nor deterministic.  
 The example below shows when not to use a large language model: mathematical operations are much faster and more accurate in pure JavaScript.
 
-**example-llm.oglama.yaml**
+**example-llm.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -353,7 +353,7 @@ srcOutputs: []
 
 A maximum of 250 logs are retained in the logs panel for each agent. Logs are stored in session and are removed when the app is closed. There are four log types, each with their own color:`info`,`success`.`warning`, and`error`.
 
-**example-log.oglama.yaml**
+**example-log.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -377,7 +377,7 @@ srcOutputs: []
 
 Sometimes you may need to slow down your script to prevent overloading a website's resources, and other times you might just want a bit of showmanship.
 
-**example-sleep.oglama.yaml**
+**example-sleep.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -408,10 +408,10 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>message</b> (optional) Message displayed in dialog when agent is (re-)selected<br/>
 
-Oglama modules do not access or store any personal data, such as passwords or cookies.  
+Uindow modules do not access or store any personal data, such as passwords or cookies.  
 If a user needs to log into a website or verify they are human, simply pause the script at the current finite-state machine state and kindly request their input.
 
-**example-pause.oglama.yaml**
+**example-pause.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -447,7 +447,7 @@ srcOutputs: []
 
 Unlike [$.pause()], the current run is **abandoned** so all values stored with [$.globalRunSet()] are discarded. The next time you start the agent, it will execute normally from the entry state.
 
-**example-stop.oglama.yaml**
+**example-stop.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -486,7 +486,7 @@ srcOutputs: []
 
 Setting a timer is useful for a wide range of algorithms, but you will likely find it most valuable when setting up a listener for an event that has not occurred yet.
 
-**example-setTimeout.oglama.yaml**
+**example-setTimeout.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -520,7 +520,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {function} <b>timeoutId</b> The identifier of the timeout to cancel, as returned by <i>$.setTimeout</i><br/>
 
-**example-clearTimeout.oglama.yaml**
+**example-clearTimeout.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -563,7 +563,7 @@ srcOutputs: []
 This method acts like a proxy, bypassing any CORS restrictions.  
 If you need to pass along cookies with your request, first nagivate to the target domain using [$.navLoad()] then issue the request with [$.doRequest()] or [$.ioSaveRequest()].
 
-**example-osRequest.oglama.yaml**
+**example-osRequest.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -613,7 +613,7 @@ srcOutputs: []
 
 It is recommended that you use this method with caution and only with the explicit permission of users, as opening folders may interfere with their activities.
 
-**example-osFileShow.oglama.yaml**
+**example-osFileShow.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -658,7 +658,7 @@ srcOutputs:
 Introducing randomness into the behavior of modules is so useful that we decided to dedicate a helper function to it.  
 You could use `Math.floor(Math.random() * (max - min + 1)) + min` instead, but this is cleaner.
 
-**example-osRand.oglama.yaml**
+**example-osRand.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -701,7 +701,7 @@ srcOutputs: []
 
 In this example, we're using the environment cache to perform an action only once per day.
 
-**example-globalEnvGet.oglama.yaml**
+**example-globalEnvGet.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -738,7 +738,7 @@ srcOutputs: []
 
 In this example, we're listing and removing all values from the environment cache.
 
-**example-globalEnvSet.oglama.yaml**
+**example-globalEnvSet.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -982,7 +982,7 @@ srcOutputs: []
 
 In the following example we're recording smooth scrolling a web page at 150 pixels per second. Note that `$.ioSaveVideo` returns a callback function that stops the recording.
 
-**example-ioSaveVideo.oglama.yaml**
+**example-ioSaveVideo.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -1057,7 +1057,7 @@ srcOutputs:
 This example demonstrates how to save a file with a custom extension. Note that the file extension must first be declared in the output configuration. If the specified extension is not included in the declared list, the first listed extension, "json" in this case, will be used instead.  
 If you don't specify a file extension, the script will attempt to deduce it from the URL.
 
-**example-ioSaveRequest.oglama.yaml**
+**example-ioSaveRequest.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -1275,7 +1275,7 @@ srcOutputs:
 This example describes how to fetch data in the browser when CORS is an issue.  
 If you don't care about cookies you can use [$.osRequest()] to bypass CORS instead.
 
-**example-doRequest.oglama.yaml**
+**example-doRequest.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
@@ -1678,17 +1678,17 @@ srcOutputs: []
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on timeout<br/>
 
-[Create an account]: https://oglama.com/login/
-[oglama/oglama]: https://github.com/oglama/oglama/
-[$.fn("function-key")]: https://oglama.com/docs/#/doc:fn
-[$.ioInput\*()]: https://oglama.com/docs/#/doc:ioInputInt
-[$.ioOutput\*()]: https://oglama.com/docs/#/doc:ioOutputInt
-[$.global\*()]: https://oglama.com/docs/#/doc:globalEnvGet
-[$.previous]: https://oglama.com/docs/#/doc:previous
-[$.current]: https://oglama.com/docs/#/doc:current
-[$.pause()]: https://oglama.com/docs/#/doc:pause
-[$.globalRunSet()]: https://oglama.com/docs/#/doc:globalRunSet
-[$.navLoad()]: https://oglama.com/docs/#/doc:navLoad
-[$.doRequest()]: https://oglama.com/docs/#/doc:doRequest
-[$.ioSaveRequest()]: https://oglama.com/docs/#/doc:ioSaveRequest
-[$.osRequest()]: https://oglama.com/docs/#/doc:osRequest
+[Create an account]: https://uindow.com/login/
+[uindow/uindow]: https://github.com/uindow/uindow/
+[$.fn("function-key")]: https://uindow.com/docs/#/doc:fn
+[$.ioInput\*()]: https://uindow.com/docs/#/doc:ioInputInt
+[$.ioOutput\*()]: https://uindow.com/docs/#/doc:ioOutputInt
+[$.global\*()]: https://uindow.com/docs/#/doc:globalEnvGet
+[$.previous]: https://uindow.com/docs/#/doc:previous
+[$.current]: https://uindow.com/docs/#/doc:current
+[$.pause()]: https://uindow.com/docs/#/doc:pause
+[$.globalRunSet()]: https://uindow.com/docs/#/doc:globalRunSet
+[$.navLoad()]: https://uindow.com/docs/#/doc:navLoad
+[$.doRequest()]: https://uindow.com/docs/#/doc:doRequest
+[$.ioSaveRequest()]: https://uindow.com/docs/#/doc:ioSaveRequest
+[$.osRequest()]: https://uindow.com/docs/#/doc:osRequest

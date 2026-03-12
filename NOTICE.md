@@ -1,12 +1,12 @@
 # NOTICE
 
-This product includes software developed by Oglama™. Copyright © 2024-2026, [Oglama™](https://oglama.com).
+This product includes software developed by Uindow™. Copyright © 2024-2026, [Uindow™](https://uindow.com).
 
-Licensed under the **Oglama™ Source-Available License**, version 1.0 (the "License").
+Licensed under the **Uindow™ Source-Available License**, version 1.0 (the "License").
 
 You may obtain a copy of the License at:
 
-    https://github.com/oglama/oglama/blob/main/LICENSE.txt
+    https://github.com/uindow/uindow/blob/main/LICENSE.txt
 
 
 ---

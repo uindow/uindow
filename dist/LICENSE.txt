@@ -1,11 +1,11 @@
-                     Oglama™ Source-Available License
+                     Uindow™ Source-Available License
                        Version 1.0 - January 1, 2024
 
 1. DEFINITIONS
 
    "Licensor" means the legal entity or individual that, at any given time,
    lawfully maintains ownership, administrative control, or registration
-   rights over the oglama.com domain, including any successor, assignee,
+   rights over the uindow.com domain, including any successor, assignee,
    transferee, or subsequent domain holder exercising such control.
 
    "Software" means the associated desktop application and its source code.
