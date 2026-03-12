@@ -1,0 +1,13 @@
+{
+    "name": "@uindow/cli",
+    "version": "0.0.106",
+    "description": "CLI for Uindow",
+    "homepage": "https://uindow.com/",
+    "author": "Uindow",
+    "main": "run.js",
+    "bin": {
+        "uindow": "bin.js"
+    },
+    "res": true,
+    "license": "Uindow-1.0"
+}

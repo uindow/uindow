@@ -1,0 +1,4 @@
+{
+    "compilerOptions": { "baseUrl": "." },
+    "include": ["./app/**/*.js", "./tools/**/*.js"]
+}

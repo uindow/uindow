@@ -1,0 +1,38 @@
+{
+    "name": "Uindow",
+    "short_name": "Uindow",
+    "description": "UI testing and web automation (v.0.0.106)",
+    "id": "/",
+    "start_url": "/",
+    "display": "minimal-ui",
+    "orientation": "any",
+    "theme_color": "#f6c028",
+    "background_color": "#ebfdff",
+    "categories": ["productivity", "business", "development", "utilities"],
+    "icons": [
+        {
+            "src": "/img/logo/64.png",
+            "sizes": "64x64",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/img/logo/96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/img/logo/192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/img/logo/512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ]
+}

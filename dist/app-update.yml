@@ -1,0 +1,4 @@
+provider: "github"
+owner: "uindow"
+repo: "uindow"
+releaseType: "release"

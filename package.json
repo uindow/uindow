@@ -1,0 +1,105 @@
+{
+    "name": "@uindow/cli",
+    "version": "0.0.106",
+    "description": "CLI for Uindow",
+    "author": "Uindow (https://uindow.com)",
+    "license": "Uindow-1.0",
+    "main": "run.js",
+    "keywords": [
+        "automation",
+        "cli",
+        "front-end",
+        "testing",
+        "uindow"
+    ],
+    "scripts": {
+        "start": "electron ./dist/run.js",
+        "lint": "eslint --fix --cache \"tools/**/*.js\"",
+        "format": "prettier --write \"tools/**/*.js\" \"dist/lib/**/*.js\" \"dist/run.js\"",
+        "build": "node tools/build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/uindow/uindow.git"
+    },
+    "homepage": "https://uindow.com",
+    "bin": {
+        "uindow": "dist/bin.js"
+    },
+    "build": {
+        "asar": true,
+        "appId": "com.uindow",
+        "productName": "Uindow",
+        "copyright": "Copyright © 2024-2026 Uindow (https://uindow.com)",
+        "directories": {
+            "output": "out"
+        },
+        "afterPack": "./tools/build-hooks/after-pack.js",
+        "files": [
+            "!**/CODE-OF-CONDUCT.md",
+            "!**/CONTRIBUTING.md",
+            "!**/node_modules/**",
+            "!**/jsconfig.json",
+            "!**/*.config.js",
+            "!**/README.md",
+            "!**/tools/**",
+            "!**/dist/**",
+            "!**/.*"
+        ],
+        "mac": {
+            "icon": "dist/res/icons/icon.icns",
+            "artifactName": "${productName}-${version}.${ext}",
+            "target": [
+                "dmg",
+                "zip"
+            ],
+            "category": "public.app-category.utilities",
+            "entitlements": "dist/entitlements.mac.plist"
+        },
+        "win": {
+            "icon": "dist/res/icons/icon.ico",
+            "artifactName": "${productName}-${version}-setup.${ext}",
+            "target": "nsis"
+        },
+        "linux": {
+            "icon": "dist/res/icons/icon.png",
+            "artifactName": "${productName}-${version}.${ext}",
+            "target": "deb",
+            "category": "Utility",
+            "maintainer": "Uindow <hello@uindow.com>",
+            "description": "UI testing and web automation"
+        },
+        "nsis": {
+            "oneClick": true,
+            "perMachine": false,
+            "shortcutName": "Uindow",
+            "installerIcon": "dist/res/icons/icon.ico",
+            "uninstallerIcon": "dist/res/icons/icon.ico",
+            "createDesktopShortcut": false,
+            "createStartMenuShortcut": true
+        },
+        "publish": [
+            {
+                "provider": "github",
+                "owner": "uindow",
+                "repo": "uindow",
+                "releaseType": "release"
+            }
+        ]
+    },
+    "devDependencies": {
+        "@electron/asar": "4.0.1",
+        "asar": "3.2.0",
+        "cross-spawn": "7.0.6",
+        "electron-builder": "26.7.0",
+        "electron": "38.1.0",
+        "eslint": "8.57.1",
+        "eslint-config-google": "0.14.0",
+        "eslint-config-prettier": "8.10.0",
+        "eslint-import-resolver-alias": "1.1.2",
+        "eslint-plugin-import": "2.32.0",
+        "eslint-plugin-prettier": "4.2.1",
+        "eslint-plugin-unused-imports": "2.0.0",
+        "prettier": "2.8.8"
+    }
+}

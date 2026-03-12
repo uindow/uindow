@@ -1,0 +1,91 @@
+                     Uindow™ Source-Available License
+                       Version 1.0 - January 1, 2024
+
+1. DEFINITIONS
+
+   "Licensor" means the legal entity or individual that, at any given time,
+   lawfully maintains ownership, administrative control, or registration
+   rights over the uindow.com domain, including any successor, assignee,
+   transferee, or subsequent domain holder exercising such control.
+
+   "Software" means the associated desktop application and its source code.
+
+   "Licensee" or "You" means the individual or entity exercising permissions
+   granted by this License.
+
+2. LICENSE GRANT
+
+   Subject to the terms and conditions herein, Licensor grants You a limited,
+   worldwide, non-exclusive, non-transferable, and revocable license to:
+
+   a. Access, download, and view the source code of the Software for the
+      purpose of personal study or internal evaluation.
+   b. Execute the Software on a local machine for evaluation purposes only.
+
+   Any use of the Software beyond evaluation requires a valid, active
+   subscription provided by the Licensor.
+
+3. RESTRICTIONS AND ENFORCEMENT
+
+   Your License is strictly subject to the following restrictions:
+
+   a. NO BYPASS: You shall not modify, disable, or circumvent any login,
+      license key verification, or entitlement enforcement mechanisms.
+   b. NO DISTRIBUTION: You may not sell, rent, lease, sublicense, or
+      redistribute the Software, in source or binary form, to any third party.
+   c. NO COMPETITION: You may not use the Software or its source code to
+      create a competing product or service.
+
+4. OWNERSHIP AND INTELLECTUAL PROPERTY
+
+   All rights, title, and interest in and to the Software remain the exclusive
+   property of the Licensor. To the extent that You create any modifications,
+   enhancements, or derivative works of the Software ("Modifications"), You
+   hereby grant to Licensor a worldwide, irrevocable, perpetual, non-exclusive,
+   sublicensable, and royalty-free license to use, reproduce, modify, 
+   distribute, and exploit such Modifications in any manner and for any purpose.
+   This License does not grant any rights to Licensor's trademarks or logos.
+
+5. TERMINATION
+
+   This License terminates automatically if You fail to comply with any of its
+   terms. Upon termination, You must cease all use of the Software and destroy
+   all copies of the Software and source code in your possession.
+
+6. DISCLAIMER OF WARRANTY
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+7. LIMITATION OF LIABILITY
+
+   TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE
+   LICENSOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN
+   ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN
+   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+   TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE TOTAL AGGREGATE 
+   LIABILITY OF THE LICENSOR FOR ALL CLAIMS ARISING OUT OF THIS LICENSE SHALL
+   BE LIMITED TO THE GREATER OF: (A) THE TOTAL FEES PAID BY YOU TO LICENSOR 
+   IN THE THREE (3) MONTHS PRECEDING THE CLAIM, OR (B) FIFTY DOLLARS (US $50).
+
+8. GOVERNING LAW AND JURISDICTION
+
+   This License shall be governed by and construed in accordance with the
+   laws of Romania, without regard to its conflict of laws principles.
+
+   Any dispute arising out of or relating to this License or the Software
+   shall be subject to the exclusive jurisdiction of the courts located in
+   Bucharest, Romania.
+
+9. SEVERABILITY AND ENTIRE AGREEMENT
+
+   If any provision of this License is held to be invalid, illegal, or
+   unenforceable, the remaining provisions shall remain in full force and
+   effect to the maximum extent permitted by applicable law.
+
+   This License, together with any applicable Terms of Service or
+   subscription terms referenced herein, constitutes the entire agreement
+   between You and the Licensor concerning the Software and supersedes all
+   prior or contemporaneous agreements on that subject matter.
