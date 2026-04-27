@@ -17,12 +17,12 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' || startsWith( github.event.head_commit.message, '[release]' ) }}
         steps:
             - name: Set up Node.js
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v6
               with:
-                  node-version: "22"
+                  node-version: "24"
 
             - name: Checkout repository
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Update NPM
               run: npm install -g npm@latest
@@ -30,25 +30,21 @@ jobs:
             - name: Publish to NPM registry
               run: npm publish
 
-    build:
+    build-linux:
         timeout-minutes: 10
-        runs-on: ${{ matrix.os }}
+        runs-on: ubuntu-latest
         if: ${{ github.event_name == 'workflow_dispatch' || startsWith( github.event.head_commit.message, '[release]' ) }}
-        strategy:
-            matrix:
-                os: [ubuntu-latest, windows-latest, macos-latest]
-
         steps:
             - name: Set up Node.js
-              uses: actions/setup-node@v4
+              uses: actions/setup-node@v6
               with:
-                  node-version: "22"
+                  node-version: "24"
 
             - name: Checkout repository
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Cache node_modules
-              uses: actions/cache@v4
+              uses: actions/cache@v5
               with:
                   path: node_modules
                   key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
@@ -58,18 +54,63 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            # OS-specific configurations
             - name: Build & release app (Linux)
-              if: ${{ matrix.os == 'ubuntu-latest' }}
               run: npm run build -- --publish always --linux
               env:
                   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
+      build-windows:
+        timeout-minutes: 10
+        runs-on: windows-latest
+        if: ${{ github.event_name == 'workflow_dispatch' || startsWith( github.event.head_commit.message, '[release]' ) }}
+        steps:
+            - name: Set up Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: "24"
+
+            - name: Checkout repository
+              uses: actions/checkout@v6
+
+            - name: Cache node_modules
+              uses: actions/cache@v5
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-modules-
+
+            - name: Install dependencies
+              run: npm install
+
             - name: Build & release app (Windows)
-              if: ${{ matrix.os == 'windows-latest' }}
               run: npm run build -- --publish always --win
               env:
                   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+    build-macos:
+        timeout-minutes: 10
+        runs-on: macos-latest
+        if: ${{ github.event_name == 'workflow_dispatch' || startsWith( github.event.head_commit.message, '[release]' ) }}
+        steps:
+            - name: Set up Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: "24"
+
+            - name: Checkout repository
+              uses: actions/checkout@v6
+
+            - name: Cache node_modules
+              uses: actions/cache@v5
+              with:
+                  path: node_modules
+                  key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-modules-
+
+            - name: Install dependencies
+              run: npm install
 
             - name: Build & release app (MacOS)
               if: ${{ matrix.os == 'macos-latest' }}
