@@ -59,7 +59,7 @@ jobs:
               env:
                   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      build-windows:
+    build-windows:
         timeout-minutes: 10
         runs-on: windows-latest
         if: ${{ github.event_name == 'workflow_dispatch' || startsWith( github.event.head_commit.message, '[release]' ) }}
