@@ -1678,7 +1678,7 @@ srcOutputs: []
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on timeout<br/>
 
-[Create an account]: https://uindow.com/login/
+[Create an account]: https://uindow.com/install/
 [uindow/uindow]: https://github.com/uindow/uindow/
 [$.fn("function-key")]: https://uindow.com/docs/#/doc:fn
 [$.ioInput\*()]: https://uindow.com/docs/#/doc:ioInputInt
