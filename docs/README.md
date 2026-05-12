@@ -491,25 +491,27 @@ Setting a timer is useful for a wide range of algorithms, but you will likely fi
 srcStateMachine:
   - key: start
     code: |
-      // Go home
-      await $.navLoad("about:home/");
-      await $.doAwaitPresent(".mascot");
+      // Open test page
+      await $.navLoad("about:home/test");
 
-      // Click on mascot in the future
-      $.setTimeout(async () => {
-        const mascotKey = await $.doQuery(".mascot");
+      // Wait for "Get source" button to be present
+      const buttonKey = await $.doAwaitPresent("[data-role=dl-source]", { first: true });
 
-        await $.doClick(mascotKey);
-      }, 1000);
+      // Trigger download of "test.js.yaml" in the future
+      $.setTimeout(async () => await $.doClick(buttonKey), 500);
 
-      // Wait for mascot click to generate new quote
-      await $.doAwaitPresent(".quote");
-
-      // Wait for mouse to move away after click
-      await $.sleep(500);
+      // Grab the next download and store it in outputs
+      await $.ioSaveDownload("yaml");
 srcFunctions: []
 srcInputs: []
-srcOutputs: []
+srcOutputs:
+  - key: yaml
+    type: files
+    name: Yaml files
+    desc: ""
+    extensions:
+      - yaml
+    visible: true
 ```
 
 * * *
@@ -932,12 +934,12 @@ srcOutputs: []
 > IO: Capture the next downloaded file and save it to disk.<br/>
 > 
 > Useful for saving any file download, regardless of how it was trigerred.<br/>
-> Defer the download event with <i>$.setTimeout()</i> before calling <i>$.ioSaveDownload</i>.<br/>
+> Defer the event that triggers the download with <i>$.setTimeout()</i> before calling <i>$.ioSaveDownload</i>.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
-> <i>@param</i> {int} <b>options.timeout</b> (optional) Download timeout in seconds; default <i>600</i><br/>
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Download timeout in seconds; default <i>600</i><br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
 > 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key<br/>
@@ -962,7 +964,7 @@ srcOutputs: []
 
 #### async $.ioSaveVideo( ioKey, options = {} )
 
-> IO: Record a video of the current page and save it to disk.<br/>
+> IO: Record a video of the current session and save it to disk.<br/>
 > The video is rendered in real time with no sound.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
@@ -1125,7 +1127,7 @@ srcOutputs:
 
 * * *
 
-#### async $.navGoForward( options = {} )
+#### async $.navGoForth( options = {} )
 
 > Navigation: Go forwards.<br/>
 > 
@@ -1188,7 +1190,7 @@ srcOutputs:
 
 > Document: Find the first HTML element that matches the CSS selector and return its corresponding <i>Element key</i>.<br/>
 > 
-> <i>@param</i> {string} <b>selector</b> Standard CSS selector<br/>
+> <i>@param</i> {string} <b>selector</b> CSS selector<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.parent</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
@@ -1202,7 +1204,7 @@ srcOutputs:
 
 > Document: Find all HTML elements that match the CSS selector and return their corresponding <i>Element keys</i>.<br/>
 > 
-> <i>@param</i> {string} <b>selector</b> Standard CSS selector<br/>
+> <i>@param</i> {string} <b>selector</b> CSS selector<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.parent</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
@@ -1246,7 +1248,7 @@ srcOutputs:
 > <i>@param</i> {int} <b>left</b> Left coordinate in pixels<br/>
 > <i>@param</i> {int} <b>top</b> Top coordinate in pixels<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
-> <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for parent element; default <i>null</i> to stop at first ancestor<br/>
+> <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for top element; default <i>null</i> to stop at first ancestor<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
 > <i>@return</i> {string|null} <i>Element key</i> or <i>null</i> on error<br/>
@@ -1320,8 +1322,8 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Highlight options<br/>
-> <i>@param</i> {boolean} <b>options.scrollIntoView</b> (optional) Scroll element into view before highlighting; default <i>true</i><br/>
-> <i>@param</i> {boolean} <b>options.hoverAfterScroll</b> (optional) Move mouse over the center of the element after scrolling into view; default <i>true</i><br/>
+> <i>@param</i> {boolean} <b>options.scroll</b> (optional) Scroll element into view before highlighting; default <i>true</i><br/>
+> <i>@param</i> {boolean} <b>options.hover</b> (optional) Move mouse over the center of the element after scrolling into view; default <i>true</i><br/>
 
 * * *
 
@@ -1364,12 +1366,21 @@ srcOutputs: []
 
 * * *
 
-#### async $.doGetType( elKey )
+#### async $.doGetSelector( elKey )
 
-> Document: Get the type of an HTML Element.<br/>
+> Document: Generate an optimal CSS selector for an HTML Element.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
-> <i>@return</i> {string|null} Element type or <i>null</i> on error<br/>
+> <i>@return</i> {string|null} CSS selector or <i>null</i> on error<br/>
+
+* * *
+
+#### async $.doGetTag( elKey )
+
+> Document: Get the tag name of an HTML Element.<br/>
+> 
+> <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
+> <i>@return</i> {string|null} Element tag name or <i>null</i> on error<br/>
 
 * * *
 
@@ -1384,6 +1395,15 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@return</i> {string|string[]|boolean|null} Value or <i>null</i> on error<br/>
+
+* * *
+
+#### async $.doGetOptions( elKey )
+
+> Document: Get all options for a select element.<br/>
+> 
+> <i>@param</i> {string} <b>elKey</b> Select Element key - obtained with <i>$.doQuery</i><br/>
+> <i>@return</i> {{ value:string, selected:true, text: string}[]} List of options<br/>
 
 * * *
 
@@ -1479,8 +1499,10 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Click options<br/>
+> <i>@param</i> {int} <b>options.left</b> (optional) Left coordinate relative to element in pixels; default <i>null</i> to horizontally center on the element<br/>
+> <i>@param</i> {int} <b>options.top</b> (optional) Top coordinate relative to element in pixels; default <i>null</i> to vertically center on the element<br/>
 > <i>@param</i> {boolean} <b>options.double</b> (optional) Double-click; default <i>false</i><br/>
-> <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover after click; default <i>false</i> to move mouse to the side after clicking<br/>
+> <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover after click; default <i>true</i>; use <i>false</i> to move mouse to the side after clicking<br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
@@ -1493,18 +1515,21 @@ srcOutputs: []
 > <i>@param</i> {int} <b>top</b> Top coordinate in pixels<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Click options<br/>
 > <i>@param</i> {boolean} <b>options.double</b> (optional) Double-click; default <i>false</i><br/>
-> <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover after click; default <i>false</i> to move mouse to the side after clicking<br/>
+> <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover after click; default <i>true</i>; use <i>false</i> to move mouse to the side after clicking<br/>
 > 
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
 
-#### async $.doHover( elKey )
+#### async $.doHover( elKey, options = {} )
 
 > Document: Move mouse over an HTML Element.<br/>
 > Automatically scroll to Element before action.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Click options<br/>
+> <i>@param</i> {int} <b>options.left</b> (optional) Left coordinate relative to element in pixels; default <i>null</i> to horizontally center on the element<br/>
+> <i>@param</i> {int} <b>options.top</b> (optional) Top coordinate relative to element in pixels; default <i>null</i> to vertically center on the element<br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
@@ -1542,7 +1567,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {int} <b>amount</b> Scroll amount in pixels<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Scroll options<br/>
-> <i>@param</i> {int} <b>options.speed</b> (optional) Scroll speed in pixels/second; default <i>100</i>; between <i>1</i> and <i>5000</i><br/>
+> <i>@param</i> {int} <b>options.speed</b> (optional) Scroll speed in pixels/second; default <i>500</i>; between <i>1</i> and <i>5000</i><br/>
 > <i>@param</i> {boolean} <b>options.vertical</b> (optional) Vertical or Horizontal scroll; default <i>true</i> for vertical<br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
@@ -1554,7 +1579,7 @@ srcOutputs: []
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Scroll to options<br/>
-> <i>@param</i> {int} <b>options.top</b> (optional) Top margin; default <i>0</i>; target Element distance to the top of the page in pixels<br/>
+> <i>@param</i> {int} <b>options.top</b> (optional) Top margin in pixels; default <i>0</i>; target Element distance to the top of the viewport in pixels<br/>
 > <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover mouse over center of element after scrolling; default <i>true</i><br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
@@ -1573,8 +1598,8 @@ srcOutputs: []
 > <i>@param</i> {string} <b>text</b> Text to type<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Typing options<br/>
 > <i>@param</i> {boolean} <b>options.replace</b> (optional) Replace current text; default <i>false</i> to append text<br/>
-> <i>@param</i> {boolean} <b>options.submit</b> (optional) Press the <i>Enter</i> key at the end; default <i>false</i><br/>
-> <i>@param</i> {int} <b>options.speed</b> (optional) Typing speed in characters per second; <i>[1,250]</i>; default <i>5</i><br/>
+> <i>@param</i> {boolean} <b>options.submit</b> (optional) Press the <i>Enter</i> key when finished typing; default <i>false</i><br/>
+> <i>@param</i> {int} <b>options.speed</b> (optional) Typing speed in characters per second; <i>[1,250]</i>; default <i>10</i><br/>
 > <i>@param</i> {int} <b>options.sequence</b> (optional) Type last N characters in sequence; use clipboard for the rest; <i>[1,1000]</i>; default <i>250</i><br/>
 > <i>@return</i> {boolean} Returns <i>false</i> if target element is not editable<br/>
 
@@ -1592,8 +1617,8 @@ srcOutputs: []
 > <i>@param</i> {string} <b>text</b> Text to type<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Typing options<br/>
 > <i>@param</i> {boolean} <b>options.replace</b> (optional) Replace current text; default <i>false</i> to append text<br/>
-> <i>@param</i> {boolean} <b>options.submit</b> (optional) Press the <i>Enter</i> key at the end; default <i>false</i><br/>
-> <i>@param</i> {int} <b>options.speed</b> (optional) Typing speed in characters per second; <i>[1,250]</i>; default <i>5</i><br/>
+> <i>@param</i> {boolean} <b>options.submit</b> (optional) Press the <i>Enter</i> key when finished typing; default <i>false</i><br/>
+> <i>@param</i> {int} <b>options.speed</b> (optional) Typing speed in characters per second; <i>[1,250]</i>; default <i>10</i><br/>
 > <i>@param</i> {int} <b>options.sequence</b> (optional) Type last N characters in sequence; use clipboard for the rest; <i>[1,1000]</i>; default <i>250</i><br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
@@ -1610,13 +1635,15 @@ srcOutputs: []
 
 * * *
 
-#### async $.doCheck( elKey, values )
+#### async $.doCheck( elKey, values, options = {} )
 
 > Document: Check radio or checkbox values. The element's siblings must share the same name attribute.<br/>
 > Automatically scroll to Element(s) before action.<br/>
 > 
 > <i>@param</i> {string} <b>elKey</b> Element key - obtained with <i>$.doQuery</i><br/>
 > <i>@param</i> {string|string[]} <b>values</b> A single value or an array of values<br/>
+> <i>@param</i> {Object} <b>options</b> (optional) Check options<br/>
+> <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover after check; default <i>true</i>; use <i>false</i> to move mouse to the side after clicking<br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 
 * * *
@@ -1636,9 +1663,9 @@ srcOutputs: []
 
 > Document: Wait for an Element to be present in the DOM.<br/>
 > 
-> <i>@param</i> {string} <b>selector</b> Standard CSS selector<br/>
+> <i>@param</i> {string} <b>selector</b> CSS selector<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
-> <i>@param</i> {string} <b>options.parent</b> (optional) Parent Element key; default <i>null</i> to search the entire Document<br/>
+> <i>@param</i> {string} <b>options.parent</b> (optional) Parent Element key; default <i>null</i> to search the entire document<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>

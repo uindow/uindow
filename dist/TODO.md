@@ -1,26 +1,4 @@
-
-## MVP
-
-- [ ] CSS selector tool - point and click
-- [ ] record at cursor
-  - [ ] right click for: click, double-click, wait for element
-- [ ]	module
-  - [ ] tooltip should include title
-  - [ ] label v. should not be trimmed
-  - [ ] add author to module
-- [ ] WEB: ui/modules - move version selector to dialog
-- [ ] move source button to front; change tutorial for pop on "Source code"
-
-## UX
-
-- [ ] array for string/int (as csv input)
-- [ ] Scheduled/Recurring - array of runs
- - [ ] Allow copying to/from manual run
-- [ ] export results (manual & auto)
-- [ ] results in reverse
-	- runs
-	- tables
-	- files
+- [ ] New videos for front page, including one with the recorder
 
 ## CLI
 
@@ -29,17 +7,9 @@
 - [ ] stop, restart, status
 - [ ] agents: list, status, start (w/ source & inputs), stop
 
-## UX+
+## SCE
 
-- [ ] UI: agent resolution in browser bar
-  - [ ] $.doResolution()
-  - [ ] set per agent
-  - [ ] store in target.metadata
-- [ ] UI: nav stop
-- [ ] longer logs
-- [ ] app -> when paused, dialog takes to browser tab
-
---- (SCE)
+- [ ] #1. Replace "Don't forget to create a file output" toast with direct action (follow @todos)
 - [ ] preference/runs: auto-clean after 30 (configurable) days
 - [ ] Show confirm dialog
 - [ ] when installing module over modified source
@@ -62,13 +32,41 @@
 - [ ] SCE: Environment tab
 - [ ] SCE: button to discard changes in (*) dialog if some version installed (re-install current version w/ confirmation)
 
+
+## Value
+
+- [ ] array for string/int (custom csv values)
+- [ ] settings / inputs: show icon for string/int
+
+- [ ] Scheduled/Recurring - array of runs
+ - [ ] Allow copying to/from manual run
+
+- [ ] export results (manual & auto)
+
+- [ ] results in reverse
+	- runs
+	- tables
+	- files
+
+- [ ] UI: agent resolution in browser bar
+  - [ ] $.doResolution()
+  - [ ] set per agent
+  - [ ] store in target.metadata
+- [ ] UI: nav stop
+- [ ] app -> when paused, dialog takes to browser tab
+
 ## Details
 
-### Web
-- [ ] Set canonical to current page
-- [ ] Set description to 160 chars max.
+- [ ] re-check all modules
+- [ ] Restore the 2 modules
 
-App
+- [ ]	module: add author
+- [ ] WEB: ui/modules - move version selector to dialog
+- [ ] Organization (attached to userid)
+  - [ ] API + tests
+  - [ ] Web
+  - [ ] App: DialogWorkspace
+
 - [ ] $.doClearCache(domain)
 - [ ] add tests for
   - [ ] $.doGetMouse
@@ -76,6 +74,11 @@ App
   - [ ] $.doGetScrollable
   - [ ] $.osFileGetUrl
   - [ ] $.osFileGetSize
+
+Web
+
+- [ ] Set canonical to current page
+- [ ] Set description to 160 chars max.
 
 ## Chores
 - [ ] improve GC
@@ -85,3 +88,12 @@ App
 	rclone sync . r2:oglama/ --progress --dry-run
 
 - [ ] vs pages: puppeteer, AI browsers
+- [ ] Recorder: handle extra input types with (new) $.doSetValue, and custom dialog for all
+  <input type="color">
+  <input type="range">
+
+  <input type="time">
+  <input type="week">
+  <input type="month">
+  <input type="date">
+  <input type="datetime-local">

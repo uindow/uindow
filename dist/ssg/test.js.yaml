@@ -117,7 +117,7 @@ srcFunctions:
 
       // Go forward
       $.log("Forward to about:home/test");
-      await $.navGoForward();
+      await $.navGoForth();
       if (!(await $.navGetUrl()).match(/^about:home\/test\/?$/g)) {
         throw new Error("Could not go forward to about:home/test");
       }
@@ -742,7 +742,7 @@ srcFunctions:
       if (null === element) {
         throw new Error("$.doQueryAt failed to find element");
       }
-      if ("h2" !== (await $.doGetType(element))) {
+      if ("h2" !== (await $.doGetTag(element))) {
         throw new Error("$.doQueryAt did not find the right parent");
       }
 
