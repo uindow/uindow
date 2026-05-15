@@ -16,9 +16,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const asar = require("asar");
-const path = require("path");
+const asar = require("@electron/asar");
 const fs = require("fs-extra");
+const path = require("path");
 
 /**
  * @param {Object} context Context
