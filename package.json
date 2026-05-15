@@ -67,12 +67,7 @@
             "artifactName": "${productName}-${version}.${ext}",
             "target": "deb",
             "maintainer": "Uindow <hello@uindow.com>",
-            "description": "UI testing and web automation",
-            "desktop": {
-                "NoDisplay": false,
-                "Categories": "Utility;Development;Application;",
-                "StartupWMClass": "Uindow"
-            }
+            "description": "UI testing and web automation"
         },
         "nsis": {
             "oneClick": true,
