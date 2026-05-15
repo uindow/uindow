@@ -32,7 +32,8 @@ To install an older version, visit the [Releases](https://github.com/uindow/uind
 To run the latest (unreleased) version of Uindow, **clone this repository** and run the following commands:
 
 ```bash
-git clone https://github.com/uindow/uindow.git .
+git clone https://github.com/uindow/uindow.git uindow
+cd uindow
 npm install
 npm start
 ```
@@ -44,4 +45,3 @@ Building Uindow modules is easy:
 1. Visit the [Uindow SDK Reference](https://uindow.com/docs/?ref=github)
 2. Download the sample module and import it into Uindow
 3. Start experimenting with dollar-sign methods - the integrated editor features auto-complete and code hints
-
