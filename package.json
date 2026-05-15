@@ -1,6 +1,6 @@
 {
     "name": "@uindow/cli",
-    "version": "0.0.113",
+    "version": "0.0.114",
     "description": "CLI for Uindow",
     "author": "Uindow (https://uindow.com)",
     "license": "Uindow-1.0",
@@ -97,7 +97,7 @@
         "asar": "3.2.0",
         "cross-spawn": "7.0.6",
         "electron-builder": "26.8.1",
-        "electron": "41.3.0",
+        "electron": "42.1.0",
         "eslint": "8.57.1",
         "eslint-config-google": "0.14.0",
         "eslint-config-prettier": "8.10.0",
