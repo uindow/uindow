@@ -30,6 +30,7 @@
         "asar": true,
         "appId": "com.uindow",
         "productName": "Uindow",
+        "executableName": "uindow",
         "copyright": "Copyright © 2024-2026 Uindow (https://uindow.com)",
         "directories": {
             "output": "out"
