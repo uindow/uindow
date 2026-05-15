@@ -65,9 +65,13 @@
             "icon": "dist/res/icons/icon.png",
             "artifactName": "${productName}-${version}.${ext}",
             "target": "deb",
-            "category": "Utility",
             "maintainer": "Uindow <hello@uindow.com>",
-            "description": "UI testing and web automation"
+            "description": "UI testing and web automation",
+            "desktop": {
+                "NoDisplay": false,
+                "Categories": "Utility;Development;Application;",
+                "StartupWMClass": "Uindow"
+            }
         },
         "nsis": {
             "oneClick": true,
