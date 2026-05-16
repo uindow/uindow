@@ -1,7 +1,7 @@
 {
     "name": "uindow",
-    "version": "0.0.116",
-    "description": "UI testing and web automation",
+    "version": "0.0.117",
+    "description": "The programmable browser for real-world workflows",
     "homepage": "https://uindow.com/",
     "author": "Uindow",
     "main": "run.js",
