@@ -28,7 +28,7 @@
     },
     "build": {
         "asar": true,
-        "appId": "com.uindow.app",
+        "appId": "com.uindow",
         "productName": "Uindow",
         "executableName": "uindow",
         "copyright": "Copyright © 2024-2026 Uindow (https://uindow.com)",
