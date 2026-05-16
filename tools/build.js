@@ -55,7 +55,8 @@ for (const taskIndex in taskKeys) {
     // Spawn the new process
     const { status } = spawn.sync(tCommand, Array.isArray(tArgs) ? tArgs : [], {
         cwd: path.dirname(__dirname),
-        stdio: "inherit"
+        stdio: "inherit",
+        env: { ...process.env, NODE_OPTIONS: "--no-deprecation" }
     });
 
     // Build failed
