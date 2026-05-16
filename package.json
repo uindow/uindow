@@ -67,7 +67,7 @@
             "artifactName": "${productName}-${version}.${ext}",
             "target": "deb",
             "maintainer": "Uindow <hello@uindow.com>",
-            "description": "UI testing and web automation"
+            "description": "The programmable browser for real-world workflows"
         },
         "nsis": {
             "oneClick": true,
