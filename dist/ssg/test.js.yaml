@@ -658,13 +658,13 @@ srcFunctions:
 
       // Wait for elements present (string[])
       $.setTimeout(async () => await $.doClick(btnToggle), 1000);
-      const alertKeys = await $.doAwaitPresent(cssSelector, { timeout: 5 });
+      const alertKeys = await $.doAwaitPresent(cssSelector, { timeout: 5, all: true });
       if (!Array.isArray(alertKeys)) {
         throw new Error("$.doAwaitPresent failed to return multiple keys");
       }
 
       // Wait for elements present (string)
-      const alertKey = await $.doAwaitPresent(cssSelector, { timeout: 5, first: true });
+      const alertKey = await $.doAwaitPresent(cssSelector, { timeout: 5 });
       if ("string" !== typeof alertKey) {
         throw new Error("$.doAwaitPresent failed to return the first key");
       }

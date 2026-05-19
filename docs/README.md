@@ -425,10 +425,10 @@ srcStateMachine:
       $.globalRunSet("asked-user", true);
 
       // Look for button that is only available after login
-      const elements = await $.doAwaitPresent(".dashboard-button", { timeout: 1 });
+      const buttonKey = await $.doAwaitPresent(".dashboard-button", { timeout: 1 });
 
       // Ooops! (reCaptcha, login wall etc.)
-      if (!elements) {
+      if (!buttonKey) {
         $.pause("'Dubito, ergo cogito; cogito, ergo sum' to continue.");
       }
 srcFunctions: []
@@ -462,10 +462,10 @@ srcStateMachine:
       await $.globalEnvSet("asked-user", true);
 
       // Look for button that is only available after login
-      const elements = await $.doAwaitPresent(".dashboard-button", { timeout: 1 });
+      const buttonKey = await $.doAwaitPresent(".dashboard-button", { timeout: 1 });
 
       // Ooops! (reCaptcha, login wall etc.)
-      if (!elements) {
+      if (!buttonKey) {
         // Abandon the current run (and clear values in the run store)
         $.stop("State the meaning of life to continue.");
       }
@@ -495,7 +495,7 @@ srcStateMachine:
       await $.navLoad("about:home/test");
 
       // Wait for "Get source" button to be present
-      const buttonKey = await $.doAwaitPresent("[data-role=dl-source]", { first: true });
+      const buttonKey = await $.doAwaitPresent("[data-role=dl-source]");
 
       // Trigger download of "test.js.yaml" in the future
       $.setTimeout(async () => await $.doClick(buttonKey), 500);
@@ -976,9 +976,9 @@ srcOutputs: []
 >  - "h264": wider support across devices<br/>
 > <i>@param</i> {boolean} <b>options.dpr</b> (optional) Use Device Pixel Ratio (DPR); default <i>false</i>; output video at true scale, which might be 2:1 instead of 1:1 on MacOS<br/>
 > <i>@param</i> {boolean} <b>options.rwp</b> (optional) Record While Paused; default <i>false</i>; continue recording video even when agent is paused<br/>
-> <i>@return</i> {function(): Promise&lt;{ path:(string|null), width:int, height:int, duration:int, error: (string|null)}&gt;}<br/>
-> Returns an async function that stops recording the page.<br/>
-> Calling this function returns an object with recording details.<br/>
+> <i>@return</i> {function(): { path:(string|null), error: (null|string), width:int, height:int, duration:int}}<br/>
+> Returns an async function that stops the page recorder.<br/>
+> Calling this function returns an object with final video details.<br/>
 > 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key OR if trying to record more than one video at a time<br/>
 
@@ -1669,8 +1669,8 @@ srcOutputs: []
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
-> <i>@param</i> {boolean} <b>options.first</b> (optional) Return only the first Element's key (<i>string</i> instead of <i>string[]</i>); default <i>false</i><br/>
-> <i>@return</i> {string[]|string|false} Array of <i>24 characters long Element keys</i>; <i>Element key</i> if <i>options.first</i>; <i>false</i> on timeout<br/>
+> <i>@param</i> {boolean} <b>options.all</b> (optional) Return all matches (<i>string[]</i> instead of <i>string</i>); default <i>false</i><br/>
+> <i>@return</i> {string|string[]|false} <i>Element key</i> if <i>options.all</i>; array of <i>24 characters long Element keys</i>; <i>false</i> on timeout<br/>
 
 * * *
 
