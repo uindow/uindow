@@ -1,4 +1,4 @@
-## Uindow - The programmable browser for real-world workflows
+## Uindow - UI testing and web automation with trusted interactions
 
 <p align="center">
     <a href="https://uindow.com/?ref=github">
