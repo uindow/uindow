@@ -980,7 +980,7 @@ srcOutputs: []
 > Returns an async function that stops the page recorder.<br/>
 > Calling this function returns an object with final video details.<br/>
 > 
-> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key OR if trying to record more than one video at a time<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key, or trying to record more than one video at a time<br/>
 
 In the following example we're recording smooth scrolling a web page at 150 pixels per second. Note that `$.ioSaveVideo` returns a callback function that stops the recording.
 
@@ -1032,7 +1032,7 @@ srcOutputs:
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
 > 
-> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key or if <i>url</i> is invalid<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key, or request failed<br/>
 
 * * *
 
@@ -1054,7 +1054,7 @@ srcOutputs:
 > <i>@param</i> {string} <b>options.extension</b> (optional) File extension; default <i>null</i>; must match one of the extensions declared in output; falls back to first file extension declared in output<br/>
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
 > 
-> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key or if <i>url</i> is invalid<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key, or request failed<br/>
 
 This example demonstrates how to save a file with a custom extension. Note that the file extension must first be declared in the output configuration. If the specified extension is not included in the declared list, the first listed extension, "json" in this case, will be used instead.  
 If you don't specify a file extension, the script will attempt to deduce it from the URL.
@@ -1123,7 +1123,7 @@ srcOutputs:
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Navigation timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 > 
-> <i>@throws</i> {Error} If navigation failed<br/>
+> <i>@throws</i> {Error} If page navigation failed<br/>
 
 * * *
 
@@ -1135,7 +1135,7 @@ srcOutputs:
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Navigation timeout in seconds; default <i>60</i><br/>
 > <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
 > 
-> <i>@throws</i> {Error} If navigation failed<br/>
+> <i>@throws</i> {Error} If page navigation failed<br/>
 
 * * *
 
@@ -1188,70 +1188,70 @@ srcOutputs:
 
 #### async $.doQuery( selector, options = {} )
 
-> Document: Find the first HTML element that matches the CSS selector and return its corresponding <i>Element key</i>.<br/>
+> Document: Find the first HTML element that matches the CSS selector and return its corresponding <i>element key</i>.<br/>
 > 
 > <i>@param</i> {string} <b>selector</b> CSS selector<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.parent</b> (optional) Parent CSS selector OR element key; default <i>null</i> to search the entire Document<br/>
-> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
 > <i>@param</i> {boolean} <b>options.viewportDown</b> (optional) Restrict results to elements placed in the viewport and below it; default <i>false</i><br/>
-> <i>@return</i> {string|null} <i>24 characters long Element key</i> or <i>null</i> on error<br/>
+> <i>@return</i> {string|null} 24 characters long <i>element key</i> or <i>null</i> on error<br/>
 
 * * *
 
 #### async $.doQueryAll( selector, options = {} )
 
-> Document: Find all HTML elements that match the CSS selector and return their corresponding <i>Element keys</i>.<br/>
+> Document: Find all HTML elements that match the CSS selector and return their corresponding <i>element keys</i>.<br/>
 > 
 > <i>@param</i> {string} <b>selector</b> CSS selector<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.parent</b> (optional) Parent CSS selector OR element key; default <i>null</i> to search the entire Document<br/>
-> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
 > <i>@param</i> {boolean} <b>options.viewportDown</b> (optional) Restrict results to elements placed in the viewport and below it; default <i>false</i><br/>
-> <i>@return</i> {string[]} Array of <i>24 characters long Element keys</i><br/>
+> <i>@return</i> {string[]} Array of 24 characters long <i>element keys</i><br/>
 
 * * *
 
 #### async $.doQueryParent( element, options = {} )
 
-> Document: Find the parent of this HTML element that matches the CSS selector and return its corresponding <i>Element key</i>.<br/>
+> Document: Find the parent of this HTML element that matches the CSS selector and return its corresponding <i>element key</i>.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for parent element; default <i>null</i> to stop at first ancestor<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by parent element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to parent elements that have active scrollbars; default <i>false</i><br/>
-> <i>@return</i> {string|null} <i>24 characters long Element key</i> or <i>null</i> on error<br/>
+> <i>@return</i> {string|null} 24 characters long <i>element key</i> or <i>null</i> on error<br/>
 
 * * *
 
 #### async $.doQuerySiblings( element, options = {} )
 
-> Document: Find the siblings of this HTML element that match the CSS selector and return their corresponding <i>Element keys</i>.<br/>
+> Document: Find the siblings of this HTML element that match the CSS selector and return their corresponding <i>element keys</i>.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for sibling elements; default <i>null</i> to match all siblings<br/>
 > <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by sibling elements (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to sibling elements that have active scrollbars; default <i>false</i><br/>
-> <i>@return</i> {string[]} <i>24 characters long Element keys</i><br/>
+> <i>@return</i> {string[]} 24 characters long <i>element keys</i><br/>
 
 * * *
 
 #### async $.doQueryAt( left, top, options = {} )
 
 > Document: Find the first HTML element that matches the CSS selector at the specified coordinates,<br/>
-> and return its corresponding <i>Element key</i>.<br/>
+> and return its corresponding <i>element key</i>.<br/>
 > 
 > <i>@param</i> {int} <b>left</b> Left coordinate in pixels<br/>
 > <i>@param</i> {int} <b>top</b> Top coordinate in pixels<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.selector</b> (optional) CSS selector for top element; default <i>null</i> to stop at first ancestor<br/>
-> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
-> <i>@return</i> {string|null} <i>24 characters long Element key</i> or <i>null</i> on error<br/>
+> <i>@return</i> {string|null} <i>24 characters long element key</i> or <i>null</i> on error<br/>
 
 * * *
 
@@ -1318,7 +1318,7 @@ srcOutputs: []
 
 #### async $.doHighlight( element, options = {} )
 
-> Document: Highlight an HTML Element in the viewport for 1 second.<br/>
+> Document: Highlight an HTML element in the viewport for 1 second.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Highlight options<br/>
@@ -1349,7 +1349,7 @@ srcOutputs: []
 
 #### async $.doGetBox( element )
 
-> Document: Get the box of an HTML Element.<br/>
+> Document: Get the box of an HTML element.<br/>
 > 
 > <i>@typedef</i> {Object} Box<br/>
 > <i>@property</i> {int} <b>left</b> Left coordinate (px)<br/>
@@ -1368,16 +1368,16 @@ srcOutputs: []
 
 #### async $.doGetSelector( elKey )
 
-> Document: Generate an optimal CSS selector for an HTML Element.<br/>
+> Document: Generate an optimal CSS selector for an HTML element.<br/>
 > 
-> <i>@param</i> {string} <b>elKey</b> Element key obtained with <i>$.doQuery*</i><br/>
+> <i>@param</i> {string} <b>elKey</b> <i>Element key</i> obtained with <i>$.doQuery*</i><br/>
 > <i>@return</i> {string|null} CSS selector or <i>null</i> on error<br/>
 
 * * *
 
 #### async $.doGetTag( element )
 
-> Document: Get the tag name of an HTML Element.<br/>
+> Document: Get the tag name of an HTML element.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@return</i> {string|null} Element tag name or <i>null</i> on error<br/>
@@ -1386,7 +1386,7 @@ srcOutputs: []
 
 #### async $.doGetValue( element )
 
-> Document: Get the value of an HTML Element. Supported elements:<br/>
+> Document: Get the value of an HTML element. Supported elements:<br/>
 > - <i>input</i> (includes <i>checkbox</i> and <i>radio</i>)<br/>
 > - <i>textarea</i><br/>
 > - <i>select</i><br/>
@@ -1409,7 +1409,7 @@ srcOutputs: []
 
 #### async $.doGetAttribute( element, attr )
 
-> Document: Get a single HTML Element attribute.<br/>
+> Document: Get a single HTML element attribute.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {string} <b>attr</b> HTML attribute (lowercase)<br/>
@@ -1419,7 +1419,7 @@ srcOutputs: []
 
 #### async $.doGetAttributes( element, attrs = \[\] )
 
-> Document: Get all or multiple HTML Element attributes.<br/>
+> Document: Get all or multiple HTML element attributes.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {string[]} <b>attrs</b> (optional) HTML attributes (lowercase) or empty array for all; default <i>[]</i><br/>
@@ -1429,7 +1429,7 @@ srcOutputs: []
 
 #### async $.doGetContent( element, asHtml = false )
 
-> Document: Get the content of an HTML Element.<br/>
+> Document: Get the content of an HTML element.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {boolean} <b>asHtml</b> (optional) Use innerHTML instead of innerText; default <i>false</i><br/>
@@ -1439,7 +1439,7 @@ srcOutputs: []
 
 #### async $.doGetStyle( element, props = \[\] )
 
-> Document: Get the resolved values of this Element's CSS properties.<br/>
+> Document: Get the resolved values of this element's CSS properties.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {string[]} <b>props</b> List of CSS properties to return; default <i>[]</i> to return all<br/>
@@ -1449,7 +1449,7 @@ srcOutputs: []
 
 #### async $.doGetVisible( element )
 
-> Document: Get whether HTML Element is visible on page.<br/>
+> Document: Get whether HTML element is visible on page.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@return</i> {boolean}<br/>
@@ -1458,7 +1458,7 @@ srcOutputs: []
 
 #### async $.doGetScrollable( element )
 
-> Document: Get whether HTML Element has scroll bars.<br/>
+> Document: Get whether HTML element has scroll bars.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@return</i> {{ horizontal: boolean, vertical: boolean}}<br/>
@@ -1467,7 +1467,7 @@ srcOutputs: []
 
 #### async $.doGetInViewport( element )
 
-> Document: Get whether HTML Element is even partially located in the viewport.<br/>
+> Document: Get whether HTML element is even partially located in the viewport.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@return</i> {boolean}<br/>
@@ -1494,8 +1494,8 @@ srcOutputs: []
 
 #### async $.doClick( element, options = {} )
 
-> Document: Click or double-click on HTML Element.<br/>
-> Automatically scroll to Element before action.<br/>
+> Document: Click or double-click on HTML element.<br/>
+> Automatically scroll to element before action.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Click options<br/>
@@ -1503,7 +1503,8 @@ srcOutputs: []
 > <i>@param</i> {int} <b>options.top</b> (optional) Top coordinate relative to element in pixels; default <i>null</i> to vertically center on the element<br/>
 > <i>@param</i> {boolean} <b>options.double</b> (optional) Double-click; default <i>false</i><br/>
 > <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover after click; default <i>true</i>; use <i>false</i> to move mouse to the side after clicking<br/>
-> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> 
+> <i>@throws</i> {Error} If element not found<br/>
 
 * * *
 
@@ -1523,14 +1524,15 @@ srcOutputs: []
 
 #### async $.doHover( element, options = {} )
 
-> Document: Move mouse over an HTML Element.<br/>
-> Automatically scroll to Element before action.<br/>
+> Document: Move mouse over an HTML element.<br/>
+> Automatically scroll to element before action.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Click options<br/>
 > <i>@param</i> {int} <b>options.left</b> (optional) Left coordinate relative to element in pixels; default <i>null</i> to horizontally center on the element<br/>
 > <i>@param</i> {int} <b>options.top</b> (optional) Top coordinate relative to element in pixels; default <i>null</i> to vertically center on the element<br/>
-> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> 
+> <i>@throws</i> {Error} If element not found<br/>
 
 * * *
 
@@ -1575,21 +1577,22 @@ srcOutputs: []
 
 #### async $.doScrollTo( element, options = {} )
 
-> Document: Scroll to HTML Element.<br/>
+> Document: Scroll to HTML element.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Scroll to options<br/>
-> <i>@param</i> {int} <b>options.top</b> (optional) Top margin in pixels; default <i>0</i>; target Element distance to the top of the viewport in pixels<br/>
+> <i>@param</i> {int} <b>options.top</b> (optional) Top margin in pixels; default <i>0</i>; target element distance to the top of the viewport in pixels<br/>
 > <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover mouse over center of element after scrolling; default <i>true</i><br/>
-> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> 
+> <i>@throws</i> {Error} If element not found<br/>
 
 * * *
 
 #### async $.doType( element, text, options = {} )
 
 > Document: Type text to specified HTML element.<br/>
-> Automatically scroll to Element before action.<br/>
-> Skips typing if the Element is not editable.<br/>
+> Automatically scroll to element before action.<br/>
+> Skips typing if the element is not editable.<br/>
 > 
 > To save time on large texts, the first part of the text is pasted,<br/>
 > and only the last 250 characters are typed one character at a time.<br/>
@@ -1601,7 +1604,8 @@ srcOutputs: []
 > <i>@param</i> {boolean} <b>options.submit</b> (optional) Press the <i>Enter</i> key when finished typing; default <i>false</i><br/>
 > <i>@param</i> {int} <b>options.speed</b> (optional) Typing speed in characters per second; <i>[1,250]</i>; default <i>10</i><br/>
 > <i>@param</i> {int} <b>options.sequence</b> (optional) Type last N characters in sequence; use clipboard for the rest; <i>[1,1000]</i>; default <i>250</i><br/>
-> <i>@return</i> {boolean} Returns <i>false</i> if target element is not editable<br/>
+> 
+> <i>@throws</i> {Error} If element not found<br/>
 
 * * *
 
@@ -1627,56 +1631,59 @@ srcOutputs: []
 #### async $.doSelect( element, values )
 
 > Document: Select zero, one or more options, replacing previous selection.<br/>
-> Automatically scroll to Element before action.<br/>
+> Automatically scroll to element before action.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {string|string[]} <b>values</b> A single value or an array of values for <i>&lt;select multiple/&gt;</i><br/>
-> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> 
+> <i>@throws</i> {Error} If select element not found<br/>
 
 * * *
 
 #### async $.doCheck( element, values, options = {} )
 
 > Document: Check radio or checkbox values. The element's siblings must share the same name attribute.<br/>
-> Automatically scroll to Element(s) before action.<br/>
+> Automatically scroll to element(s) before action.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {string|string[]} <b>values</b> A single value or an array of values<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Check options<br/>
 > <i>@param</i> {boolean} <b>options.hover</b> (optional) Hover after check; default <i>true</i>; use <i>false</i> to move mouse to the side after clicking<br/>
-> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> 
+> <i>@throws</i> {Error} If checkbox or radio input element not found<br/>
 
 * * *
 
 #### async $.doChooseFiles( element, filePaths )
 
-> Document: Choose files for <i>&lt;input type="file" /&gt;</i> HTML Element.<br/>
-> Automatically scroll to Element before action.<br/>
+> Document: Choose files for <i>&lt;input type="file" /&gt;</i> HTML element.<br/>
+> Automatically scroll to element before action.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {string|string[]} <b>filePaths</b> File path(s) generated with <i>$.ioSave*</i> methods or <i>$.ioInputFiles</i><br/>
-> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on failure<br/>
+> 
+> <i>@throws</i> {Error} If file input element not found, or could not choose files<br/>
 
 * * *
 
 #### async $.doAwaitPresent( selector, options = {} )
 
-> Document: Wait for an Element to be present in the DOM.<br/>
+> Document: Wait for an element to be present in the DOM.<br/>
 > 
 > <i>@param</i> {string} <b>selector</b> CSS selector<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {string} <b>options.parent</b> (optional) Parent CSS selector OR element key; default <i>null</i> to search the entire Document<br/>
-> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by Element (case insensitive); default <i>null</i> for no restrictions<br/>
+> <i>@param</i> {string} <b>options.contains</b> (optional) Text contained by element (case insensitive); default <i>null</i> for no restrictions<br/>
 > <i>@param</i> {boolean} <b>options.scrollable</b> (optional) Restrict results to elements that have active scrollbars; default <i>false</i><br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
 > <i>@param</i> {boolean} <b>options.all</b> (optional) Return all matches (<i>string[]</i> instead of <i>string</i>); default <i>false</i><br/>
-> <i>@return</i> {string|string[]|false} <i>Element key</i> if <i>options.all</i>; array of <i>24 characters long Element keys</i>; <i>false</i> on timeout<br/>
+> <i>@return</i> {string|string[]|false} <i>Element key</i> if <i>options.all</i>; array of 24 characters long <i>element keys</i>; <i>false</i> on timeout<br/>
 
 * * *
 
 #### async $.doAwaitNotPresent( element, options = {} )
 
-> Document: Wait for an Element to be removed from the DOM.<br/>
+> Document: Wait for an element to be removed from the DOM.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
@@ -1687,7 +1694,7 @@ srcOutputs: []
 
 #### async $.doAwaitVisible( element, options = {} )
 
-> Document: Wait for an Element to become visible to the user (display, visibility, opacity).<br/>
+> Document: Wait for an element to become visible to the user (display, visibility, opacity).<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
@@ -1698,7 +1705,7 @@ srcOutputs: []
 
 #### async $.doAwaitNotVisible( element, options = {} )
 
-> Document: Wait for an Element to become invisible to the user (display, visibility, opacity).<br/>
+> Document: Wait for an element to become invisible to the user (display, visibility, opacity).<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery*</i><br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
