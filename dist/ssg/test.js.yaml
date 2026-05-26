@@ -86,14 +86,14 @@ srcFunctions:
       // Go home
       $.log("Loading about:home");
       await $.navLoad("about:home");
-      if (!(await $.navGetUrl()).match(/^about:home\/?$/g)) {
+      if (!(await $.navGetUrl()).match(/localhost:\d{4}\/home\/?$/g)) {
         throw new Error("Could not load about:home");
       }
 
       // Go to the test page
       $.log("Loading about:home/test");
       await $.navLoad("about:home/test");
-      if (!(await $.navGetUrl()).match(/^about:home\/test\/?$/g)) {
+      if (!(await $.navGetUrl()).match(/localhost:\d{4}\/home\/test\/?$/g)) {
         throw new Error("Could not load about:home/test");
       }
 
@@ -111,21 +111,21 @@ srcFunctions:
       // Go backward - should emit a beforeunload
       $.log("Back to about:home");
       await $.navGoBack();
-      if (!(await $.navGetUrl()).match(/^about:home\/?$/g)) {
+      if (!(await $.navGetUrl()).match(/localhost:\d{4}\/home\/?$/g)) {
         throw new Error("Could not go back to about:home");
       }
 
       // Go forward
       $.log("Forward to about:home/test");
       await $.navGoForth();
-      if (!(await $.navGetUrl()).match(/^about:home\/test\/?$/g)) {
+      if (!(await $.navGetUrl()).match(/localhost:\d{4}\/home\/test\/?$/g)) {
         throw new Error("Could not go forward to about:home/test");
       }
 
       // Reload the page
       $.log("Reloading");
       await $.navReload();
-      if (!(await $.navGetUrl()).match(/^about:home\/test\/?$/g)) {
+      if (!(await $.navGetUrl()).match(/localhost:\d{4}\/home\/test\/?$/g)) {
         throw new Error("Could not reload");
       }
   - key: test-jiggle
