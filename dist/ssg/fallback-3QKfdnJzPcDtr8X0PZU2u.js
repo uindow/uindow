@@ -1,4 +1,4 @@
-/*!
+/**
  * @architect Mark Jivko <mark@uindow.com>
  * @copyright © 2024-2026 Uindow™ (https://uindow.com)
  * 
@@ -14,4 +14,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-self.__SSG_MANIFEST=new Set,self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB();
+(()=>{"use strict";self.fallback=async e=>{switch(e.destination){case"document":0;case"image":return caches.match("/img/empty.png",{ignoreSearch:!0});default:return Response.error()}}})();

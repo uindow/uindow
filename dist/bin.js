@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-/*!
+/**
  * @architect Mark Jivko <mark@uindow.com>
  * @copyright © 2024-2026 Uindow™ (https://uindow.com)
  * 
