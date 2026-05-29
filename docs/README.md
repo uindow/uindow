@@ -1666,6 +1666,16 @@ srcOutputs: []
 
 * * *
 
+#### async $.doAwaitDomReady( options )
+
+> Document: Wait for page to load.<br/>
+> 
+> <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
+> <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
+> <i>@return</i> {boolean} <i>true</i> on success, <i>false</i> on timeout<br/>
+
+* * *
+
 #### async $.doAwaitPresent( selector, options = {} )
 
 > Document: Wait for an element to be present in the DOM.<br/>
