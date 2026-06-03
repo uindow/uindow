@@ -1,7 +1,7 @@
 {
     "name": "Uindow",
     "short_name": "Uindow",
-    "description": "The programmable browser for real-world workflows (v.0.0.129)",
+    "description": "The programmable browser for real-world workflows (v.0.0.130)",
     "id": "/",
     "start_url": "/",
     "display": "minimal-ui",
