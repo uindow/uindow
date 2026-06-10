@@ -19,6 +19,28 @@ npx uindow --help
 
 Alternatively, you can use `node ./node_modules/uindow/dist/bin.js --help` instead of `npx uindow --help` for a faster response.
 
+```
+  USAGE
+    $ npx uindow <command> [options]
+
+  AVAILABLE COMMANDS
+    $ npx uindow app:status   Check application status
+    $ npx uindow app:start    Start application
+    $ npx uindow app:stop     Stop application
+    $ npx uindow list         List agents
+    $ npx uindow create       Create agent
+    $ npx uindow update       Update agent
+    $ npx uindow delete       Delete agent
+    $ npx uindow start        Start agent
+    $ npx uindow stop         Stop agent
+
+  OPTIONS
+    --help      Help menu for a specific command
+    --version   Package version
+```
+
+All commands that specify the `@return` tag in their description return valid JSON-formatted values.
+
 #### ✨ Latest release
 
 Create an account at [Uindow](https://uindow.com/?ref=github) and follow the on-screen instructions.
