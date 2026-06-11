@@ -49,7 +49,6 @@ This product uses third party software in accordance with their respective licen
   * **[i18next-http-backend](https://npmjs.com/package/i18next-http-backend)** `v.3.0.6` ⚖️ license: MIT
   * **[i18next-resources-to-backend](https://npmjs.com/package/i18next-resources-to-backend)** `v.1.2.1` ⚖️ license: MIT
   * **[jest](https://npmjs.com/package/jest)** `v.28.1.3` ⚖️ license: MIT
-  * **[jest-junit](https://npmjs.com/package/jest-junit)** `v.15.0.0` ⚖️ license: Apache-2.0 • author: Jason Palmer
   * **[mdi-material-ui](https://npmjs.com/package/mdi-material-ui)** `v.7.9.4` ⚖️ license: MIT • author: Wertarbyte
   * **[mediabunny](https://npmjs.com/package/mediabunny)** `v.1.24.2` ⚖️ license: [MPL-2.0](./lic/mediabunny.license.md) • author: Vanilagy
   * **[next](https://npmjs.com/package/next)** `v.15.5.18` ⚖️ license: MIT
