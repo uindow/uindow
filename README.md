@@ -35,7 +35,7 @@ Alternatively, you can use `node ./node_modules/uindow/dist/bin.js --help` inste
     $ npx @uindow/cli stop         Stop agent
     $ npx @uindow/cli status       Check agent status
     $ npx @uindow/cli execute      Execute code in agent
-    $ npx @uindow/cli logs         Monitor agent logs
+    $ npx @uindow/cli logs         Fetch agent logs
 
   OPTIONS
     --help      Help menu for a specific command
