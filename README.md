@@ -13,28 +13,28 @@
 You can run Uindow from any CI/CD pipeline or command-line interface.
 
 ```bash
-npm install @uindow/cli
-npx uindow --help
+npx -y @uindow/cli --help
 ```
 
-Alternatively, you can use `node ./node_modules/uindow/dist/bin.js --help` instead of `npx uindow --help` for a faster response.
+Alternatively, you can use `node ./node_modules/uindow/dist/bin.js --help` instead of `npx @uindow/cli --help` for a faster response.
 
 ```
   USAGE
-    $ npx uindow <command> [options]
+    $ npx @uindow/cli <command> [options]
 
   AVAILABLE COMMANDS
-    $ npx uindow mcp          Run MCP server
-    $ npx uindow app:start    Start application
-    $ npx uindow app:stop     Stop application
-    $ npx uindow app:status   Check application status
-    $ npx uindow list         List agents
-    $ npx uindow create       Create agent
-    $ npx uindow update       Update agent
-    $ npx uindow delete       Delete agent
-    $ npx uindow start        Start agent
-    $ npx uindow stop         Stop agent
-    $ npx uindow tail         Monitor agent logs
+    $ npx @uindow/cli mcp          Run MCP server
+    $ npx @uindow/cli app:start    Start application
+    $ npx @uindow/cli app:stop     Stop application
+    $ npx @uindow/cli app:status   Check application status
+    $ npx @uindow/cli list         List agents
+    $ npx @uindow/cli create       Create agent
+    $ npx @uindow/cli update       Update agent
+    $ npx @uindow/cli delete       Delete agent
+    $ npx @uindow/cli start        Start agent
+    $ npx @uindow/cli stop         Stop agent
+    $ npx @uindow/cli execute      Execute code in agent
+    $ npx @uindow/cli logs         Monitor agent logs
 
   OPTIONS
     --help      Help menu for a specific command
@@ -48,8 +48,10 @@ All commands that specify the `@return` tag in their description return valid JS
 Control [Uindow](https://uindow.com) web-automation agents from any MCP-compatible
 assistant. The server runs locally over stdio and is launched on demand with `npx`.
 
-Tools exposed: `app_status`, `app_start`, `app_stop`, `list`, `create`, `update`,
-`delete`, `start`, `stop`. Call `list` first to discover agent indexes.
+Tools exposed: `app_start`, `app_stop`, `app_status`, `list`, `create`, `update`,
+`delete`, `start`, `stop`, `execute`, `logs`.
+
+Call `list` first to discover agent indexes.
 
 #### Install
 
