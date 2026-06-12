@@ -33,6 +33,7 @@ Alternatively, you can use `node ./node_modules/uindow/dist/bin.js --help` inste
     $ npx @uindow/cli delete       Delete agent
     $ npx @uindow/cli start        Start agent
     $ npx @uindow/cli stop         Stop agent
+    $ npx @uindow/cli status       Check agent status
     $ npx @uindow/cli execute      Execute code in agent
     $ npx @uindow/cli logs         Monitor agent logs
 
@@ -49,7 +50,7 @@ Control [Uindow](https://uindow.com) web-automation agents from any MCP-compatib
 assistant. The server runs locally over stdio and is launched on demand with `npx`.
 
 Tools exposed: `app_start`, `app_stop`, `app_status`, `list`, `create`, `update`,
-`delete`, `start`, `stop`, `execute`, `logs`.
+`delete`, `start`, `stop`, `status`, `execute`, `logs`.
 
 Call `list` first to discover agent indexes.
 
