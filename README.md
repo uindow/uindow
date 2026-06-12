@@ -16,7 +16,8 @@ You can run Uindow from any CI/CD pipeline or command-line interface.
 npx -y @uindow/cli --help
 ```
 
-Alternatively, you can use `node ./node_modules/uindow/dist/bin.js --help` instead of `npx @uindow/cli --help` for a faster response.
+Alternatively, you can use `node ./node_modules/uindow/dist/bin.js --help`
+instead of `npx @uindow/cli --help` for a faster response.
 
 ```
   USAGE
@@ -24,6 +25,7 @@ Alternatively, you can use `node ./node_modules/uindow/dist/bin.js --help` inste
 
   AVAILABLE COMMANDS
     $ npx @uindow/cli mcp          Run MCP server
+    $ npx @uindow/cli app:docs     Fetch SDK documentation
     $ npx @uindow/cli app:start    Start application
     $ npx @uindow/cli app:stop     Stop application
     $ npx @uindow/cli app:status   Check application status
@@ -42,15 +44,16 @@ Alternatively, you can use `node ./node_modules/uindow/dist/bin.js --help` inste
     --version   Package version
 ```
 
-All commands that specify the `@return` tag in their description return valid JSON-formatted values.
+All commands that specify the `@return` tag in their description return valid
+JSON-formatted values.
 
 ### Model Context Protocol server
 
 Control [Uindow](https://uindow.com) web-automation agents from any MCP-compatible
 assistant. The server runs locally over stdio and is launched on demand with `npx`.
 
-Tools exposed: `app_start`, `app_stop`, `app_status`, `list`, `create`, `update`,
-`delete`, `start`, `stop`, `status`, `execute`, `logs`.
+Tools exposed: `app_docs`, `app_start`, `app_stop`, `app_status`, `list`, `create`,
+`update`, `delete`, `start`, `stop`, `status`, `execute`, `logs`.
 
 Call `list` first to discover agent indexes.
 
@@ -121,15 +124,18 @@ arguments `-y @uindow/cli mcp`.
 
 #### ✨ Latest release
 
-Create an account at [Uindow](https://uindow.com/?ref=github) and follow the on-screen instructions.
+Create an account at [Uindow](https://uindow.com/?ref=github) and follow the
+on-screen instructions.
 
 #### 📦 Older release
 
-To install an older version, visit the [Releases](https://github.com/uindow/uindow/releases) page and download the appropriate installer.
+To install an older version, visit the [Releases](https://github.com/uindow/uindow/releases)
+page and download the appropriate installer.
 
 #### 🌙 Nightly build
 
-To run the latest (unreleased) version of Uindow, **clone this repository** and run the following commands:
+To run the latest (unreleased) version of Uindow, **clone this repository** and run
+the following commands:
 
 ```bash
 git clone https://github.com/uindow/uindow.git uindow
@@ -144,4 +150,5 @@ Building Uindow modules is easy:
 
 1. Visit the [Uindow SDK Reference](https://uindow.com/docs/?ref=github)
 2. Download the sample module and import it into Uindow
-3. Start experimenting with dollar-sign methods - the integrated editor features auto-complete and code hints
+3. Start experimenting with dollar-sign methods - the integrated editor features auto-complete
+   and code hints
