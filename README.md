@@ -18,7 +18,7 @@ Automate it three ways:
   [MCP](https://modelcontextprotocol.io) server, so Claude, Cursor, VS Code, or any
   MCP-compatible assistant can list, create, and run automation agents directly.
   See [Control Uindow from AI agents](#control-uindow-from-ai-agents-mcp).
-- **From the command line** - script it into any CI/CD pipeline.
+- **From the command line**
 
 ### Running Uindow
 
