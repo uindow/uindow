@@ -1,4 +1,4 @@
-## Uindow: real browser automation for AI agents
+## Uindow - Real browser automation for AI agents
 
 <p align="center">
     <a href="https://uindow.com/?ref=github">
