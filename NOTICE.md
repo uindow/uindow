@@ -73,7 +73,7 @@ This product uses third party software in accordance with their respective licen
   * **[sortablejs](https://npmjs.com/package/sortablejs)** `v.1.15.6` ⚖️ license: MIT
   * **[stylis](https://npmjs.com/package/stylis)** `v.4.3.6` ⚖️ license: MIT • author: Sultan Tarimo <sultantarimo@me.com>
   * **[stylis-plugin-rtl](https://npmjs.com/package/stylis-plugin-rtl)** `v.2.1.1` ⚖️ license: MIT • author: Jop de Klein
-  * **[yaml](https://npmjs.com/package/yaml)** `v.2.8.3` ⚖️ license: [ISC](./dist/lic/yaml.license.md) • author: Eemeli Aro <eemeli@gmail.com>
+  * **[yaml](https://npmjs.com/package/yaml)** `v.2.9.0` ⚖️ license: [ISC](./dist/lic/yaml.license.md) • author: Eemeli Aro <eemeli@gmail.com>
   * **[yup](https://npmjs.com/package/yup)** `v.0.32.11` ⚖️ license: MIT • author: @monasticpanic Jason Quense
   * **[electron-updater](https://npmjs.com/package/electron-updater)** `v.6.8.5` ⚖️ license: MIT • author: Vladimir Krivosheev
   * 🖌️ **[Font: Inconsolata](https://fonts.google.com/specimen/Inconsolata)** `v.3.0` ⚖️ license: [OFL-1.1](./dist/lic/@font-inconsolata.license.md) • author: The Inconsolata Project Authors (https://github.com/googlefonts/Inconsolata/)
