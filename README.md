@@ -49,7 +49,7 @@ npm install
 npm start
 ```
 
-### What actually runs on your machine
+#### What actually runs on your machine
 
 Both options do the same minimal thing: they fetch the **official, signed `Electron`
 binary** (only if it isn't already on your machine) and tell Electron to load
@@ -57,7 +57,7 @@ binary** (only if it isn't already on your machine) and tell Electron to load
 executing code that is clearly visible to you in this repository. Nothing is hidden,
 obfuscated, or pulled in behind your back.
 
-### Prebuilt binaries
+### Option 3 - Install prebuilt binaries
 
 Prefer a packaged installer?
 
