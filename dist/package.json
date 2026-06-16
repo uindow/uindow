@@ -1,7 +1,7 @@
 {
     "name": "uindow",
-    "version": "0.0.136",
-    "description": "The programmable browser for real-world workflows",
+    "version": "0.0.137",
+    "description": "Web Chores on Autopilot",
     "homepage": "https://uindow.com/",
     "author": "Uindow",
     "main": "run.js",
