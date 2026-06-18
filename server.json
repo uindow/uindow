@@ -8,13 +8,13 @@
         "source": "github"
     },
     "websiteUrl": "https://uindow.com",
-    "version": "0.0.139",
+    "version": "0.0.140",
     "packages": [
         {
             "registryType": "npm",
             "registryBaseUrl": "https://registry.npmjs.org",
             "identifier": "@uindow/cli",
-            "version": "0.0.137",
+            "version": "0.0.140",
             "transport": {
                 "type": "stdio"
             },
