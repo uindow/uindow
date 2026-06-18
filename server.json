@@ -3,17 +3,27 @@
     "name": "io.github.uindow/uindow",
     "title": "Uindow",
     "description": "Real signed-browser automation for AI agents, over a local stdio MCP server.",
-    "repository": { "url": "https://github.com/uindow/uindow", "source": "github" },
+    "repository": {
+        "url": "https://github.com/uindow/uindow",
+        "source": "github"
+    },
     "websiteUrl": "https://uindow.com",
-    "version": "0.0.137",
+    "version": "0.0.139",
     "packages": [
         {
             "registryType": "npm",
             "registryBaseUrl": "https://registry.npmjs.org",
             "identifier": "@uindow/cli",
             "version": "0.0.137",
-            "transport": { "type": "stdio" },
-            "packageArguments": [{ "type": "positional", "value": "mcp" }],
+            "transport": {
+                "type": "stdio"
+            },
+            "packageArguments": [
+                {
+                    "type": "positional",
+                    "value": "mcp"
+                }
+            ],
             "environmentVariables": []
         }
     ]
