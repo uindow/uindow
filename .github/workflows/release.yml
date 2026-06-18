@@ -31,13 +31,13 @@ jobs:
               run: npm publish
 
     publish-mcp:
-        needs: publish-npm # registry validates @uindow/cli@<version> exists on npm first
+        needs: publish-npm
         timeout-minutes: 5
         runs-on: ubuntu-latest
         if: ${{ github.event_name == 'workflow_dispatch' || startsWith( github.event.head_commit.message, '[release]' ) }}
         permissions:
             contents: read
-            id-token: write # REQUIRED: lets the job mint a GitHub OIDC token for registry auth
+            id-token: write
         steps:
             - name: Checkout repository
               uses: actions/checkout@v6
