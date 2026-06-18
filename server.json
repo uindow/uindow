@@ -1,0 +1,20 @@
+{
+    "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+    "name": "io.github.uindow/uindow",
+    "title": "Uindow",
+    "description": "Real signed-browser automation for AI agents, over a local stdio MCP server.",
+    "repository": { "url": "https://github.com/uindow/uindow", "source": "github" },
+    "websiteUrl": "https://uindow.com",
+    "version": "0.0.137",
+    "packages": [
+        {
+            "registryType": "npm",
+            "registryBaseUrl": "https://registry.npmjs.org",
+            "identifier": "@uindow/cli",
+            "version": "0.0.137",
+            "transport": { "type": "stdio" },
+            "packageArguments": [{ "type": "positional", "value": "mcp" }],
+            "environmentVariables": []
+        }
+    ]
+}
