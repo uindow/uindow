@@ -1,4 +1,4 @@
-## Uindow - Web Chores on Autopilot
+## Uindow - AI browser immune to prompt injections
 
 <p align="center">
     <a href="https://uindow.com/?ref=github">
