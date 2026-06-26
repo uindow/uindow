@@ -46,36 +46,21 @@ jobs:
               continue-on-error: true
               run: |
                   set -euo pipefail
-
-                  # (a) Mint a GitHub Actions OIDC token. The registry hardcodes the
-                  #     expected audience as "mcp-registry". ACTIONS_ID_TOKEN_REQUEST_*
-                  #     are auto-injected because permissions.id-token == write.
                   OIDC_TOKEN=$(curl -sSf \
                     -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-                    "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=mcp-registry" | jq -r '.value')
+                    "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=https://registry.modelcontextprotocol.io" | jq -r '.value')
 
-                  # (b) Exchange the OIDC token for a short-lived Registry JWT.
-                  #     Endpoint + request field ("oidc_token") confirmed from the
-                  #     registry's github_oidc handler. Falls back across known
-                  #     response field names if the API renames it.
                   RESP=$(curl -sSf -X POST \
                     "https://registry.modelcontextprotocol.io/v0/auth/github-oidc" \
                     -H "Content-Type: application/json" \
                     -d "{\"oidc_token\":\"$OIDC_TOKEN\"}")
-                  REGISTRY_JWT=$(printf '%s' "$RESP" | jq -r '.registry_token // .token // .jwt // empty')
-                  if [ -z "$REGISTRY_JWT" ]; then
-                    echo "Could not parse registry JWT from auth response:" >&2
-                    printf '%s\n' "$RESP" >&2
-                    exit 1
-                  fi
+                  REGISTRY_JWT=$(printf '%s' "$RESP" | jq -r '.registry_token')
 
-                  # (c) Publish server.json exactly as written — no client-side transform.
                   curl -sSf -X POST \
                     "https://registry.modelcontextprotocol.io/v0/publish" \
                     -H "Authorization: Bearer $REGISTRY_JWT" \
                     -H "Content-Type: application/json" \
                     --data @server.json
-
                   echo "Published to MCP Registry."
 
     build-linux:
