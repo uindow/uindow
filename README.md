@@ -78,7 +78,7 @@ so any MCP-compatible assistant can drive web-automation agents directly - no gl
 required. The server speaks **stdio** and is launched on demand by the client:
 
 ```bash
-npx -y @uindow/cli mcp
+npx -y @uindow/cli@latest mcp
 ```
 
 **Requirements:** Node.js 18+ with `npx` on your `PATH`.
@@ -87,29 +87,33 @@ npx -y @uindow/cli mcp
 `update`, `delete`, `start`, `stop`, `status`, `execute`, `logs`. Call `list` first to
 discover agent indexes.
 
-Every client runs the same command - `npx -y @uindow/cli mcp`. Only the config location
+Every client runs the same command - `npx -y @uindow/cli@latest mcp`. Only the config location
 and the wrapping key differ.
 
+> **Scope:** every configuration below installs Uindow **globally** - once per machine,
+> available in every project and workspace. Most clients default to a project-local scope
+> instead, which is the single most common reason a server "disappears" when you switch
+> folders. Where a client offers both, the global path is the one shown here; project-level
+> alternatives are noted inline for teams who want a checked-in config.
+
 > **Note:** because Uindow's MCP server is stdio-only, it must be added to a client that
-> can spawn local processes. Surfaces that accept remote endpoints only - claude.ai's web
-> Connectors, ChatGPT connectors, Warp cloud agents - can't launch it directly. Use a
-> desktop or CLI client, or put a Streamable HTTP bridge in front of it.
+> can spawn local processes.
 
 ### Quick reference
 
-| Client | Root key | Where it lives |
+| Client | Root key | Global config location |
 | --- | --- | --- |
-| Claude Code (CLI + Desktop **Code**) | `mcpServers` | `~/.claude.json` or `.mcp.json` |
-| Claude Desktop (**Chat** / **Cowork**) | `mcpServers` | `claude_desktop_config.json` |
-| Cursor | `mcpServers` | `.cursor/mcp.json` or `~/.cursor/mcp.json` |
-| VS Code (Copilot) | **`servers`** | `.vscode/mcp.json` or user-profile `mcp.json` |
-| Windsurf | `mcpServers` | `~/.codeium/windsurf/mcp_config.json` |
-| Zed | **`context_servers`** | Zed `settings.json` |
-| Codex | **TOML** `[mcp_servers.*]` | `~/.codex/config.toml` or `.codex/config.toml` |
-| Gemini CLI | `mcpServers` | `~/.gemini/settings.json` or `.gemini/settings.json` |
-| JetBrains AI Assistant | `mcpServers` | Settings dialog (per-project or global) |
-| Cline | `mcpServers` | `cline_mcp_settings.json` (open it from the MCP panel) |
-| Goose | YAML `extensions:` | `~/.config/goose/config.yaml` |
+| Claude Code (CLI + Desktop **Code**) | `mcpServers` | `~/.claude.json` - needs `--scope user` |
+| Claude Desktop (**Chat** / **Cowork**) | `mcpServers` | `claude_desktop_config.json` - always global |
+| Cursor | `mcpServers` | `~/.cursor/mcp.json` |
+| VS Code (Copilot) | **`servers`** | User-profile `mcp.json` (**MCP: Open User Configuration**) |
+| Windsurf | `mcpServers` | `~/.codeium/windsurf/mcp_config.json` - always global |
+| Zed | **`context_servers`** | Zed `settings.json` - always global |
+| Codex | **TOML** `[mcp_servers.*]` | `~/.codex/config.toml` |
+| Gemini CLI | `mcpServers` | `~/.gemini/settings.json` - needs `-s user` |
+| JetBrains AI Assistant | `mcpServers` | Settings dialog - choose **Global** |
+| Cline | `mcpServers` | `cline_mcp_settings.json` - always global |
+| Goose | YAML `extensions:` | `~/.config/goose/config.yaml` - always global |
 
 ---
 
@@ -118,22 +122,20 @@ and the wrapping key differ.
 Claude Code is the recommended path on Anthropic clients - the CLI, the Desktop app's
 **Code** tab, and the IDE extensions all read the same configuration.
 
-```bash
-claude mcp add uindow -- npx -y @uindow/cli mcp
-```
-
-Everything after `--` is passed to the server untouched. By default this registers the
-server at **local** scope (this project only, private to you). Add `--scope user` to make
-it available in every project, or `--scope project` to write a checked-in `.mcp.json` for
-your team:
+`claude mcp add` defaults to **local** scope, which registers the server for the current
+project directory only. Pass `--scope user` to install it once for every project:
 
 ```bash
-claude mcp add uindow --scope user -- npx -y @uindow/cli mcp
+claude mcp add uindow --scope user -- npx -y @uindow/cli@latest mcp
 ```
+
+Everything after `--` is passed to the server untouched. The entry lands in the top-level
+`mcpServers` object of `~/.claude.json`, so it follows you into every repo on that machine.
 
 Verify with `claude mcp list` (shows a health status per server) or `/mcp` inside a
-session. Project-scoped servers from `.mcp.json` need one-time approval before they
-connect.
+session. If you added Uindow before reading this, `claude mcp remove uindow` then re-run
+the command above - local and user scope entries live in the same file and the local one
+takes precedence.
 
 ### Claude Desktop
 
@@ -142,12 +144,13 @@ application - Claude Code lives in the **Code** tab rather than as a separate do
 That changes where you should configure Uindow:
 
 **For the Code tab**, do nothing extra: Desktop reads the same `~/.claude.json` and
-`.mcp.json` files as the CLI, so a `claude mcp add` from your terminal shows up there
-automatically. You can also add servers from the UI via the **+** button → **Connectors**
-in local and SSH sessions.
+`.mcp.json` files as the CLI, so a user-scoped `claude mcp add` from your terminal shows up
+there automatically, in every project. You can also add servers from the UI via the **+**
+button → **Connectors** in local and SSH sessions.
 
-**For Chat and Cowork**, use the classic config file. Open **Settings → Developer → Edit
-Config** (this creates the file if it doesn't exist), which opens:
+**For Chat and Cowork**, use the classic config file. This one is inherently global - it is
+per-user, not per-project, and applies to every conversation. Open **Settings → Developer →
+Edit Config** (this creates the file if it doesn't exist), which opens:
 
 - **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
@@ -157,7 +160,7 @@ Config** (this creates the file if it doesn't exist), which opens:
     "mcpServers": {
         "uindow": {
             "command": "npx",
-            "args": ["-y", "@uindow/cli", "mcp"]
+            "args": ["-y", "@uindow/cli@latest", "mcp"]
         }
     }
 }
@@ -176,7 +179,8 @@ Two things worth knowing about how the two config sources interact:
 
 ### Cursor
 
-Create `.cursor/mcp.json` in the project, or `~/.cursor/mcp.json` for every workspace:
+Use `~/.cursor/mcp.json` - the global file, applied to every workspace. (The per-project
+equivalent is `.cursor/mcp.json` in the repo root, which only loads for that one project.)
 
 ```json
 {
@@ -184,7 +188,7 @@ Create `.cursor/mcp.json` in the project, or `~/.cursor/mcp.json` for every work
         "uindow": {
             "type": "stdio",
             "command": "npx",
-            "args": ["-y", "@uindow/cli", "mcp"]
+            "args": ["-y", "@uindow/cli@latest", "mcp"]
         }
     }
 }
@@ -196,9 +200,10 @@ default; add Uindow's tools to `permissions.json` if you want them to run unatte
 
 ### VS Code (GitHub Copilot)
 
-Run **MCP: Add Server** from the Command Palette, or edit the file directly. Workspace
-config is `.vscode/mcp.json`; **MCP: Open User Configuration** opens the profile-wide one
-(which syncs via Settings Sync).
+Run **MCP: Open User Configuration** from the Command Palette to open the profile-wide
+`mcp.json`, which applies across all your workspaces. If you use **MCP: Add Server**
+instead, pick **Global** rather than **Workspace** when the guided flow asks for a target.
+Avoid `.vscode/mcp.json` unless you specifically want a per-repo server.
 
 Note the root key is `servers`, not `mcpServers` - copying a Cursor or Claude config
 verbatim is the single most common mistake here.
@@ -209,18 +214,22 @@ verbatim is the single most common mistake here.
         "uindow": {
             "type": "stdio",
             "command": "npx",
-            "args": ["-y", "@uindow/cli", "mcp"]
+            "args": ["-y", "@uindow/cli@latest", "mcp"]
         }
     }
 }
 ```
 
-One-liner equivalent:
+One-liner equivalent - `--add-mcp` writes to the user profile, so this is already global:
 
 ```bash
 code --add-mcp \
-  '{"name":"uindow","type":"stdio","command":"npx","args":["-y","@uindow/cli","mcp"]}'
+  '{"name":"uindow","type":"stdio","command":"npx","args":["-y","@uindow/cli@latest","mcp"]}'
 ```
+
+With **Settings Sync** enabled you can tick **MCP Servers** in `Settings Sync: Configure`
+to carry the user-profile entry to your other machines. Note that each VS Code profile
+keeps its own MCP configuration, so a profile switch means re-adding the server.
 
 Use **MCP: List Servers** to start, stop, or view server output. On macOS and Linux you
 can also add `"sandboxEnabled": true` plus a `sandbox` block to restrict the server's
@@ -229,7 +238,8 @@ sandbox will break it.
 
 ### Windsurf
 
-Open the Cascade panel → MCP icon → **Configure** / **View raw config**, which opens:
+Windsurf's MCP config is global by design - there is no per-project variant. Open the
+Cascade panel → MCP icon → **Configure** / **View raw config**, which opens:
 
 - **macOS/Linux:** `~/.codeium/windsurf/mcp_config.json`
 - **Windows:** `%USERPROFILE%\.codeium\windsurf\mcp_config.json`
@@ -239,7 +249,7 @@ Open the Cascade panel → MCP icon → **Configure** / **View raw config**, whi
     "mcpServers": {
         "uindow": {
             "command": "npx",
-            "args": ["-y", "@uindow/cli", "mcp"]
+            "args": ["-y", "@uindow/cli@latest", "mcp"]
         }
     }
 }
@@ -251,8 +261,9 @@ tools don't appear.
 
 ### Zed
 
-Zed calls MCP servers *context servers* and uses its own key shape. Open `settings.json`
-(`zed: open settings`) - or use **Agent Panel → Add Custom Server** for a guided dialog:
+Zed calls MCP servers *context servers* and uses its own key shape. Put the entry in your
+global `settings.json` (`zed: open settings`) - or use **Agent Panel → Add Custom Server**
+for a guided dialog:
 
 ```json
 {
@@ -260,51 +271,55 @@ Zed calls MCP servers *context servers* and uses its own key shape. Open `settin
         "uindow": {
             "source": "custom",
             "command": "npx",
-            "args": ["-y", "@uindow/cli", "mcp"],
+            "args": ["-y", "@uindow/cli@latest", "mcp"],
             "env": {}
         }
     }
 }
 ```
 
-Zed restarts the context server process on save; no editor restart needed. Project-level
-overrides go in `.zed/settings.json`.
+Zed restarts the context server process on save; no editor restart needed. Leave
+`.zed/settings.json` alone - a project-level entry there would shadow the global one for
+that repo only.
 
 ### Codex (CLI and IDE extension)
 
-Codex shares one config between the CLI and the IDE extension:
+Codex shares one config between the CLI and the IDE extension. `codex mcp add` writes to
+the global `~/.codex/config.toml`, so this is machine-wide out of the box:
 
 ```bash
-codex mcp add uindow -- npx -y @uindow/cli mcp
+codex mcp add uindow -- npx -y @uindow/cli@latest mcp
 codex mcp list
 ```
 
-Or edit `~/.codex/config.toml` (global) or `.codex/config.toml` (project - the directory
-must be trusted). Note the TOML shape:
+Or hand-edit `~/.codex/config.toml`. Note the TOML shape:
 
 ```toml
 [mcp_servers.uindow]
 command = "npx"
-args = ["-y", "@uindow/cli", "mcp"]
+args = ["-y", "@uindow/cli@latest", "mcp"]
 ```
 
-Confirm with `/mcp` inside a Codex session.
+A per-project `.codex/config.toml` also exists (the directory must be trusted), but skip it
+for a tool you want everywhere. Confirm with `/mcp` inside a Codex session.
 
 ### Gemini CLI
 
+`gemini mcp add` defaults to project scope, so pass `-s user` for a global entry:
+
 ```bash
-gemini mcp add uindow npx -y @uindow/cli mcp
+gemini mcp add -s user uindow npx -y @uindow/cli@latest mcp
 ```
 
-Add `-s user` for a global entry. Equivalent hand-edit of `~/.gemini/settings.json` (or
-`.gemini/settings.json` per project):
+Equivalent hand-edit of `~/.gemini/settings.json` (the per-project file is
+`.gemini/settings.json` - not what you want here):
 
 ```json
 {
     "mcpServers": {
         "uindow": {
             "command": "npx",
-            "args": ["-y", "@uindow/cli", "mcp"]
+            "args": ["-y", "@uindow/cli@latest", "mcp"]
         }
     }
 }
@@ -315,15 +330,16 @@ Restart the CLI and run `/mcp` to list the discovered tools.
 ### JetBrains AI Assistant
 
 Go to **Settings | Tools | AI Assistant | Model Context Protocol (MCP)** and click
-**Add**, then paste the JSON. Choose whether the server is global or project-scoped in the
-same dialog, and click **Apply** to start it.
+**Add**, then paste the JSON. In the same dialog, set the scope to **Global** rather than
+project-scoped so the server is available in every project you open, then click **Apply**
+to start it.
 
 ```json
 {
     "mcpServers": {
         "uindow": {
             "command": "npx",
-            "args": ["-y", "@uindow/cli", "mcp"]
+            "args": ["-y", "@uindow/cli@latest", "mcp"]
         }
     }
 }
@@ -334,56 +350,60 @@ across. Server logs live in the `mcp` folder under **Help → Show Log in Finder
 
 ### Cline
 
-Open the **MCP Servers** icon in the Cline panel → **Configure** → **Configure MCP
-Servers**. That opens `cline_mcp_settings.json`, which uses the standard shape:
+Cline's MCP settings are global to the extension install - one file, all workspaces. Open
+the **MCP Servers** icon in the Cline panel → **Configure** → **Configure MCP Servers**.
+That opens `cline_mcp_settings.json`, which uses the standard shape:
 
 ```json
 {
     "mcpServers": {
         "uindow": {
             "command": "npx",
-            "args": ["-y", "@uindow/cli", "mcp"]
+            "args": ["-y", "@uindow/cli@latest", "mcp"]
         }
     }
 }
 ```
 
-Cline keeps this file separate from VS Code's own `.vscode/mcp.json`; the two don't affect
-each other. Open it from the panel rather than by path - the location differs between the
-VS Code extension and the Cline CLI.
+Cline keeps this file separate from VS Code's own user-profile `mcp.json`; the two don't
+affect each other, so adding Uindow to one does not add it to the other. Open it from the
+panel rather than by path - the location differs between the VS Code extension and the
+Cline CLI.
 
 ### Goose
 
-Every Goose extension is an MCP server. Run `goose configure` → **Add Extension** →
-**Command-line Extension**, name it `uindow`, and set the command to `npx -y @uindow/cli
-mcp`. Goose writes it to `~/.config/goose/config.yaml`:
+Every Goose extension is an MCP server, and they are all global. Run `goose configure` →
+**Add Extension** → **Command-line Extension**, name it `uindow`, and set the command to
+`npx -y @uindow/cli@latest mcp`. Goose writes it to `~/.config/goose/config.yaml`:
 
 ```yaml
 extensions:
     uindow:
         name: uindow
         cmd: npx
-        args: ["-y", "@uindow/cli", "mcp"]
+        args: ["-y", "@uindow/cli@latest", "mcp"]
         enabled: true
         type: stdio
 ```
 
 ### Any other MCP client
 
-Most remaining clients accept the same object under `mcpServers`:
+Most remaining clients accept the same object under `mcpServers`. Look for the config file
+in your home directory (`~/.<client>/...`) rather than the one in your project root - the
+home-directory copy is the global one:
 
 ```json
 {
     "mcpServers": {
         "uindow": {
             "command": "npx",
-            "args": ["-y", "@uindow/cli", "mcp"]
+            "args": ["-y", "@uindow/cli@latest", "mcp"]
         }
     }
 }
 ```
 
-Point the client at the command `npx` with arguments `-y @uindow/cli mcp`.
+Point the client at the command `npx` with arguments `-y @uindow/cli@latest mcp`.
 
 If your client requires an explicit transport field, use `"type": "stdio"`.
 
@@ -395,14 +415,24 @@ Run the launch command by hand first - it's the fastest way to separate "Uindow 
 from "the client can't start it":
 
 ```bash
-npx -y @uindow/cli mcp
+npx -y @uindow/cli@latest mcp
 ```
 
 A stdio server prints nothing and blocks. A silent, hung terminal means it started
 correctly; press Ctrl-C and go back to your client. Any stack trace you see here is the
 real error your client was swallowing.
 
+Then confirm the scope took: open the client from a **different** directory than the one
+you configured it in, and check that Uindow's tools are still listed. If they vanish, the
+entry landed in a project-local config.
+
 ### Troubleshooting
+
+**Server works in one project but not another.** Classic scope problem - the entry is
+project-local. In Claude Code, `claude mcp list` from the other directory will come up
+empty; re-add with `--scope user`. In Gemini CLI, re-add with `-s user`. In Cursor and VS
+Code, move the entry from `.cursor/mcp.json` or `.vscode/mcp.json` to `~/.cursor/mcp.json`
+or the user-profile `mcp.json`.
 
 **`spawn npx ENOENT` / server never starts in a GUI app.** Desktop apps don't inherit your
 shell's `PATH`, which bites anyone using nvm, asdf, or Volta. Run `which npx` (`where npx`
@@ -416,6 +446,10 @@ than closing the window.
 `servers` for VS Code, `context_servers` for Zed, `mcp_servers` in TOML for Codex,
 `mcpServers` everywhere else. A wrong key is ignored silently in most clients.
 
+**Duplicate or shadowed entries.** Several clients resolve project config ahead of global
+config, so an old project-local `uindow` entry will silently win over the new global one.
+Delete the stale entry rather than editing both.
+
 **Server connects but tools aren't used.** In Claude Code, MCP tools are deferred behind
 tool search by default and loaded on demand, so they may not appear in an upfront tool
 list. Ask for a Uindow tool by name, or set `"alwaysLoad": true` on the server entry to
@@ -424,7 +458,6 @@ load its tools at session start.
 **Where to look next.** `claude mcp list` and `/mcp` (Claude Code), Output panel → MCP
 Logs (Cursor), Output → MCP (VS Code), `~/Library/Logs/Claude/mcp*.log` or
 `%APPDATA%\Claude\logs\mcp*.log` (Claude Desktop).
-
 ## Command-line interface
 
 You can run Uindow from any CI/CD pipeline or command-line interface.
