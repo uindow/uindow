@@ -1,9 +1,9 @@
 {
     "name": "uindow",
-    "version": "0.0.147",
+    "version": "0.0.148",
     "description": "Web Chores on Autopilot",
     "homepage": "https://uindow.com/",
-    "author": "Uindow",
+    "author": "Uindow (https://uindow.com)",
     "main": "run.js",
     "bin": {
         "uindow": "bin.js"
@@ -14,5 +14,5 @@
         "unrs-resolver": true
     },
     "res": true,
-    "license": "Uindow-1.0"
+    "license": "Apache-2.0"
 }
