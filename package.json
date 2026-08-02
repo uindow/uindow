@@ -4,7 +4,7 @@
     "version": "0.0.148",
     "description": "CLI for Uindow",
     "author": "Uindow (https://uindow.com)",
-    "license": "BUSL-1.1",
+    "license": "Apache-2.0",
     "main": "run.js",
     "files": [
         "dist/bin.js",
