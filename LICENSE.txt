@@ -1,91 +1,128 @@
-                     Uindow™ Source-Available License
-                       Version 1.0 - January 1, 2024
+Business Source License 1.1
 
-1. DEFINITIONS
+Parameters
 
-   "Licensor" means the legal entity or individual that, at any given time,
-   lawfully maintains ownership, administrative control, or registration
-   rights over the uindow.com domain, including any successor, assignee,
-   transferee, or subsequent domain holder exercising such control.
+Licensor:             Mark Jivko
 
-   "Software" means the associated desktop application and its source code.
+Licensed Work:        Uindow, including the Uindow desktop application and
+                      associated source code, but excluding the file
+                      dist/bin.js, which is separately licensed under the
+                      Apache License, Version 2.0.
+                      The Licensed Work is (c) Mark Jivko.
 
-   "Licensee" or "You" means the individual or entity exercising permissions
-   granted by this License.
+Additional Use Grant: You may make production use of the Licensed Work,
+                      provided such use is limited to personal,
+                      non-commercial purposes and does not include:
 
-2. LICENSE GRANT
+                      (1) offering the Licensed Work, or a product or
+                          service whose value derives substantially from
+                          the Licensed Work, to third parties on a hosted,
+                          embedded, or redistributed basis;
 
-   Subject to the terms and conditions herein, Licensor grants You a limited,
-   worldwide, non-exclusive, non-transferable, and revocable license to:
+                      (2) circumventing, disabling, or removing any
+                          account, license-key, entitlement, or module
+                          marketplace functionality of the Licensed Work;
+                          or
 
-   a. Access, download, and view the source code of the Software for the
-      purpose of personal study or internal evaluation.
-   b. Execute the Software on a local machine for evaluation purposes only.
+                      (3) using the Licensed Work to develop or offer a
+                          product or service that competes with the
+                          Licensed Work or with any paid product or
+                          service offered by the Licensor, including the
+                          Uindow modules marketplace.
 
-   Any use of the Software beyond evaluation requires a valid, active
-   subscription provided by the Licensor.
+                      Any production use not covered by this grant,
+                      including any commercial production use, requires a
+                      valid subscription or a separate commercial license
+                      from the Licensor.
 
-3. RESTRICTIONS AND ENFORCEMENT
+Change Date:          Four years from the date the Licensed Work is
+                      published.
 
-   Your License is strictly subject to the following restrictions:
+Change License:       Apache License, Version 2.0 (Apache-2.0)
 
-   a. NO BYPASS: You shall not modify, disable, or circumvent any login,
-      license key verification, or entitlement enforcement mechanisms.
-   b. NO DISTRIBUTION: You may not sell, rent, lease, sublicense, or
-      redistribute the Software, in source or binary form, to any third party.
-   c. NO COMPETITION: You may not use the Software or its source code to
-      create a competing product or service.
+For information about alternative licensing arrangements for the Licensed
+Work, please contact licensing@uindow.com.
 
-4. OWNERSHIP AND INTELLECTUAL PROPERTY
+Notice
 
-   All rights, title, and interest in and to the Software remain the exclusive
-   property of the Licensor. To the extent that You create any modifications,
-   enhancements, or derivative works of the Software ("Modifications"), You
-   hereby grant to Licensor a worldwide, irrevocable, perpetual, non-exclusive,
-   sublicensable, and royalty-free license to use, reproduce, modify, 
-   distribute, and exploit such Modifications in any manner and for any purpose.
-   This License does not grant any rights to Licensor's trademarks or logos.
+Business Source License 1.1
 
-5. TERMINATION
+License text copyright (c) 2017 MariaDB Corporation Ab, All Rights Reserved.
+"Business Source License" is a trademark of MariaDB Corporation Ab.
 
-   This License terminates automatically if You fail to comply with any of its
-   terms. Upon termination, You must cease all use of the Software and destroy
-   all copies of the Software and source code in your possession.
+-----------------------------------------------------------------------------
 
-6. DISCLAIMER OF WARRANTY
+Business Source License 1.1
 
-   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+Terms
 
-7. LIMITATION OF LIABILITY
+The Licensor hereby grants you the right to copy, modify, create derivative
+works, redistribute, and make non-production use of the Licensed Work. The
+Licensor may make an Additional Use Grant, above, permitting limited
+production use.
 
-   TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE
-   LICENSOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN
-   ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN
-   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Effective on the Change Date, or the fourth anniversary of the first publicly
+available distribution of a specific version of the Licensed Work under this
+License, whichever comes first, the Licensor hereby grants you rights under
+the terms of the Change License, and the rights granted in the paragraph
+above terminate.
 
-   TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE TOTAL AGGREGATE 
-   LIABILITY OF THE LICENSOR FOR ALL CLAIMS ARISING OUT OF THIS LICENSE SHALL
-   BE LIMITED TO THE GREATER OF: (A) THE TOTAL FEES PAID BY YOU TO LICENSOR 
-   IN THE THREE (3) MONTHS PRECEDING THE CLAIM, OR (B) FIFTY DOLLARS (US $50).
+If your use of the Licensed Work does not comply with the requirements
+currently in effect as described in this License, you must purchase a
+commercial license from the Licensor, its affiliated entities, or authorized
+resellers, or you must refrain from using the Licensed Work.
 
-8. GOVERNING LAW AND JURISDICTION
+All copies of the original and modified Licensed Work, and derivative works
+of the Licensed Work, are subject to this License. This License applies
+separately for each version of the Licensed Work and the Change Date may vary
+for each version of the Licensed Work released by Licensor.
 
-   This License shall be governed by and construed in accordance with the
-   laws of Romania, without regard to its conflict of laws principles.
+You must conspicuously display this License on each original or modified copy
+of the Licensed Work. If you receive the Licensed Work in original or
+modified form from a third party, the terms and conditions set forth in this
+License apply to your use of that work.
 
-   Any dispute arising out of or relating to this License or the Software
-   shall be subject to the exclusive jurisdiction of the courts located in
-   Bucharest, Romania.
+Any use of the Licensed Work in violation of this License will automatically
+terminate your rights under this License for the current and all other
+versions of the Licensed Work.
 
-9. SEVERABILITY AND ENTIRE AGREEMENT
+This License does not grant you any right in any trademark or logo of
+Licensor or its affiliates (provided that you may use a trademark or logo of
+Licensor as expressly required by this License).
 
-   If any provision of this License is held to be invalid, illegal, or
-   unenforceable, the remaining provisions shall remain in full force and
-   effect to the maximum extent permitted by applicable law.
+TO THE EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSED WORK IS PROVIDED ON
+AN "AS IS" BASIS. LICENSOR HEREBY DISCLAIMS ALL WARRANTIES AND CONDITIONS,
+EXPRESS OR IMPLIED, INCLUDING (WITHOUT LIMITATION) WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, AND
+TITLE.
 
-   This License, together with any applicable Terms of Service or
-   subscription terms referenced herein, constitutes the entire agreement
-   between You and the Licensor concerning the Software and supersedes all
-   prior or contemporaneous agreements on that subject matter.
+MariaDB hereby grants you permission to use this License's text to license
+your works, and to refer to it using the trademark "Business Source License",
+as long as you comply with the Covenants of Licensor below.
+
+Covenants of Licensor
+
+In consideration of the right to use this License's text and the "Business
+Source License" name and trademark, Licensor covenants to MariaDB, and to all
+other recipients of the licensed work to be provided by Licensor:
+
+1. To specify as the Change License the GPL Version 2.0 or any later version,
+   or a license that is compatible with GPL Version 2.0 or a later version,
+   where "compatible" means that software provided under the Change License
+   can be included in a program with software provided under GPL Version 2.0
+   or a later version. Licensor may specify additional Change Licenses
+   without limitation.
+
+2. To either: (a) specify an additional grant of rights to use that does not
+   impose any additional restriction on the right granted in this License,
+   as the Additional Use Grant; or (b) insert the text "None".
+
+3. To specify a Change Date.
+
+4. Not to modify this License in any other way.
+
+Notice
+
+The Business Source License (this document, or the "License") is not an Open
+Source license. However, the Licensed Work will eventually be made available
+under an Open Source License, as stated in this License.

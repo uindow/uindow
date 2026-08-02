@@ -4,7 +4,7 @@
     "version": "0.0.147",
     "description": "CLI for Uindow",
     "author": "Uindow (https://uindow.com)",
-    "license": "Uindow-1.0",
+    "license": "BUSL-1.1",
     "main": "run.js",
     "files": [
         "dist/bin.js",
