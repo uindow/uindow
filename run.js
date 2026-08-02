@@ -1,6 +1,5 @@
-/* global process */
 /**
- * Electron.js application entry point
+ * Uindow
  *
  * @architect Mark Jivko <mark@uindow.com>
  * @copyright © 2024-2026 Uindow™ (https://uindow.com)
@@ -17,6 +16,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-process.on("uncaughtException", exc => {
-    "development" === process.env.NODE_ENV && console.debug(exc);
-});
