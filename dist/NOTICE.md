@@ -15,7 +15,7 @@ This product uses third party software in accordance with their respective licen
 
   * **[@casl/ability](https://npmjs.com/package/@casl/ability)** `v.6.8.0` ⚖️ license: MIT • author: Sergii Stotskyi <sergiy.stotskiy@gmail.com>
   * **[@casl/react](https://npmjs.com/package/@casl/react)** `v.3.1.0` ⚖️ license: MIT • author: Sergii Stotskyi <sergiy.stotskiy@gmail.com>
-  * **[@electron/asar](https://npmjs.com/package/@electron/asar)** `v.4.0.1` ⚖️ license: MIT
+  * **[@electron/asar](https://npmjs.com/package/@electron/asar)** `v.4.2.1` ⚖️ license: MIT
   * **[@emotion/cache](https://npmjs.com/package/@emotion/cache)** `v.11.14.0` ⚖️ license: MIT
   * **[@emotion/react](https://npmjs.com/package/@emotion/react)** `v.11.14.0` ⚖️ license: MIT • author: Emotion Contributors
   * **[@emotion/server](https://npmjs.com/package/@emotion/server)** `v.11.11.0` ⚖️ license: MIT • author: Kye Hohenberger
@@ -25,13 +25,13 @@ This product uses third party software in accordance with their respective licen
   * **[@mui/material](https://npmjs.com/package/@mui/material)** `v.5.17.1` ⚖️ license: MIT • author: MUI Team
   * **[@mui/x-data-grid](https://npmjs.com/package/@mui/x-data-grid)** `v.5.17.26` ⚖️ license: MIT • author: MUI Team
   * **[@uindow/css](https://npmjs.com/package/@uindow/css)** `v.1.0.1` ⚖️ license: MIT • author: Mark Jivko <mark@uindow.com> (https://uindow.com)
-  * **[axios](https://npmjs.com/package/axios)** `v.1.16.1` ⚖️ license: MIT • author: Matt Zabriskie
+  * **[axios](https://npmjs.com/package/axios)** `v.1.18.1` ⚖️ license: MIT • author: Matt Zabriskie
   * **[clipboard-copy](https://npmjs.com/package/clipboard-copy)** `v.4.0.1` ⚖️ license: MIT • author: Feross Aboukhadijeh <feross@feross.org> (https://feross.org)
   * **[codemirror](https://npmjs.com/package/codemirror)** `v.5.65.19` ⚖️ license: MIT • author: Marijn Haverbeke <marijn@haverbeke.berlin> (http://marijnhaverbeke.nl)
   * **[cross-spawn](https://npmjs.com/package/cross-spawn)** `v.7.0.6` ⚖️ license: MIT • author: André Cruz <andre@moxy.studio>
   * **[date-fns](https://npmjs.com/package/date-fns)** `v.2.30.0` ⚖️ license: MIT
   * **[electron](https://npmjs.com/package/electron)** `v.42.1.0` ⚖️ license: MIT • author: Electron Community
-  * **[electron-builder](https://npmjs.com/package/electron-builder)** `v.26.8.1` ⚖️ license: MIT • author: Vladimir Krivosheev
+  * **[electron-builder](https://npmjs.com/package/electron-builder)** `v.26.15.7` ⚖️ license: MIT • author: Vladimir Krivosheev
   * **[esbuild](https://npmjs.com/package/esbuild)** `v.0.28.1` ⚖️ license: MIT
   * **[eslint](https://npmjs.com/package/eslint)** `v.8.57.1` ⚖️ license: MIT • author: Nicholas C. Zakas <nicholas+npm@nczconsulting.com>
   * **[eslint-config-google](https://npmjs.com/package/eslint-config-google)** `v.0.14.0` ⚖️ license: Apache-2.0 • author: Google
@@ -51,7 +51,7 @@ This product uses third party software in accordance with their respective licen
   * **[jest](https://npmjs.com/package/jest)** `v.28.1.3` ⚖️ license: MIT
   * **[mdi-material-ui](https://npmjs.com/package/mdi-material-ui)** `v.7.9.4` ⚖️ license: MIT • author: Wertarbyte
   * **[mediabunny](https://npmjs.com/package/mediabunny)** `v.1.24.2` ⚖️ license: [MPL-2.0](./lic/mediabunny.license.md) • author: Vanilagy
-  * **[next](https://npmjs.com/package/next)** `v.15.5.18` ⚖️ license: MIT
+  * **[next](https://npmjs.com/package/next)** `v.15.5.21` ⚖️ license: MIT
   * **[next-pwa](https://npmjs.com/package/next-pwa)** `v.5.6.0` ⚖️ license: MIT • author: ShadowWalker <w@weiw.io>
   * **[next-transpile-modules](https://npmjs.com/package/next-transpile-modules)** `v.10.0.1` ⚖️ license: MIT • author: Pierre de la Martinière <pierre.de.la.martiniere@gmail.com>
   * **[nodemon](https://npmjs.com/package/nodemon)** `v.3.1.10` ⚖️ license: MIT • author: Remy Sharp (https://github.com/remy)
@@ -75,7 +75,7 @@ This product uses third party software in accordance with their respective licen
   * **[stylis-plugin-rtl](https://npmjs.com/package/stylis-plugin-rtl)** `v.2.1.1` ⚖️ license: MIT • author: Jop de Klein
   * **[yaml](https://npmjs.com/package/yaml)** `v.2.9.0` ⚖️ license: [ISC](./lic/yaml.license.md) • author: Eemeli Aro <eemeli@gmail.com>
   * **[yup](https://npmjs.com/package/yup)** `v.0.32.11` ⚖️ license: MIT • author: @monasticpanic Jason Quense
-  * **[electron-updater](https://npmjs.com/package/electron-updater)** `v.6.8.5` ⚖️ license: MIT • author: Vladimir Krivosheev
+  * **[electron-updater](https://npmjs.com/package/electron-updater)** `v.6.8.9` ⚖️ license: MIT • author: Vladimir Krivosheev
   * 🖌️ **[Font: Inconsolata](https://fonts.google.com/specimen/Inconsolata)** `v.3.0` ⚖️ license: [OFL-1.1](./lic/@font-inconsolata.license.md) • author: The Inconsolata Project Authors (https://github.com/googlefonts/Inconsolata/)
   * 🖌️ **[Font: Inter](https://fonts.google.com/specimen/Inter)** `v.4.1` ⚖️ license: [OFL-1.1](./lic/@font-inter.license.md) • author: The Inter Project Authors (https://github.com/rsms/inter)
   * 🖌️ **[Font: Yaldevi](https://fonts.google.com/specimen/Yaldevi)** `v.1.100` ⚖️ license: [OFL-1.1](./lic/@font-yaldevi.license.md) • author: mooniak Pvt. Ltd <hello@mooniak.com>, Sol Matas <sol@sonnenshine.com.ar>
