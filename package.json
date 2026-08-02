@@ -6,6 +6,9 @@
     "author": "Uindow (https://uindow.com)",
     "license": "Uindow-1.0",
     "main": "run.js",
+    "files": [
+        "dist/bin.js"
+    ],
     "keywords": [
         "automation",
         "cli",
@@ -91,7 +94,7 @@
     "devDependencies": {
         "@electron/asar": "4.0.1",
         "cross-spawn": "7.0.6",
-        "electron-builder": "26.8.1",
+        "electron-builder": "26.15.7",
         "electron": "42.1.0",
         "eslint": "8.57.1",
         "eslint-config-google": "0.14.0",
@@ -102,5 +105,8 @@
         "eslint-plugin-unused-imports": "2.0.0",
         "fs-extra": "11.3.5",
         "prettier": "2.8.8"
+    },
+    "allowScripts": {
+        "electron-winstaller": true
     }
 }
