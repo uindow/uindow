@@ -7,7 +7,12 @@
     "license": "Uindow-1.0",
     "main": "run.js",
     "files": [
-        "dist/bin.js"
+        "dist/bin.js",
+        "dist/package.json",
+        "dist/NOTICE.md",
+        "dist/ssg/docs.md",
+        "dist/ssg/test.js.yaml",
+        "dist/lic/**.md"
     ],
     "keywords": [
         "automation",
