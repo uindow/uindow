@@ -12,11 +12,19 @@
         "dist/ssg/test.js.yaml"
     ],
     "keywords": [
-        "automation",
-        "cli",
-        "front-end",
-        "testing",
-        "uindow"
+        "mcp",
+        "uindow",
+        "web-scraping",
+        "test-automation",
+        "browser-automation",
+        "workflow-automation",
+        "ai-browser-automation",
+        "web-automation-testing",
+        "ui-testing",
+        "e2e-testing",
+        "testing-tools",
+        "end-to-end-testing",
+        "programmable-browser"
     ],
     "scripts": {
         "start": "electron ./dist/run.js",
