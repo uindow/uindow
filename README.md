@@ -17,7 +17,7 @@ Automate it three ways:
 -   **From any AI assistants** - Uindow ships a local
     [MCP](https://modelcontextprotocol.io) server, so Claude, Cursor, VS Code, or any
     MCP-compatible client can list, create, and run automation modules directly.
-    See [Control Uindow from AI assistants](#control-uindow-from-ai-agents-mcp).
+    See [Control Uindow from AI assistants](#control-uindow-from-ai-assistents-mcp).
 -   **Write automations in pure JavaScript** - Use the integrated development environment to write, test, and
     debug automations with ease. Auto-completion, code healing, JavaScript parsing, and linting are all built in.
 
