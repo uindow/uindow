@@ -103,6 +103,7 @@
     },
     "devDependencies": {
         "@electron/asar": "4.2.1",
+        "@uindow/css": "1.0.1",
         "cross-spawn": "7.0.6",
         "electron-builder": "26.15.7",
         "electron": "42.1.0",

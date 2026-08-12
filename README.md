@@ -204,28 +204,26 @@ for a faster response.
     $ npx @uindow/cli <command> [options]
 
   AVAILABLE COMMANDS
-    $ npx @uindow/cli mcp          Run MCP server
-    $ npx @uindow/cli app:docs     Fetch SDK documentation
-    $ npx @uindow/cli app:start    Start application
-    $ npx @uindow/cli app:stop     Stop application
-    $ npx @uindow/cli app:status   Check application status
-    $ npx @uindow/cli list         List agents
-    $ npx @uindow/cli create       Create agent
-    $ npx @uindow/cli update       Update agent
-    $ npx @uindow/cli delete       Delete agent
-    $ npx @uindow/cli start        Start agent
-    $ npx @uindow/cli stop         Stop agent
-    $ npx @uindow/cli status       Check agent status
-    $ npx @uindow/cli execute      Execute code in agent
-    $ npx @uindow/cli logs         Fetch agent logs
+    $ npx @uindow/cli mcp          Run MCP server 
+    $ npx @uindow/cli app_docs     Query SDK documentation 
+    $ npx @uindow/cli app_status   Check application status 
+    $ npx @uindow/cli app_start    Start application 
+    $ npx @uindow/cli app_stop     Stop application 
+    $ npx @uindow/cli list         List agents 
+    $ npx @uindow/cli create       Create agent 
+    $ npx @uindow/cli update       Update agent 
+    $ npx @uindow/cli delete       Delete agent 
+    $ npx @uindow/cli status       Check agent status 
+    $ npx @uindow/cli start        Start agent 
+    $ npx @uindow/cli stop         Stop agent 
+    $ npx @uindow/cli screenshot   Grab agent screenshot 
+    $ npx @uindow/cli execute      Execute code in agent 
+    $ npx @uindow/cli logs         Fetch agent logs 
 
   OPTIONS
-    --help      Help menu for a specific command
-    --version   Package version
+    --help      Help menu for a specific command 
+    --version   Package version 
 ```
-
-All commands that specify the `@return` tag in their description return valid
-JSON-formatted values.
 
 ## Creating modules
 
