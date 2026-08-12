@@ -1092,6 +1092,7 @@ srcOutputs:
 #### async $.navLoad( url, options = {} )
 
 > Navigation: Open URL and wait for the page to load.<br/>
+> Keywords: load page, visit page, load url, visit url.<br/>
 > 
 > <i>@param</i> {string} <b>url</b> URL; only <i>http</i> and <i>https</i> protocols are allowed<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Navigation options<br/>
