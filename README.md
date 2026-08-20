@@ -204,21 +204,44 @@ for a faster response.
     $ npx @uindow/cli <command> [options]
 
   AVAILABLE COMMANDS
-    $ npx @uindow/cli mcp          Run MCP server 
-    $ npx @uindow/cli app_docs     Query SDK documentation 
-    $ npx @uindow/cli app_status   Check application status 
-    $ npx @uindow/cli app_start    Start application 
-    $ npx @uindow/cli app_stop     Stop application 
-    $ npx @uindow/cli list         List agents 
-    $ npx @uindow/cli create       Create agent 
-    $ npx @uindow/cli update       Update agent 
-    $ npx @uindow/cli delete       Delete agent 
-    $ npx @uindow/cli status       Check agent status 
-    $ npx @uindow/cli start        Start agent 
-    $ npx @uindow/cli stop         Stop agent 
-    $ npx @uindow/cli screenshot   Grab agent screenshot 
-    $ npx @uindow/cli execute      Execute code in agent 
-    $ npx @uindow/cli logs         Fetch agent logs 
+    $ npx @uindow/cli mcp                     Uindow MCP server (stdio) 
+    $ npx @uindow/cli app_docs                Query SDK documentation 
+    $ npx @uindow/cli app_status              Get application status 
+    $ npx @uindow/cli app_start               Start application 
+    $ npx @uindow/cli app_stop                Stop application 
+    $ npx @uindow/cli agents_list             List agents 
+    $ npx @uindow/cli agents_create           Create agent 
+    $ npx @uindow/cli agents_update           Update agent 
+    $ npx @uindow/cli agents_delete           Delete agent 
+    $ npx @uindow/cli agents_status           Get agent status 
+    $ npx @uindow/cli agents_start            Start agent 
+    $ npx @uindow/cli agents_stop             Stop agent 
+    $ npx @uindow/cli agents_screenshot       Grab agent screenshot 
+    $ npx @uindow/cli agents_execute          Execute code in an agent 
+    $ npx @uindow/cli agents_logs             Get agent logs 
+    $ npx @uindow/cli agents_settings_get     Get settings 
+    $ npx @uindow/cli agents_settings_set     Update settings 
+    $ npx @uindow/cli agents_results_get      Get results 
+    $ npx @uindow/cli src_sample              Module: get sample (yaml) 
+    $ npx @uindow/cli src_export              Module: get source (yaml) 
+    $ npx @uindow/cli src_code_get            Module: get state or function code 
+    $ npx @uindow/cli src_code_set            Module: set state or function code 
+    $ npx @uindow/cli src_keys_list           Module: list item keys 
+    $ npx @uindow/cli src_keys_reorder        Module: reorder item keys 
+    $ npx @uindow/cli src_keys_update         Module: update item key 
+    $ npx @uindow/cli src_keys_delete         Module: delete item 
+    $ npx @uindow/cli src_input_get           Module: get input 
+    $ npx @uindow/cli src_input_set_bool      Module: set boolean input 
+    $ npx @uindow/cli src_input_set_int       Module: set integer input 
+    $ npx @uindow/cli src_input_set_string    Module: set string input 
+    $ npx @uindow/cli src_input_set_files     Module: set files input 
+    $ npx @uindow/cli src_input_set_table     Module: set table input 
+    $ npx @uindow/cli src_output_get          Module: get output 
+    $ npx @uindow/cli src_output_set_bool     Module: set boolean output 
+    $ npx @uindow/cli src_output_set_int      Module: set integer output 
+    $ npx @uindow/cli src_output_set_string   Module: set string output 
+    $ npx @uindow/cli src_output_set_files    Module: set files output 
+    $ npx @uindow/cli src_output_set_table    Module: set table output 
 
   OPTIONS
     --help      Help menu for a specific command 
