@@ -277,9 +277,12 @@ srcOutputs: []
 
 #### async $.fn( fnKey, fnArgs = \[\] )
 
-> Call a function (see the <i>Functions</i> tab).<br/>
+> Call a function asynchronously.<br/>
 > 
-> <i>@param</i> {string} <b>fnKey</b> Function key<br/>
+> Useful if you're running into source code size limits or when you want better<br/>
+> separation of concerns in your module.<br/>
+> 
+> <i>@param</i> {string} <b>fnKey</b> Function key, 1 to 32 alphanumeric characters or dashes<br/>
 > <i>@param</i> {array} <b>fnArgs</b> (optional) Function arguments; accessed with <i>$.args</i><br/>
 
 Functions allow you to organize your module better and prevent code duplication.  
@@ -1091,8 +1094,8 @@ srcOutputs:
 
 #### async $.navLoad( url, options = {} )
 
-> Navigation: Open URL and wait for the page to load.<br/>
-> Keywords: load page, visit page, load url, visit url.<br/>
+> Navigation: Open URL and wait for the page to load (DOM ready).<br/>
+> Keywords: navigate to page, navigate to url, load page, visit page, load url, visit url.<br/>
 > 
 > <i>@param</i> {string} <b>url</b> URL; only <i>http</i> and <i>https</i> protocols are allowed<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Navigation options<br/>
@@ -1669,7 +1672,7 @@ srcOutputs: []
 
 #### async $.doAwaitDomReady( options )
 
-> Document: Wait for page to load.<br/>
+> Document: Wait for page to load (DOM ready).<br/>
 > 
 > <i>@param</i> {Object} <b>options</b> (optional) Query options<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Timeout in seconds; default <i>60</i><br/>
