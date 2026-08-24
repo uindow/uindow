@@ -209,19 +209,19 @@ for a faster response.
     $ npx @uindow/cli app_status              Get application status 
     $ npx @uindow/cli app_start               Start application 
     $ npx @uindow/cli app_stop                Stop application 
-    $ npx @uindow/cli agents_list             List agents 
-    $ npx @uindow/cli agents_create           Create agent 
-    $ npx @uindow/cli agents_update           Update agent 
-    $ npx @uindow/cli agents_delete           Delete agent 
-    $ npx @uindow/cli agents_status           Get agent status 
-    $ npx @uindow/cli agents_start            Start agent 
-    $ npx @uindow/cli agents_stop             Stop agent 
-    $ npx @uindow/cli agents_screenshot       Grab agent screenshot 
-    $ npx @uindow/cli agents_execute          Execute code in an agent 
-    $ npx @uindow/cli agents_logs             Get agent logs 
-    $ npx @uindow/cli agents_settings_get     Get settings 
-    $ npx @uindow/cli agents_settings_set     Update settings 
-    $ npx @uindow/cli agents_results_get      Get results 
+    $ npx @uindow/cli agent_list              List agents 
+    $ npx @uindow/cli agent_create            Create agent 
+    $ npx @uindow/cli agent_update            Update agent 
+    $ npx @uindow/cli agent_delete            Delete agent 
+    $ npx @uindow/cli agent_status            Get agent status 
+    $ npx @uindow/cli agent_start             Start agent 
+    $ npx @uindow/cli agent_stop              Stop agent 
+    $ npx @uindow/cli agent_screenshot        Grab agent screenshot 
+    $ npx @uindow/cli agent_execute           Execute code in an agent 
+    $ npx @uindow/cli agent_logs              Get agent logs 
+    $ npx @uindow/cli agent_settings_get      Get settings 
+    $ npx @uindow/cli agent_settings_set      Update settings 
+    $ npx @uindow/cli agent_results_get       Get results 
     $ npx @uindow/cli src_sample              Module: get sample (yaml) 
     $ npx @uindow/cli src_export              Module: get source (yaml) 
     $ npx @uindow/cli src_code_get            Module: get state or function code 
