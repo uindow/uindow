@@ -86,7 +86,7 @@ srcFunctions:
   - key: visit-google
     code: |
       // Navigate to Google and wait for page to load
-      await $.navLoad("https://google.com/");
+      await $.navLoad("https://uindow.com/");
   - key: search
     code: |
       // Find the input field
@@ -113,9 +113,8 @@ srcOutputs: []
 
 Import this and other modules by following these steps:
 
-*   Launch Uindow, select an agent, and click on Options
-*   Click Source Code, go to Source Control, and select 'Import from YAML'
-*   Choose the module file ( `search.js.yaml` )
+*   Launch Uindow, select agent, source codesource control, import from YAML
+*   Choose file ( `search.js.yaml` )
 
 * * *
 
@@ -621,8 +620,69 @@ srcOutputs: []
 
 > OS: Prepare <i>file:///</i> URL from file path.<br/>
 > 
+> Convert file path to file URL to be used in table outputs.<br/>
+> 
+> Use the <i>src_output_set_table</i> tool to define a table output.<br/>
+> Use the <i>src_output_set_files</i> tool to define a hidden files output (<i>visible</i> set to <i>false</i>).<br/>
+> 
 > <i>@param</i> {string|null} <b>filePath</b> File path generated with <i>$.ioSave\*</i> methods or <i>$.ioInputFiles</i><br/>
 > <i>@return</i> {string|null} URI encoded file:/// URL or <i>null</i> on error<br/>
+
+* * *
+
+Table cells automatically enrich file:// links with previews. This allows you to show file previews alongside other information in table rows while hiding redundant file outputs from the Results tab.
+
+**example-osFileGetUrl.js.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      // Read input URL
+      const url = $.ioInputString("url");
+
+      // Load page
+      await $.navLoad(url);
+
+      // Get page title
+      const pageTitle = await $.navGetTitle();
+
+      // Save a screenshot - but the file explorer is hidden for this output (visible = false)
+      const { path, width, height } = await $.ioSaveScreenshot("screenshots", { extension: "png" });
+
+      // Prepare the screenshot string
+      const screenshot = $.osFileGetUrl(path) + ` (${width}x${height})`;
+
+      // Store complete data as a table row
+      await $.ioOutputRow("pages", { url, screenshot });
+
+      // Increment the temporary tick
+      $.doTick("screenshot");
+srcFunctions: []
+srcInputs:
+  - key: url
+    type: string
+    name: Page URL
+    desc: ""
+    max: 1024
+    isList: false
+    default: https://uindow.com/
+srcOutputs:
+  - key: screenshots
+    type: files
+    name: Screenshots
+    desc: Page screenshots
+    max: 32
+    extensions:
+      - png
+    visible: false
+  - key: pages
+    type: table
+    name: Visited pages
+    desc: ""
+    columns:
+      - url
+      - screenshot
+```
 
 * * *
 
@@ -1164,6 +1224,7 @@ srcOutputs:
 #### async $.navLoad( url, options = {} )
 
 > Navigation: Open URL and wait for the page to load (DOM ready).<br/>
+> 
 > Keywords: navigate to page, navigate to url, load page, visit page, load url, visit url.<br/>
 > 
 > <i>@param</i> {string} <b>url</b> URL; only <i>http</i> and <i>https</i> protocols are allowed<br/>
