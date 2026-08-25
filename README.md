@@ -221,7 +221,7 @@ for a faster response.
     $ npx @uindow/cli agent_logs              Get agent logs 
     $ npx @uindow/cli agent_settings_get      Get settings 
     $ npx @uindow/cli agent_settings_set      Update settings 
-    $ npx @uindow/cli agent_results_get       Get results 
+    $ npx @uindow/cli agent_results_get       Get latest results 
     $ npx @uindow/cli src_sample              Module: get sample (yaml) 
     $ npx @uindow/cli src_export              Module: get source (yaml) 
     $ npx @uindow/cli src_code_get            Module: get state or function code 
