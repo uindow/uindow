@@ -67,6 +67,8 @@ You can publish your modules to the module repository, allowing others to instal
 
 * * *
 
+* * *
+
 ### Example
 
 Here is an example of a small Uindow module (`search.js.yaml`) that performs a Google search.
@@ -133,6 +135,8 @@ Import this and other modules by following these steps:
 > - When used inside a <b>function</b>:<br/>
 >  array passed as the second argument to $.fn( 'function-key', args )<br/>
 
+* * *
+
 Although you can use [$.global\*()] methods to store and retrieve data from a global store, it is sometimes better to simply pass arguments from one state to another.
 
 **example-args.js.yaml**
@@ -177,6 +181,8 @@ srcOutputs: []
 > {string}<br/>
 > 
 > Current state key.<br/>
+
+* * *
 
 At the core of every Uindow module is a finite-state machine where each state is uniquely identified by its key.  
 You may need to reference the current or the [$.previous] state key inside functions.
@@ -229,6 +235,8 @@ srcOutputs: []
 > {string|null}<br/>
 > 
 > Previous state key or <i>null</i> if this is the entry state.<br/>
+
+* * *
 
 Following the example for the [$.current] property, here's how one would use the previous state key.
 
@@ -285,6 +293,8 @@ srcOutputs: []
 > <i>@param</i> {string} <b>fnKey</b> Function key, 1 to 32 alphanumeric characters or dashes<br/>
 > <i>@param</i> {array} <b>fnArgs</b> (optional) Function arguments; accessed with <i>$.args</i><br/>
 
+* * *
+
 Functions allow you to organize your module better and prevent code duplication.  
 Here's a simple example for counting down using functions - recursively.
 
@@ -325,6 +335,8 @@ srcOutputs: []
 > 
 > <i>@throws</i> {Error} If the LLM is not ready<br/>
 
+* * *
+
 Uindow provides easy access to a locally running large language model for complex tasks such as text summarization and sentiment analysis. Please note that LLMs are neither accurate nor deterministic.  
 The example below shows when not to use a large language model: mathematical operations are much faster and more accurate in pure JavaScript.
 
@@ -354,6 +366,8 @@ srcOutputs: []
 > <i>@param</i> {any} <b>message</b> Message<br/>
 > <i>@param</i> {"info"|"success"|"warning"|"error"} <b>status</b> (optional) Status; default <i>info</i><br/>
 
+* * *
+
 A maximum of 250 logs are retained in the logs panel for each agent. Logs are stored in session and are removed when the app is closed. There are four log types, each with their own color:`info`,`success`,`warning`, and`error`.
 
 **example-log.js.yaml**
@@ -377,6 +391,8 @@ srcOutputs: []
 > Pause the execution of the current thread for a specified number of milliseconds.<br/>
 > 
 > <i>@param</i> {number} <b>ms</b> Sleep time in milliseconds<br/>
+
+* * *
 
 Sometimes you may need to slow down your script to prevent overloading a website's resources, and other times you might just want a bit of showmanship.
 
@@ -410,6 +426,8 @@ srcOutputs: []
 > When resumed, the current state will be re-executed from the start, not from the current line!<br/>
 > 
 > <i>@param</i> {string} <b>message</b> (optional) Message displayed in dialog when agent is (re-)selected<br/>
+
+* * *
 
 Uindow modules do not access or store any personal data, such as passwords or cookies.  
 If a user needs to log into a website or verify they are human, simply pause the script at the current finite-state machine state and kindly request their input.
@@ -447,6 +465,8 @@ srcOutputs: []
 > When resumed, the finite-state machine will start from the first state (the Entry Point 🏁).<br/>
 > 
 > <i>@param</i> {string} <b>message</b> (optional) Message displayed in dialog when agent is (re-)selected<br/>
+
+* * *
 
 Unlike [$.pause()], the current run is **abandoned** so all values stored with [$.globalRunSet()] are discarded. The next time you start the agent, it will execute normally from the entry state.
 
@@ -487,6 +507,8 @@ srcOutputs: []
 > <i>@param</i> {number} <b>ms</b> The number of milliseconds to wait before executing the callback<br/>
 > <i>@return</i> {int} Timeout ID<br/>
 
+* * *
+
 Setting a timer is useful for a wide range of algorithms, but you will likely find it most valuable when setting up a listener for an event that has not occurred yet.
 
 **example-setTimeout.js.yaml**
@@ -524,6 +546,8 @@ srcOutputs:
 > Cancels a timeout previously established by <i>$.setTimeout</i>.<br/>
 > 
 > <i>@param</i> {function} <b>timeoutId</b> The identifier of the timeout to cancel, as returned by <i>$.setTimeout</i><br/>
+
+* * *
 
 **example-clearTimeout.js.yaml**
 ```yaml
@@ -564,6 +588,8 @@ srcOutputs: []
 > <i>@return</i> {{ ok:boolean, status:number, headers:object, data:mixed}} Response object<br/>
 > 
 > <i>@throws</i> {Error} If request failed<br/>
+
+* * *
 
 This method acts like a proxy, bypassing any CORS restrictions.  
 If you need to pass along cookies with your request, first nagivate to the target domain using [$.navLoad()] then issue the request with [$.doRequest()] or [$.ioSaveRequest()].
@@ -616,6 +642,8 @@ srcOutputs: []
 > <i>@param</i> {string} <b>filePath</b> File path generated with <i>$.ioSave\*</i> methods or <i>$.ioInputFiles</i><br/>
 > <i>@return</i> {boolean}<br/>
 
+* * *
+
 It is recommended that you use this method with caution and only with the explicit permission of users, as opening folders may interfere with their activities.
 
 **example-osFileShow.js.yaml**
@@ -659,6 +687,8 @@ srcOutputs:
 > <i>@param</i> {Object} <b>options</b> (optional) Random generator options<br/>
 > <i>@param</i> {boolean} <b>options.string</b> (optional) Return a random string instead; default <i>false</i>; if true, <i>min</i> and <i>max</i> define the length of the returned string<br/>
 > <i>@return</i> {int|string} A random signed integer between <i>min</i> and <i>max</i> (inclusive) OR a random string between <i>min</i> and <i>max</i> characters long, but not longer than 512 characters<br/>
+
+* * *
 
 Introducing randomness into the behavior of modules is so useful that we decided to dedicate a helper function to it.  
 You could use `Math.floor(Math.random() * (max - min + 1)) + min` instead, but this is cleaner.
@@ -704,6 +734,8 @@ srcOutputs: []
 > <i>@param</i> {string|null} <b>envKey</b> (optional) Environment variable key or <i>null</i> for all values as a key-value object; default <i>null</i><br/>
 > <i>@return</i> {object|any|null}<br/>
 
+* * *
+
 In this example, we're using the environment cache to perform an action only once per day.
 
 **example-globalEnvGet.js.yaml**
@@ -740,6 +772,8 @@ srcOutputs: []
 > <i>@param</i> {string} <b>envKey</b> Environment variable key<br/>
 > <i>@param</i> {any|null} <b>envValue</b> Environment variable value; if <i>null</i>, the key is removed<br/>
 > <i>@return</i> {boolean}<br/>
+
+* * *
 
 In this example, we're listing and removing all values from the environment cache.
 
@@ -837,15 +871,45 @@ srcOutputs: []
 
 #### async $.ioInputRow( ioKey, index = null )
 
-> IO: Get the next available table row and increment index internally.<br/>
-> Alternatively, get the row at the specified index.<br/>
-> Row keys are declared in the <i>Inputs</i> tab for this table input.<br/>
+> IO: Get the next available table row and increment the row index internally.<br/>
+> 
+> Alternatively, fetch the row at the specified index.<br/>
+> For example, index 0 returns the first table row object with the defined columns, or null if the table is empty<br/>
+> 
+> Use the <i>src_input_set_table</i> tool to declare input table columns.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Table input key<br/>
-> <i>@param</i> {int} <b>index</b> (optional) Table index; default <i>null</i><br/>
-> <i>@return</i> {Object&lt;string,string&gt; | null} Current row or <i>null</i> if reached the end of the table<br/>
+> <i>@param</i> {int} <b>index</b> (optional) Table index; defaults to <i>null</i><br/>
+> <i>@return</i> {(Object&lt;string, string&gt; | null)} Current row, or <i>null</i> if the end of the table has been reached<br/>
 > 
-> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input table key<br/>
+> <i>@throws</i> {Error} If <i>ioKey</i> is not a valid input table key.<br/>
+
+* * *
+
+For performance reasons, tables are not loaded into memory; instead, they are accessed one row at a time.
+
+**example-ioInputRow.js.yaml**
+```yaml
+srcStateMachine:
+  - key: start
+    code: |
+      // Go through the clients table one row at a time
+      let row = null;
+      while ((row = await $.ioInputRow("clients"))) {
+        $.log(`Client name: ${row.name}`);
+        $.log(`Client age: ${row.age}`);
+      }
+srcFunctions: []
+srcInputs:
+  - key: clients
+    type: table
+    name: Company clients
+    desc: List of clients
+    columns:
+      - name
+      - age
+srcOutputs: []
+```
 
 * * *
 
@@ -905,7 +969,8 @@ srcOutputs: []
 #### async $.ioOutputRow( ioKey, row )
 
 > IO: Append a row to output table.<br/>
-> Row keys are declared in the <i>Outputs</i> tab for this table output.<br/>
+> 
+> Use the <i>src_output_set_table</i> tool to declare output table columns.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Table output key<br/>
 > <i>@param</i> {Object&lt;string,string&gt;} <b>row</b> Row object<br/>
@@ -985,6 +1050,8 @@ srcOutputs: []
 > 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key, or trying to record more than one video at a time<br/>
 
+* * *
+
 In the following example we're recording smooth scrolling a web page at 150 pixels per second. Note that `$.ioSaveVideo` returns a callback function that stops the recording.
 
 **example-ioSaveVideo.js.yaml**
@@ -1058,6 +1125,8 @@ srcOutputs:
 > <i>@return</i> {string | null} File path on success, <i>null</i> if download failed<br/>
 > 
 > <i>@throws</i> {Error} If <i>ioKey</i> is not a valid output files key, or request failed<br/>
+
+* * *
 
 This example demonstrates how to save a file with a custom extension. Note that the file extension must first be declared in the output configuration. If the specified extension is not included in the declared list, the first listed extension, "json" in this case, will be used instead.  
 If you don't specify a file extension, the script will attempt to deduce it from the URL.
@@ -1277,6 +1346,8 @@ srcOutputs:
 > <i>@return</i> {{ ok:boolean, status:number, headers:object, data:mixed}} Response object<br/>
 > 
 > <i>@throws</i> {Error} If request failed<br/>
+
+* * *
 
 This example describes how to fetch data in the browser when CORS is an issue.  
 If you don't care about cookies you can use [$.osRequest()] to bypass CORS instead.
@@ -1646,7 +1717,9 @@ srcOutputs: []
 
 #### async $.doCheck( element, values, options = {} )
 
-> Document: Check radio or checkbox values. The element's siblings must share the same name attribute.<br/>
+> Document: Check radio or checkbox values.<br/>
+> 
+> The element's siblings must share the same name attribute.<br/>
 > Automatically scroll to element(s) before action.<br/>
 > 
 > <i>@param</i> {string} <b>element</b> CSS selector OR element key obtained with <i>$.doQuery\*</i><br/>
