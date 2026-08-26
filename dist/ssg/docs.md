@@ -126,7 +126,7 @@ Import this and other modules by following these steps:
 
 #### $.args
 
-> {array}<br/>
+> {array} State or function arguments<br/>
 > 
 > - When used inside a <b>state</b>:<br/>
 >  array passed by previous state as { next: 'state-key', args }<br/>
@@ -177,14 +177,15 @@ srcOutputs: []
 
 #### $.current
 
-> {string}<br/>
+> {string} Current state key<br/>
 > 
-> Current state key.<br/>
+> The key of the current Finite-State Machine (FSM) state.<br/>
+> Use this property in functions to customize behavior based on the FSM state that called the function.<br/>
 
 * * *
 
 At the core of every Uindow module is a finite-state machine where each state is uniquely identified by its key.  
-You may need to reference the current or the [$.previous] state key inside functions.
+You may need to reference the $.current or the [$.previous] state key inside functions.
 
 **example-current.js.yaml**
 ```yaml
@@ -231,9 +232,10 @@ srcOutputs: []
 
 #### $.previous
 
-> {string|null}<br/>
+> {string|null} Previous state key<br/>
 > 
-> Previous state key or <i>null</i> if this is the entry state.<br/>
+> The key of the previous Finite-State Machine (FSM) state, or <i>null</i> if this is the first (entry) state.<br/>
+> Use this property in functions to customize behavior based on the FSM state that called the function.<br/>
 
 * * *
 
@@ -387,7 +389,7 @@ srcOutputs: []
 
 #### async $.sleep( ms )
 
-> Pause the execution of the current thread for a specified number of milliseconds.<br/>
+> Pause the execution for a specified number of milliseconds.<br/>
 > 
 > <i>@param</i> {number} <b>ms</b> Sleep time in milliseconds<br/>
 
@@ -1076,7 +1078,7 @@ srcOutputs: []
 
 #### async $.ioSaveScreenshot( ioKey, options = {} )
 
-> IO: Take a screenshot of the current page and save it to disk.<br/>
+> IO: Take a screenshot of the web page and save it to disk.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Save options<br/>
@@ -1092,7 +1094,7 @@ srcOutputs: []
 
 #### async $.ioSaveVideo( ioKey, options = {} )
 
-> IO: Record a video of the current session and save it to disk.<br/>
+> IO: Record a video of the session and save it to disk.<br/>
 > The video is rendered in real time with no sound.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
@@ -1275,7 +1277,7 @@ srcOutputs:
 
 #### async $.navGetUrl()
 
-> Navigation: Get the URL of the current page.<br/>
+> Navigation: Get the URL of the web page.<br/>
 > 
 > <i>@return</i> {string}<br/>
 
@@ -1283,7 +1285,7 @@ srcOutputs:
 
 #### async $.navGetTitle()
 
-> Navigation: Get the title of the current page.<br/>
+> Navigation: Get the title of the web page.<br/>
 > 
 > <i>@return</i> {string}<br/>
 
@@ -1477,7 +1479,7 @@ srcOutputs: []
 
 #### async $.doGetMouse()
 
-> Document: Get current mouse position.<br/>
+> Document: Get mouse position.<br/>
 > 
 > <i>@return</i> {{ left: int, top: int}}<br/>
 

@@ -1,7 +1,7 @@
 {
     "name": "@uindow/cli",
     "mcpName": "io.github.uindow/uindow",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "CLI for Uindow",
     "author": "Uindow (https://uindow.com)",
     "license": "Apache-2.0",
