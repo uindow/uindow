@@ -34,6 +34,7 @@ jobs:
         needs: publish-npm
         timeout-minutes: 5
         runs-on: ubuntu-latest
+        environment: mcp-publish-delay
         if: ${{ github.event_name == 'workflow_dispatch' || startsWith( github.event.head_commit.message, '[release]' ) }}
         permissions:
             contents: read
