@@ -577,6 +577,7 @@ srcOutputs: []
 > Useful for bypassing CORS (Cross-Origin Resource Sharing) constraints set by the browser.<br/>
 > If you need to make an authenticated request from the currently loaded page, use <i>$.doRequest</i> instead.<br/>
 > Note that these requests do not have access to your browser session's cookies.<br/>
+> Keywords: ajax, fetch, request, get, post, push.<br/>
 > 
 > <i>@param</i> {string} <b>url</b> Request URL<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Request options<br/>
@@ -690,7 +691,7 @@ srcOutputs:
 
 #### async $.osFileGetSize( filePath )
 
-> OS: Fetch file size.<br/>
+> OS: Get file size.<br/>
 > 
 > <i>@param</i> {string|null} <b>filePath</b> File path generated with <i>$.ioSave\*</i> methods or <i>$.ioInputFiles</i><br/>
 > <i>@return</i> {{ int:int, string:string}|null} File size in bytes and as a human-readable string expressed in KiB, MiB, GiB, and TiB<br/>
@@ -935,7 +936,7 @@ srcOutputs: []
 
 > IO: Get the next available table row and increment the row index internally.<br/>
 > 
-> Alternatively, fetch the row at the specified index.<br/>
+> Alternatively, get the row at the specified index.<br/>
 > For example, index 0 returns the first table row object with the defined columns, or null if the table is empty<br/>
 > 
 > Use the <i>src_input_set_table</i> tool to declare input table columns.<br/>
@@ -1174,6 +1175,7 @@ srcOutputs:
 > 
 > Useful for saving the result of fetch requests made from the current domain/page.<br/>
 > For direct access to JSON or text responses, use <i>$.doRequest</i> instead.<br/>
+> Keywords: ajax, fetch, request, get, post, push.<br/>
 > 
 > <i>@param</i> {string} <b>ioKey</b> Files output key<br/>
 > <i>@param</i> {string} <b>url</b> URL to save locally<br/>
@@ -1397,6 +1399,7 @@ srcOutputs:
 > 
 > Useful for JSON and simple text responses. For large files or binary data use <i>$.ioSaveRequest</i> instead.<br/>
 > If you need to bypass CORS and send the requests directly from the computer (outside of the browser session) use <i>$.osRequest</i> instead.<br/>
+> Keywords: ajax, fetch, request, get, post, push.<br/>
 > 
 > <i>@param</i> {string} <b>url</b> Request URL<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Request options<br/>
