@@ -217,6 +217,7 @@ for a faster response.
     $ npx @uindow/cli agent_start             Start agent 
     $ npx @uindow/cli agent_stop              Stop agent 
     $ npx @uindow/cli agent_screenshot        Grab agent screenshot 
+    $ npx @uindow/cli agent_viewport_scan     Scan agent viewport 
     $ npx @uindow/cli agent_execute           Execute code in an agent 
     $ npx @uindow/cli agent_logs              Get agent logs 
     $ npx @uindow/cli agent_settings_get      Get settings 
