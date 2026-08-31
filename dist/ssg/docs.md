@@ -86,9 +86,18 @@ srcFunctions:
   - key: visit-google
     code: |
       // Navigate to Google and wait for page to load
-      await $.navLoad("https://uindow.com/");
+      await $.navLoad("https://google.com/");
   - key: search
     code: |
+      // Accept the terms
+      const acceptBtn = await $.doAwaitPresent('[role="dialog"] button:nth-of-type(2)', {
+        timeout: 3
+      });
+      if (acceptBtn) {
+        await $.doScrollTo(acceptBtn);
+        await $.doClick(acceptBtn);
+      }
+
       // Find the input field
       const inputKey = await $.doQuery("[name='q']");
       if ("string" !== typeof inputKey) {
@@ -106,7 +115,7 @@ srcInputs:
     name: Search term
     desc: A search term for Google
     max: 1024
-    options: []
+    isList: false
     default: uindow
 srcOutputs: []
 ```
@@ -147,8 +156,8 @@ srcStateMachine:
       const randomNumber = await $.fn("random", [2, 10]);
 
       // Pass it to the next state
-      return { next: "surprise", args: [randomNumber] };
-  - key: surprise
+      return { next: "math", args: [randomNumber] };
+  - key: math
     code: |
       // Passed with { next: "surprise", args: [randomNumber] };
       const randomNumber = $.args[0];
@@ -206,7 +215,6 @@ srcStateMachine:
 srcFunctions:
   - key: write-haiku
     code: |
-      // The Old Pond by Matsuo Bashō (1644-1694)
       switch ($.current) {
         case "start":
           $.log("An old silent pond");
@@ -220,6 +228,9 @@ srcFunctions:
 
         case "end":
           $.log("Splash! Silence again.");
+          await $.sleep(1000);
+          $.log("-- The Old Pond by Matsuo Bashō (1644-1694)", "success");
+
           break;
       }
 
@@ -274,6 +285,9 @@ srcFunctions:
 
         case "middle":
           $.log("Splash! Silence again.");
+          await $.sleep(1000);
+          $.log("-- The Old Pond by Matsuo Bashō (1644-1694)", "success");
+
           break;
       }
 
@@ -349,10 +363,10 @@ srcStateMachine:
       const startTime = performance.now();
 
       // Ask the magic box
-      const response = await $.llm("Answer with one number: 2 + 3");
+      const response = await $.llm("Answer with one number: 2 + 2");
 
       // Log the execution time
-      $.log(`Finished in ${(performance.now() - startTime) / 1000} seconds`);
+      $.log(`Finished in ${((performance.now() - startTime) / 1000).toFixed(2)} seconds`);
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -438,21 +452,17 @@ If a user needs to log into a website or verify they are human, simply pause the
 srcStateMachine:
   - key: start
     code: |
-      // Check if we already asked the user to log in
+      // Check if we already asked the user to perform action
       if ($.globalRunGet("asked-user")) {
+        $.log("🧙 Mischief managed");
         return;
       }
 
       // Mark this so we don't enter an infinite loop
       $.globalRunSet("asked-user", true);
 
-      // Look for button that is only available after login
-      const buttonKey = await $.doAwaitPresent(".dashboard-button", { timeout: 1 });
-
       // Ooops! (reCaptcha, login wall etc.)
-      if (!buttonKey) {
-        $.pause("'Dubito, ergo cogito; cogito, ergo sum' to continue.");
-      }
+      $.pause("Some actions simply cannot continue without a human touch.");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -478,21 +488,18 @@ srcStateMachine:
     code: |
       // Check if we already asked the user to log in
       if (await $.globalEnvGet("asked-user")) {
-        return;
+        return { next: "work" };
       }
 
       // Mark this so we don't enter an infinite loop
       // Use the environment cache instead of the run store
       await $.globalEnvSet("asked-user", true);
 
-      // Look for button that is only available after login
-      const buttonKey = await $.doAwaitPresent(".dashboard-button", { timeout: 1 });
-
-      // Ooops! (reCaptcha, login wall etc.)
-      if (!buttonKey) {
-        // Abandon the current run (and clear values in the run store)
-        $.stop("State the meaning of life to continue.");
-      }
+      // Abandon the current run (and clear values in the run store)
+      $.stop("Work your magic, then restart the agent.");
+  - key: work
+    code: |
+      $.log("🧙 Mischief managed");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -528,6 +535,10 @@ srcStateMachine:
 
       // Grab the next download and store it in outputs
       await $.ioSaveDownload("yaml");
+
+      // Mark the download
+      $.doTick("download");
+      $.log("Successfully triggered click 500ms into the future");
 srcFunctions: []
 srcInputs: []
 srcOutputs:
@@ -633,7 +644,7 @@ srcOutputs: []
 
 * * *
 
-Table cells automatically enrich `file://` links with previews. This allows you to show file previews alongside other information in table rows while hiding redundant file outputs from the Results tab.
+Table cells automatically enrich file:// links with previews. This allows you to show file previews alongside other information in table rows while hiding redundant file outputs from the Results tab.
 
 **example-osFileGetUrl.js.yaml**
 ```yaml
@@ -707,7 +718,6 @@ An unreadable or missing path returns `null`, so check for it before reaching in
 srcStateMachine:
   - key: start
     code: |
-      // Save something, then look at what actually landed on disk
       const filePath = await $.ioSaveUrl("downloads", "http://localhost:7199/manifest.json");
       if (null === filePath) {
         throw new Error("$.ioSaveUrl failed");
@@ -718,9 +728,6 @@ srcStateMachine:
         throw new Error("Could not read the file size");
       }
 
-      // "int" is for comparisons, "string" is for humans
-      $.log(`Downloaded ${size.string}`, "success");
-
       // A near-empty file usually means an error page was saved instead of the real thing
       if (size.int < 128) {
         $.log(`Only ${size.int} bytes - looks truncated, skipping`, "warning");
@@ -728,13 +735,11 @@ srcStateMachine:
         return;
       }
 
-      // Report it alongside the human-readable size
+      // "size.int" is for comparisons, "size.string" is for humans
+      $.log(`Outputs total: ${size.string}`);
       await $.ioOutputRow("files", { path: filePath, size: size.string });
 
-      return { next: "check-inputs" };
-  - key: check-inputs
-    code: |
-      // The same works for files the user supplied
+      // Add-up input file sizes
       let totalBytes = 0;
       for (const inputPath of $.ioInputFiles("attachments")) {
         const size = await $.osFileGetSize(inputPath);
@@ -744,8 +749,7 @@ srcStateMachine:
 
         totalBytes += size.int;
       }
-
-      $.log(`Inputs total ${totalBytes} bytes`);
+      $.log(`Inputs total: ${totalBytes} B`);
 srcFunctions: []
 srcInputs:
   - key: attachments
@@ -755,6 +759,7 @@ srcInputs:
     extensions:
       - json
       - txt
+    multiple: false
 srcOutputs:
   - key: downloads
     type: files
@@ -763,6 +768,7 @@ srcOutputs:
     max: 1024
     extensions:
       - json
+    visible: false
   - key: files
     type: table
     name: Saved files
@@ -846,8 +852,7 @@ srcStateMachine:
 
       switch (true) {
         case predictedTemp < 0:
-          const randomString = $.osRand(3, 4, { string: true });
-          $.log(`Brrr${randomString}... this is cold! 🥶`);
+          $.log("Brrr... this is cold! 🥶");
           break;
 
         case predictedTemp < 20:
@@ -971,27 +976,18 @@ Guarding re-entry is the pattern worth knowing. A state resumed after `$.pause` 
 srcStateMachine:
   - key: start
     code: |
-      // Run globals are synchronous - no await here
       if ($.globalRunGet("visited")) {
-        $.log("Already been through this state during this run");
+        $.log("Done!");
 
-        return { next: "work" };
+        return;
       }
 
-      $.globalRunSet("visited", true);
+      $.log("Visiting the test page...");
       await $.navLoad("about:home/test/");
 
-      return { next: "work" };
-  - key: work
-    code: |
-      // A key that was never set reads as null, so default it
-      const cursor = $.globalRunGet("cursor") ?? 0;
-      $.log(`Resuming from row ${cursor}`);
+      $.globalRunSet("visited", true);
 
-      $.globalRunSet("cursor", cursor + 10);
-
-      // Omit the key to inspect everything at once - handy while debugging
-      $.log($.globalRunGet());
+      return { next: "start" };
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -1019,18 +1015,18 @@ Setting `null` deletes rather than storing null, so there's no separate remove c
 srcStateMachine:
   - key: start
     code: |
-      // Anything JSON serializable
+      // Store any JSON serializable value
       $.globalRunSet("cursor", 0);
-      $.globalRunSet("seen", ["alpha", "beta"]);
+      $.globalRunSet("temporary", ["alpha", "beta"]);
 
-      // Writing the same value again reports false - nothing changed
+      // Writing the same value again reports false (nothing changed)
       if (!$.globalRunSet("cursor", 0)) {
         $.log("The cursor was already 0");
       }
 
-      // null removes the key entirely
-      $.globalRunSet("seen", null);
-      if (Object.keys($.globalRunGet()).includes("seen")) {
+      // Remove the temporary value
+      $.globalRunSet("temporary", null);
+      if (Object.keys($.globalRunGet()).includes("temporary")) {
         throw new Error("$.globalRunSet failed to delete the key");
       }
 
@@ -1042,10 +1038,11 @@ srcStateMachine:
       if (!$.globalRunGet("asked-user")) {
         $.globalRunSet("asked-user", true);
 
-        $.pause("Log in, then resume the agent.");
+        $.pause("Unpause the agent to continue");
       }
 
-      $.log("Carrying on where we left off", "success");
+      $.log("Carrying on where we left off...", "success");
+      $.doTick("success");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -1065,10 +1062,8 @@ srcOutputs: []
 
 * * *
 
-The shape of the result follows the declaration rather than the call: an input declared as a list hands back an array, everything else a single integer. Worth checking which you declared before calling `.slice` on something that turned out to be a number.  
-A single input the user left empty reads as `null` when the declaration has no `default`, so either declare one or fall back with `??`. The list form is kinder - an empty list is an empty array, never `null`.  
-On an integer input `min` and `max` bound the _value_ the user may enter, so the Settings tab refuses anything outside the range before the module ever runs. Declaring `options` instead restricts the field to a fixed set of numbers. Either way the validation lives in the declaration rather than in your code.  
-Only the key lookup can fail, and it throws rather than returning nothing, so a typo in `ioKey` surfaces immediately instead of quietly behaving like an empty input.
+`min` and `max` bound the value the user may enter, so the guessing range is enforced in the Settings tab rather than in your code. `isList` accepts up to 128 numbers instead of one.  
+An agent will not start until every input is set, so whatever arrives here is already valid - there is nothing to check and no `null` to guard against.
 
 **example-ioInputInt.js.yaml**
 ```yaml
@@ -1136,81 +1131,41 @@ srcOutputs: []
 
 * * *
 
-As with the integer form, a list declaration returns an array and everything else a single string, and an empty single input reads as `null` rather than an empty string. Testing `null === value` before `value.length` avoids the obvious crash.  
-Declaring `options` together with a `default`, as `mode` does above, turns the field into a choice that always has a value - no fallback needed, and no chance of a typo reaching your code. That's usually better than accepting free text and validating it yourself.  
-On a string input `min` and `max` bound the _length_ of the text rather than its value - the integer equivalents bound the number itself. Inputs and outputs are declared independently, so an input that accepts more than the output you intend to write it to will lose the overflow; keep the two declarations in step, or send long text to `$.ioSaveText` instead.
+`options` turns a text field into a fixed choice and `isList` accepts up to 128 lines instead of one. `min` and `max` bound the _length_ of the text, where the integer equivalents bound the number itself.  
+An agent will not start until every input is set, so whatever arrives here is already valid - there is nothing to check and no `null` to guard against.
 
 **example-ioInputString.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
     code: |
-      // A single string - may be null when the user left it empty
-      const query = $.ioInputString("query");
-      if (null === query || !query.length) {
-        $.log("No search term supplied", "warning");
+      const mood = $.ioInputString("mood");
+      const wishes = $.ioInputString("wishes");
 
-        return;
-      }
+      const wish = wishes[$.osRand(0, wishes.length - 1)];
+      const fortune = await $.llm(`Grant this wish in one ${mood} sentence: ${wish}`);
 
-      // An input declared with options and a default always has a value
-      const mode = $.ioInputString("mode");
-      $.log(`Searching for "${query}" in ${mode} mode`);
-
-      return { next: "visit-urls" };
-  - key: visit-urls
-    code: |
-      // A list input returns an array of strings
-      const urls = $.ioInputString("urls");
-
-      for (const url of urls) {
-        try {
-          await $.navLoad(url, { timeout: 20 });
-        } catch (error) {
-          $.log(`Skipped ${url}: ${error.message}`, "warning");
-
-          continue;
-        }
-
-        await $.ioOutputRow("pages", {
-          url: await $.navGetUrl(),
-          title: await $.navGetTitle()
-        });
-
-        $.doTick("view");
-      }
+      $.log(`🔮 ${fortune}`, "success");
 srcFunctions: []
 srcInputs:
-  - key: query
+  - key: mood
     type: string
-    name: Search term
-    desc: ""
-    max: 256
-    options: []
-  - key: urls
-    type: string
-    name: URLs
-    desc: One URL per line
-    max: 1024
-    isList: true
-    options: []
-  - key: mode
-    type: string
-    name: Search mode
-    desc: ""
-    max: 32
+    name: Oracle mood
+    desc: How should the oracle feel today?
+    max: 16
+    isList: false
     options:
-      - quick
-      - thorough
-    default: quick
-srcOutputs:
-  - key: pages
-    type: table
-    name: Visited pages
-    desc: ""
-    columns:
-      - url
-      - title
+      - cheerful
+      - grumpy
+      - cryptic
+    default: cheerful
+  - key: wishes
+    type: string
+    name: Your wishes
+    desc: One wish per line - the oracle picks one at random
+    max: 128
+    isList: true
+srcOutputs: []
 ```
 
 * * *
@@ -1236,44 +1191,42 @@ Only the key is looked up here, so a typo throws rather than quietly returning `
 srcStateMachine:
   - key: start
     code: |
-      // Reading a boolean input needs no await
       const dryRun = $.ioInputBoolean("dry-run");
       const verbose = $.ioInputBoolean("verbose");
 
-      if (verbose) {
-        $.log("Verbose logging is on");
-      }
-
-      await $.navLoad("about:home/test/");
+      verbose && $.log("Verbose logging is on");
 
       if (dryRun) {
-        $.log("Dry run - capturing a preview instead of submitting", "warning");
-        await $.ioSaveScreenshot("previews", { full: true });
+        verbose && $.log("Dry run", "warning");
+
+        // Not home yet
+        if (!(await $.navGetUrl()).match(/\/home\/?$/)) {
+          verbose && $.log("Navigating home...");
+          await $.navLoad("about:home/");
+        }
 
         return;
       }
 
-      const submitKey = await $.doQuery("button", { contains: "submit" });
-      if (null !== submitKey) {
-        await $.doClick(submitKey);
-      }
+      verbose && $.log("Visiting test page...");
+      await $.navLoad("about:home/test/");
+
+      verbose && $.log("Typing some words of wisdom...");
+      await $.doType('[name="input-textfield"]', "Code is poetry");
+      await $.ioSaveScreenshot("previews");
+
+      verbose && $.log("Navigating home...");
+      await $.navLoad("about:home/");
 srcFunctions: []
 srcInputs:
   - key: dry-run
     type: boolean
     name: Dry run
-    desc: Preview the result without submitting anything
+    desc: Preview the result without typ anything
   - key: verbose
     type: boolean
     name: Verbose logging
     desc: ""
-  - key: log-prefix
-    type: string
-    name: Log prefix
-    desc: Hidden until verbose logging is switched on
-    max: 32
-    default: "[uindow]"
-    depends: verbose
 srcOutputs:
   - key: previews
     type: files
@@ -1341,50 +1294,26 @@ srcOutputs: []
 
 * * *
 
-Always an array, empty when the user supplied nothing, so checking `length` is the only guard you need.  
-What comes back are absolute paths on disk rather than file contents, which is what makes them useful across the rest of the API: hand them to `$.doChooseFiles` to attach them to a page, to `$.osFileGetSize` to check them, to `$.osFileShow` to reveal them in a folder, or to `$.osFileGetUrl` to render them as previews in a table output.  
-The declaration is where you constrain what a user may pick, rather than filtering afterwards: `extensions` limits the file types and `min` and `max` bound each file's size in megabytes. `multiple` only affects the Settings tab, deciding whether its drop box takes one file or several - the stored value is an array of paths either way, so your code never needs a separate branch for the single-file case.
+Get absolute file paths, as configured by the user or the `agent_settings_set` tool.  
+These paths can be used for `$.doChooseFiles`, `$.osFileGetSize`, `$.osFileShow` or `$.osFileGetUrl`.  
+There is no need to guard against an empty array because agents cannot not start until every input is set.
 
 **example-ioInputFiles.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
     code: |
-      // Paths of the files the user supplied - no await needed
-      const filePaths = $.ioInputFiles("uploads");
-      if (!filePaths.length) {
-        $.log("No files supplied, nothing to do", "warning");
+      const files = $.ioInputFiles("uploads");
+      const lucky = files[$.osRand(0, files.length - 1)];
 
-        return;
-      }
-
-      $.log(`${filePaths.length} file(s) supplied`);
-
-      // These are real paths on disk, so they can be measured
-      for (const filePath of filePaths) {
-        const size = await $.osFileGetSize(filePath);
-        $.log(`${filePath} - ${size ? size.string : "unreadable"}`);
-      }
-
-      return { next: "attach" };
-  - key: attach
-    code: |
-      const filePaths = $.ioInputFiles("uploads");
-
-      await $.navLoad("about:home/test/");
-
-      // The same paths can be handed straight to a file input
-      const fileInput = await $.doQuery("input[type=file]");
-      if (null !== fileInput) {
-        await $.doChooseFiles(fileInput, filePaths);
-        $.doTick("upload", filePaths.length);
-      }
+      $.log(`🎁 Picking 1 of your ${files.length} files at random...`, "success");
+      await $.osFileShow(lucky);
 srcFunctions: []
 srcInputs:
   - key: uploads
     type: files
-    name: Files to upload
-    desc: ""
+    name: Your files
+    desc: Pick a few - the module opens one of them at random
     extensions:
       - png
       - jpg
@@ -1410,66 +1339,28 @@ srcOutputs: []
 
 * * *
 
-Within a run a scalar output holds a single value and every call overwrites the last, so writing inside the loop rather than once at the end costs almost nothing and means an interrupted run still shows how far it got.  
-Across runs it behaves quite differently. The Results tab keeps each run's results separately, so an integer output contributes one value per run and is drawn as a line graph of those values - which makes it a record of how a number moves over time rather than a single figure. Pages visited, items collected and errors seen are all worth exposing this way. The optional `min` and `max` on the declaration bound the value.  
-The value is parsed with `parseInt`, so `"42"` is accepted and `4.7` becomes `4`. Round it yourself first when the difference matters.  
-The two failure modes are separate: an `ioKey` that isn't a declared integer output throws, while a value that can't be parsed returns `false`. Only the second is worth checking at runtime.
+Within a run each call replaces the last. Across runs the Results tab keeps one value per run and draws them as a line graph - leave this on a schedule and you get a chart of a page quietly changing shape.  
+Values go through `parseInt`, so `4.7` lands as `4`.
 
 **example-ioOutputInt.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
     code: |
-      let visited = 0;
-      let failed = 0;
+      await $.navLoad("about:home/test/");
 
-      for (const url of $.ioInputString("urls")) {
-        try {
-          await $.navLoad(url, { timeout: 20 });
-          visited++;
-        } catch (error) {
-          failed++;
-        }
+      const sections = await $.doQueryAll("h2");
+      await $.ioOutputInt("sections", sections.length);
 
-        // Each call replaces the previous value, so writing on every
-        // pass means a run that stops early still reports its progress
-        await $.ioOutputInt("visited", visited);
-        await $.ioOutputInt("failed", failed);
-      }
+      $.log(`📈 ${sections.length} sections on the test page`, "success");
 
-      $.log(`Visited ${visited}, failed ${failed}`, failed ? "warning" : "success");
-
-      return { next: "rejects" };
-  - key: rejects
-    code: |
-      // Values go through parseInt, so a numeric string is fine
-      await $.ioOutputInt("visited", "42");
-
-      // ...but a fraction is truncated rather than rounded
-      await $.ioOutputInt("visited", 4.7);
-
-      // Anything that isn't a number at all returns false
-      if (!(await $.ioOutputInt("visited", "not a number"))) {
-        $.log("Rejected a non-numeric value", "warning");
-      }
+      await $.navLoad("about:home/");
 srcFunctions: []
-srcInputs:
-  - key: urls
-    type: string
-    name: URLs
-    desc: One URL per line
-    max: 1024
-    isList: true
-    options: []
+srcInputs: []
 srcOutputs:
-  - key: visited
+  - key: sections
     type: int
-    name: Pages visited
-    desc: ""
-    min: 0
-  - key: failed
-    type: int
-    name: Pages failed
+    name: Sections found
     desc: ""
     min: 0
 ```
@@ -1491,10 +1382,8 @@ srcOutputs:
 
 * * *
 
-The `max` length you declare on the output is the thing to design around. Text longer than that is cut rather than refused, so a module that writes scraped copy straight into a string output can lose the end of it with nothing to show that anything went wrong. Measure against your own declaration first, as above, and send anything longer to `$.ioSaveText`.  
-That makes `min` and `max` worth setting deliberately rather than leaving open, particularly when a value has a known shape - a postcode, a status word, a short verdict. The declaration is both the promise and the limit.  
-The type check is strict - a number returns `false` and writes nothing, so convert explicitly. An invalid `ioKey` throws instead, since that's a mistake in the module rather than in the data.  
-Each call replaces the last, which makes these outputs a good fit for the handful of headline facts a run produces. Anything that accumulates row by row wants `$.ioOutputRow`.
+The `max` you declare is the real ceiling - longer text is cut rather than refused, so an LLM that ignores your character limit loses its ending quietly. Use `$.ioSaveText` for anything long.  
+Only strings are accepted, and each run keeps its own value, so the Results tab builds a back catalogue of headlines rather than overwriting one.
 
 **example-ioOutputString.js.yaml**
 ```yaml
@@ -1503,65 +1392,25 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      // Short, single values belong in a string output
-      await $.ioOutputString("title", await $.navGetTitle());
-      await $.ioOutputString("url", await $.navGetUrl());
+      const title = await $.navGetTitle();
 
-      return { next: "long-text" };
-  - key: long-text
-    code: |
-      const article = await $.doGetContent("[data-role=article]");
-      if ("string" !== typeof article) {
-        return;
-      }
+      await $.ioOutputString("headline", title);
+      await $.ioOutputString("verdict", await $.llm(`Review "${title}" in under 40 characters. Be dramatic.`));
 
-      // The value is cut to the max declared for this output, so
-      // measure against your own declaration before writing
-      const SUMMARY_MAX = 512;
-
-      if (article.length > SUMMARY_MAX) {
-        $.log(`Article is ${article.length} characters - saving to disk`);
-        await $.ioSaveText("articles", article, { extension: "txt" });
-
-        return;
-      }
-
-      await $.ioOutputString("summary", article);
-
-      return { next: "strict-types" };
-  - key: strict-types
-    code: |
-      // Only strings are accepted - numbers have to be converted first
-      if (!(await $.ioOutputString("summary", 42))) {
-        $.log("A non-string was rejected", "warning");
-      }
-
-      await $.ioOutputString("summary", `${42}`);
+      $.log("📰 Today's edition is in the Results tab", "success");
 srcFunctions: []
 srcInputs: []
 srcOutputs:
-  - key: title
+  - key: headline
     type: string
-    name: Page title
+    name: Headline
     desc: ""
-    max: 1024
-  - key: url
+    max: 120
+  - key: verdict
     type: string
-    name: Page URL
+    name: Dramatic verdict
     desc: ""
-    max: 1024
-  - key: summary
-    type: string
-    name: Summary
-    desc: ""
-    max: 512
-  - key: articles
-    type: files
-    name: Articles
-    desc: ""
-    max: 64
-    extensions:
-      - txt
+    max: 40
 ```
 
 * * *
@@ -2113,9 +1962,9 @@ srcOutputs:
 
 #### async $.navLoad( url, options = {} )
 
-> Navigation: Open URL and wait for the page to load (DOM ready).<br/>
+> Navigation: Open URL and wait for DOM ready.<br/>
 > 
-> Keywords: navigate to page, navigate to url, load page, visit page, load url, visit url.<br/>
+> Keywords: navigate to page, navigate to url, load page, load url, visit page, visit url.<br/>
 > 
 > <i>@param</i> {string} <b>url</b> URL; only <i>http</i> and <i>https</i> protocols are allowed<br/>
 > <i>@param</i> {Object} <b>options</b> (optional) Navigation options<br/>
@@ -2165,7 +2014,9 @@ srcOutputs: []
 
 #### async $.navReload( options = {} )
 
-> Navigation: Reload the current page.<br/>
+> Navigation: Reload the current page and wait for DOM ready.<br/>
+> 
+> Keywords: reload to page, refresh, history.<br/>
 > 
 > <i>@param</i> {Object} <b>options</b> (optional) Reload options<br/>
 > <i>@param</i> {boolean} <b>options.skipCache</b> (optional) Reload skipping the cache; default <i>false</i><br/>
@@ -2220,7 +2071,9 @@ srcOutputs: []
 
 #### async $.navGoBack( options = {} )
 
-> Navigation: Go backwards.<br/>
+> Navigation: Go backwards and wait for DOM ready.<br/>
+> 
+> Keywords: go back, history.<br/>
 > 
 > <i>@param</i> {Object} <b>options</b> (optional) Navigation options<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Navigation timeout in seconds; default <i>60</i><br/>
@@ -2230,29 +2083,23 @@ srcOutputs: []
 
 * * *
 
-This walks the session history the same way the browser's back button does, which makes it the natural way to return to a listing after visiting one of its results - cheaper than reloading the listing by URL, and it keeps whatever scroll position and state the page had.  
-The return value is what tells you the step actually happened, so it's worth checking rather than assuming: a navigation that fails outright throws, but a call with nowhere left to go reports `false`.  
-A page holding unsaved input may raise a `beforeunload` dialog on the way out. Give the call a shorter `timeout` when that's a possibility, so a blocked navigation surfaces quickly instead of stalling the run for a minute.
+Walking the history keeps whatever scroll position and state a page had, which beats reloading a listing by URL after visiting one of its results.  
+The return value is what ends the loop above. A page holding unsaved input may raise a `beforeunload` dialog on the way out, so keep the timeout short when that is likely.
 
 **example-navGoBack.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
     code: |
-      // Build up some session history
       await $.navLoad("about:home/");
       await $.navLoad("about:home/test/");
 
-      // Step back one entry
-      await $.navGoBack();
-      $.log(`Back on ${await $.navGetUrl()}`, "success");
-
-      // Keep stepping back until there's nowhere left to go
+      let steps = 0;
       while (await $.navGoBack({ timeout: 10 })) {
-        $.log(`Now on ${await $.navGetUrl()}`);
+        steps++;
       }
 
-      $.log("Reached the start of the history", "warning");
+      $.log(`🥖 ${steps} breadcrumbs later, back at ${await $.navGetUrl()}`, "success");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -2262,7 +2109,9 @@ srcOutputs: []
 
 #### async $.navGoForth( options = {} )
 
-> Navigation: Go forwards.<br/>
+> Navigation: Go forwards and wait for DOM ready.<br/>
+> 
+> Keywords: go forward, history.<br/>
 > 
 > <i>@param</i> {Object} <b>options</b> (optional) Navigation options<br/>
 > <i>@param</i> {int} <b>options.timeout</b> (optional) Navigation timeout in seconds; default <i>60</i><br/>
@@ -2311,6 +2160,8 @@ srcOutputs: []
 
 > Navigation: Get the URL of the web page.<br/>
 > 
+> Keywords: page url, document url, location, href.<br/>
+> 
 > <i>@return</i> {string}<br/>
 
 * * *
@@ -2353,6 +2204,8 @@ srcOutputs: []
 #### async $.navGetTitle()
 
 > Navigation: Get the title of the web page.<br/>
+> 
+> Keywords: page title, document title.<br/>
 > 
 > <i>@return</i> {string}<br/>
 
@@ -2576,9 +2429,8 @@ srcOutputs: []
 
 * * *
 
-A match returns a 24 character element key, which every `$.do*` method accepts in place of a selector. Reusing the key saves the page a second lookup, and it stays pointed at the same element even if later changes would make the original selector ambiguous.  
-Nothing found is `null`, not an error, so check the result whenever the element may legitimately be absent - passing `null` on to a method like `$.doClick` is what will actually throw.  
-`contains` matches case insensitively against the element's text, which is often steadier than a structural selector on markup you don't control. `parent` scopes the search to a subtree, and `scrollable` and `viewportDown` filter by scrollbars and position respectively.
+Matching on the text an element shows survives redesigns that break a structural selector. `parent` narrows the hunt to one subtree, `viewportDown` skips what you have scrolled past.  
+Nothing found is `null` rather than an error - it is handing that `null` to `$.doClick` that throws.
 
 **example-doQuery.js.yaml**
 ```yaml
@@ -2587,32 +2439,10 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      // A plain CSS selector returns the first match
-      const headingKey = await $.doQuery("h1");
-      $.log(await $.doGetContent(headingKey));
+      const treasure = await $.doQuery(".MuiButton-root", { contains: "foo" });
 
-      // Narrow it down by the text the element contains
-      const fooButton = await $.doQuery(".MuiButton-root", { contains: "foo" });
-      if (null === fooButton) {
-        throw new Error("No 'foo' button on this page");
-      }
-      await $.doClick(fooButton);
-
-      return { next: "scoped" };
-  - key: scoped
-    code: |
-      // Restrict the search to one subtree instead of the whole document
-      const switchKey = await $.doQuery("input[name='s1'][value='1']");
-      const groupKey = await $.doQueryParent(switchKey, { selector: "div", contains: "Switches" });
-
-      const firstCheckbox = await $.doQuery("input[type='checkbox']", { parent: groupKey });
-      $.log(await $.doGetAttribute(firstCheckbox, "value"));
-
-      // Skip anything already scrolled past
-      const nextSection = await $.doQuery("h2", { viewportDown: true });
-      if (null !== nextSection) {
-        await $.doScrollTo(nextSection);
-      }
+      await $.doHighlight(treasure);
+      $.log(`🎯 Found a <${await $.doGetTag(treasure)}> saying "${await $.doGetContent(treasure)}"`, "success");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -3285,9 +3115,8 @@ srcOutputs: []
 
 * * *
 
-Tag names are returned lowercase, so they compare cleanly against string literals without normalising them first.  
-The two places this earns its keep are checking coordinate lookups - `$.doQueryAt` returns whatever sits at a point, which may be a wrapper or an overlay rather than the control you meant - and writing form fillers that work across sites, where the same logical field is an `<input>` on one page and a `<select>` on the next.  
-The tag alone doesn't tell you the kind of input, since `<input>` covers text, checkbox, radio and file. Read the `type` attribute with `$.doGetAttribute` when that matters.
+Tag names come back lowercase, so they compare cleanly against string literals.  
+Most useful for checking what a coordinate lookup actually found - `$.doQueryAt` returns whatever sits at a point, which may be a wrapper or an overlay. The tag alone will not tell you the kind of input, since `<input>` covers text, checkbox, radio and file; read the `type` attribute for that.
 
 **example-doGetTag.js.yaml**
 ```yaml
@@ -3296,38 +3125,10 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      // Coordinate lookups return whatever happens to be on top,
-      // so it's worth confirming what you actually got
       await $.doHoverAt(50, 20);
-      const elementKey = await $.doQueryAt(50, 20);
-      if (null !== elementKey) {
-        $.log(`Under the pointer: <${await $.doGetTag(elementKey)}>`);
-      }
+      const spot = await $.doQueryAt(50, 20);
 
-      return { next: "fill-field" };
-  - key: fill-field
-    code: |
-      // Filling a form generically means each field needs the right method
-      const fieldKey = await $.doQuery("[name=input-text]");
-      if (null === fieldKey) {
-        return;
-      }
-
-      // Tag names come back lowercase
-      switch (await $.doGetTag(fieldKey)) {
-        case "select":
-          await $.doSelect(fieldKey, "8");
-          break;
-
-        case "input":
-        case "textarea":
-          await $.doType(fieldKey, "uindow", { replace: true });
-          break;
-
-        default:
-          $.log("Not an editable field", "warning");
-          break;
-      }
+      $.log(`Under the pointer: <${await $.doGetTag(spot)}>`);
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -3349,9 +3150,8 @@ srcOutputs: []
 
 * * *
 
-The shape of the result follows the control: a string for text inputs, textareas, radio groups and ordinary dropdowns, an array for checkbox groups and `<select multiple>`. Worth knowing before calling `.join` on something that turned out to be a string.  
-This reads the live value, which is what separates it from the `value` attribute: after typing or selecting, the attribute still reports whatever the markup shipped with. Reaching for `$.doGetAttribute(key, "value")` here is a common way to get a stale answer.  
-Checking the value after writing it is cheap and catches a whole class of silent failures - input masks that reformat, fields with a maximum length, validators that clear what they don't like.
+A string for text fields, radios and ordinary dropdowns; an array for checkbox groups and `<select multiple>`.  
+This reads the live value, unlike the `value` attribute, which still reports whatever the markup shipped with. Reading it back after typing catches input masks and validators that rewrite what you sent.
 
 **example-doGetValue.js.yaml**
 ```yaml
@@ -3360,36 +3160,13 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      // Text inputs and textareas give back a string
-      const inputKey = await $.doQuery("[name=input-text]");
-      await $.doType(inputKey, "foobar", { replace: true });
-      $.log(`Input holds: ${await $.doGetValue(inputKey)}`);
+      const field = await $.doQuery("[name=input-text]");
+      await $.doType(field, "uindow", { replace: true });
+      $.log(await $.doGetValue(field));
 
-      // A radio group gives back the single selected value
-      const radioKey = await $.doQuery("input[type=radio][name=r1]");
-      await $.doCheck(radioKey, "2");
-      $.log(`Radio: ${await $.doGetValue(radioKey)}`);
-
-      // Checkbox groups and <select multiple/> give back an array
-      const checkboxKey = await $.doQuery("input[type=checkbox][name=c1]");
-      await $.doCheck(checkboxKey, ["2", "4"]);
-      const checked = await $.doGetValue(checkboxKey);
-      $.log(`Checked: ${checked.join(", ")}`);
-
-      return { next: "verify" };
-  - key: verify
-    code: |
-      // Reading the value back is how you find out whether the field
-      // accepted what you typed - masks and validators often rewrite it
-      const inputKey = await $.doQuery("[name=input-text]");
-      await $.doType(inputKey, "uindow", { replace: true });
-
-      const actual = await $.doGetValue(inputKey);
-      if ("uindow" !== actual) {
-        throw new Error(`The field holds "${actual}" instead`);
-      }
-
-      $.doTick("success");
+      const boxes = await $.doQuery("input[type=checkbox][name=c1]");
+      await $.doCheck(boxes, ["2", "4"]);
+      $.log(await $.doGetValue(boxes));
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -3482,9 +3259,8 @@ srcOutputs: []
 
 * * *
 
-Attributes carry the state a page doesn't show as text: where a link goes, whether a control is disabled, the identifiers a site hangs off `data-` attributes. Names must be lowercase.  
-Be careful with `value`. On an input it's the value the markup shipped with, not what the field holds now - after typing or selecting, `$.doGetValue` is what tells you the truth.  
-A `null` result is ambiguous: the attribute is missing, or the element is. When the difference matters, confirm the element separately with `$.doQuery` first. Reading several attributes off the same element is one call to `$.doGetAttributes` rather than several here.
+Names must be lowercase. Boolean attributes are present-or-absent, so a present one reads as an empty string - compare against `null` rather than testing truthiness.  
+A `null` result is ambiguous: the attribute is missing, or the element is. Reading several attributes off one element is a single call to `$.doGetAttributes` rather than several here.
 
 **example-doGetAttribute.js.yaml**
 ```yaml
@@ -3493,33 +3269,11 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      const linkKey = await $.doQuery("a[href]");
-      if (null === linkKey) {
-        return;
-      }
+      const radio = await $.doQuery("input[type=radio][name=r1]");
+      $.log(await $.doGetAttribute(radio, "value"));
 
-      // Attribute names are lowercase
-      const href = await $.doGetAttribute(linkKey, "href");
-      $.log(`Link points at ${href}`);
-
-      // Data attributes are read the same way
-      $.log(await $.doGetAttribute(linkKey, "data-role"));
-
-      return { next: "read-state" };
-  - key: read-state
-    code: |
-      // Boolean attributes are present-or-absent, so an empty string still
-      // means "present" - compare against null rather than testing truthiness
-      const buttonKey = await $.doQuery("button");
-      const disabled = await $.doGetAttribute(buttonKey, "disabled");
-
-      if (null !== disabled) {
-        $.log("The button is disabled, skipping", "warning");
-
-        return;
-      }
-
-      await $.doClick(buttonKey);
+      const disabled = await $.doGetAttribute(await $.doQuery("button"), "disabled");
+      $.log(null === disabled ? "Button is enabled" : "Button is disabled");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -3598,9 +3352,8 @@ srcOutputs:
 
 * * *
 
-The default reads the element as rendered text, which is usually what you want when scraping: whitespace is collapsed the way the browser shows it and markup doesn't get in the way.  
-Pass `true` for the underlying HTML when the structure carries meaning you'd otherwise lose - links inside a paragraph, a table you intend to parse, or a block you're archiving to disk.  
-It's also the simplest way to check that an action worked: click something, then read the element the page updates in response. A `null` result means the element wasn't found rather than that it was empty; an element with no content returns an empty string.
+The default reads rendered text, with whitespace collapsed the way a person sees it. Pass `true` for the underlying HTML when the structure carries meaning you would lose - links inside a paragraph, a table you mean to parse.  
+`null` means the element was not found; an element with no content returns an empty string.
 
 **example-doGetContent.js.yaml**
 ```yaml
@@ -3609,40 +3362,13 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      // The text a person would read
-      const title = await $.doGetContent(await $.doQuery("h1"));
-      $.log(`Page heading: ${title}`);
+      const heading = await $.doQuery("h1");
 
-      // Confirm the page reacted to an action
-      await $.doClick(await $.doQuery("button", { contains: "alpha" }));
-      $.log(await $.doGetContent(await $.doQuery(".clicked-button")), "success");
-
-      return { next: "markup" };
-  - key: markup
-    code: |
-      // Pass true when you need the markup rather than the text,
-      // for instance to keep the links inside a block of copy
-      const bodyKey = await $.doQuery("[data-role=article]");
-      if (null === bodyKey) {
-        return;
-      }
-
-      const html = await $.doGetContent(bodyKey, true);
-      await $.ioSaveText("articles", html, { extension: "html" });
-
-      const text = await $.doGetContent(bodyKey);
-      $.log(`Saved ${html.length} characters of markup, ${text.length} of text`);
+      $.log(await $.doGetContent(heading));
+      $.log(await $.doGetContent(heading, true));
 srcFunctions: []
 srcInputs: []
-srcOutputs:
-  - key: articles
-    type: files
-    name: Articles
-    desc: ""
-    max: 512
-    extensions:
-      - html
-      - txt
+srcOutputs: []
 ```
 
 * * *
@@ -3717,9 +3443,8 @@ srcOutputs: []
 
 * * *
 
-A one-shot check of whether the element is shown, covering `display`, `visibility` and `opacity`. Use `$.doAwaitVisible` when you want to wait for that to become true rather than test it now.  
-The filtering case above is the one that bites hardest. Search and filter interfaces frequently hide non-matching rows instead of removing them, so `$.doQueryAll` happily returns entries no user can see, and they end up in your output looking perfectly legitimate.  
-Hidden is a different question from off screen. An element far below the fold is still visible by this measure - `$.doGetInViewport` is what answers the scroll-position question.
+A one-shot check covering `display`, `visibility` and `opacity`. Use `$.doAwaitVisible` to wait for it to become true rather than test it now.  
+Worth running over scraped rows: filter interfaces often hide non-matching entries instead of removing them, so `$.doQueryAll` happily returns rows no user can see.
 
 **example-doGetVisible.js.yaml**
 ```yaml
@@ -3728,37 +3453,11 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      const elKey = await $.doQuery("#alert-visible");
-      if (null === elKey) {
-        return;
-      }
+      const ghost = await $.doQuery("#alert-visible");
+      $.log(`Before: ${await $.doGetVisible(ghost)}`);
 
-      // In the DOM is not the same as on display
-      if (!(await $.doGetVisible(elKey))) {
-        $.log("Present but hidden - revealing it");
-
-        await $.doClick(await $.doQuery('[data-role="toggle-visible"]'));
-        await $.doAwaitVisible(elKey, { timeout: 5 });
-      }
-
-      await $.doHighlight(elKey);
-
-      return { next: "skip-hidden" };
-  - key: skip-hidden
-    code: |
-      // Lists often keep filtered-out entries in the DOM rather than
-      // removing them, which quietly pollutes a scrape
-      let scraped = 0;
-      for (const rowKey of await $.doQueryAll("[data-role=row]")) {
-        if (!(await $.doGetVisible(rowKey))) {
-          continue;
-        }
-
-        $.log(await $.doGetContent(rowKey));
-        scraped++;
-      }
-
-      $.log(`Scraped ${scraped} visible rows`, "success");
+      await $.doClick(await $.doQuery('[data-role="toggle-visible"]'));
+      $.log(`After: ${await $.doGetVisible(ghost)}`);
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -3834,9 +3533,8 @@ srcOutputs: []
 
 * * *
 
-This answers a question about scroll position, not about CSS: any overlap with the viewport counts, so an element one pixel inside the bottom edge reports `true`.  
-Keep it apart from `$.doGetVisible`, which asks whether an element is hidden by `display`, `visibility` or `opacity`. An element can easily be visible but off screen, or on screen but hidden - the two checks answer different questions and you sometimes want both.  
-The scroll-until-visible loop above is the reliable way to drive infinite scrolling, since the page only fetches the next batch once the previous one has been seen. Always bound the loop, or a list that never ends will keep the agent busy forever.
+A question about scroll position, not CSS: any overlap with the viewport counts, so one pixel inside the bottom edge reports `true`.  
+Keep it apart from `$.doGetVisible`, which asks whether an element is hidden. An element can be visible but off screen, or on screen but hidden.
 
 **example-doGetInViewport.js.yaml**
 ```yaml
@@ -3845,38 +3543,13 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      // Nothing has scrolled yet, so the title is on screen
-      $.log(`Title on screen: ${await $.doGetInViewport("h1")}`);
+      const heading = await $.doQuery("h1");
+      $.log(`On screen: ${await $.doGetInViewport(heading)}`);
 
-      await $.doScrollTo(await $.doQuery("h2", { contains: "buttons" }));
+      await $.doHoverCenter();
+      await $.doScroll(1000);
 
-      if (!(await $.doGetInViewport("h1"))) {
-        $.log("Scrolled past the title", "success");
-      }
-
-      return { next: "scroll-until-visible" };
-  - key: scroll-until-visible
-    code: |
-      // Pages that load as you scroll won't respond to jumping straight
-      // to the bottom, so walk down until the target comes into view
-      const targetKey = await $.doQuery("footer");
-      if (null === targetKey) {
-        return;
-      }
-
-      let attempts = 0;
-      while (!(await $.doGetInViewport(targetKey)) && attempts++ < 20) {
-        await $.doScroll(500);
-        await $.sleep(250);
-      }
-
-      if (attempts >= 20) {
-        $.log("Never reached the footer", "warning");
-
-        return;
-      }
-
-      $.log(`Reached the footer after ${attempts} scrolls`, "success");
+      $.log(`After scrolling: ${await $.doGetInViewport(heading)}`);
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -4244,9 +3917,8 @@ srcOutputs:
 
 * * *
 
-Small mouse movements around the current position, sent as real pointer events. Place the pointer where you want the movement to happen first - `$.doHoverAt`, `$.doHover` or `$.doHoverCenter` - since jiggling starts from wherever it currently is.  
-Pages that hold content back until they've seen the mouse move are the reason this exists. It's also a gentler way to fill a long wait than sleeping, since a session that sees no activity at all sometimes behaves differently from one that does.  
-The radius is clamped to between 10 and 500 pixels, so out-of-range values are capped rather than rejected. Keep it small when the pointer is over something clickable - a wide jiggle can wander onto a neighbouring control and trigger its hover state.
+Real pointer movement around wherever the cursor already sits, which is why it follows a hover. Pages that hold content back until they have seen a mouse move are what this is for.  
+The radius is clamped to between 10 and 500 pixels.
 
 **example-doJiggle.js.yaml**
 ```yaml
@@ -4255,37 +3927,14 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      // Jiggling happens around wherever the pointer already is,
-      // so place it somewhere meaningful first
-      const viewport = await $.doGetViewport();
-      await $.doHoverAt(viewport.width / 2, viewport.height / 2);
+      const { width, height } = await $.doGetViewport();
+      await $.doHoverAt(width / 2, height / 2);
 
-      await $.doJiggle();
+      await $.doJiggle(20);
+      await $.sleep(500);
+      await $.doJiggle(300);
 
-      // A wider sweep
-      await $.doJiggle(200);
-
-      // The radius is clamped, so an absurd value is simply capped
-      await $.doJiggle(5000);
-
-      return { next: "wait-it-out" };
-  - key: wait-it-out
-    code: |
-      // Keep a little movement going while waiting for slow work,
-      // rather than sitting perfectly still for minutes on end
-      await $.doHoverCenter();
-
-      for (let i = 0; i < 10; i++) {
-        if (await $.doAwaitPresent(".report-ready", { timeout: 30 })) {
-          $.log("The report is ready", "success");
-
-          return;
-        }
-
-        await $.doJiggle(30);
-      }
-
-      $.log("Gave up waiting for the report", "warning");
+      $.log("🪄 Somebody gave the cursor coffee", "success");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -4675,9 +4324,8 @@ srcOutputs: []
 
 * * *
 
-This attaches files to the input directly, without ever opening the operating system's file picker, so the run isn't blocked waiting on a native dialog.  
-Paths have to come from somewhere Uindow already knows about: a files input read with `$.ioInputFiles`, or a file the module wrote itself with one of the `$.ioSave*` methods. A single path can be passed on its own or inside an array.  
-Calling it with an empty array is a no-op that returns `false`. A missing file input, or a selection the page rejects, throws instead.
+Files go straight onto the input without the operating system's picker ever appearing, so nothing blocks waiting on a native dialog.  
+Paths have to come from somewhere Uindow knows about - a files input, or something the module wrote itself with one of the `$.ioSave*` methods. A single path can be passed on its own or in an array.
 
 **example-doChooseFiles.js.yaml**
 ```yaml
@@ -4686,54 +4334,22 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      // Paths supplied by the user through the files input
-      const filePaths = $.ioInputFiles("uploads");
-      if (!filePaths.length) {
-        $.log("No files supplied, nothing to attach", "warning");
+      await $.doChooseFiles("input[type=file]", $.ioInputFiles("uploads"));
 
-        return;
-      }
-
-      const fileInput = await $.doQuery("input[type=file]");
-      await $.doChooseFiles(fileInput, filePaths);
-
-      // Read back what the input is holding
-      const chosen = await $.doGetValue(fileInput);
-      $.log(`Attached ${chosen.length} of ${filePaths.length} file(s)`, "success");
-
-      return { next: "attach-generated" };
-  - key: attach-generated
-    code: |
-      // Files the module produced itself work exactly the same way
-      const reportPath = await $.ioSaveText("reports", JSON.stringify({ ok: true }, null, 2), {
-        extension: "json"
-      });
-
-      if (null === reportPath) {
-        throw new Error("Could not write the report");
-      }
-
-      // A single path may be passed without wrapping it in an array
-      await $.doChooseFiles("input[type=file]", reportPath);
+      $.log("📎 Attached - and no file picker ever opened", "success");
 srcFunctions: []
 srcInputs:
   - key: uploads
     type: files
     name: Files to attach
-    desc: Files picked by the user
+    desc: ""
     extensions:
       - png
       - jpg
       - jpeg
       - pdf
-srcOutputs:
-  - key: reports
-    type: files
-    name: Reports
-    desc: ""
-    max: 64
-    extensions:
-      - json
+    multiple: true
+srcOutputs: []
 ```
 
 * * *
@@ -4748,46 +4364,20 @@ srcOutputs:
 
 * * *
 
-`$.navLoad` already waits for DOM ready, so this is for the navigations you didn't start yourself: a clicked link, a submitted form, a redirect fired by the page's own scripts.  
-DOM ready means the document has been parsed, not that everything is rendered. Single page apps in particular may never fire it again after the first load, since they swap content without a new document. When you're waiting for specific content rather than a whole page, `$.doAwaitPresent` and `$.doAwaitVisible` are the better tools.  
-A timeout returns `false` instead of throwing, which makes it safe to use as a condition.
+`$.navLoad` and `$.navReload` already wait for DOM ready, so this is for the navigations you did not start yourself - a clicked link, a submitted form, a redirect fired by the page, or a step through history.  
+DOM ready means parsed, not painted, and a single page app may never fire it again after the first load. For specific content, `$.doAwaitPresent` is the better tool. A timeout returns `false`.
 
 **example-doAwaitDomReady.js.yaml**
 ```yaml
 srcStateMachine:
   - key: start
     code: |
-      await $.navLoad("about:home/");
+      await $.navLoad("about:home/test/");
 
-      // Clicking a link starts a navigation, but the call returns as soon as the
-      // click lands - not when the next document is ready
-      const linkKey = await $.doQuery("a", { contains: "test" });
-      if (null === linkKey) {
-        throw new Error("Could not find the link");
-      }
-      await $.doClick(linkKey);
+      await $.navGoBack();
 
-      if (!(await $.doAwaitDomReady({ timeout: 30 }))) {
-        $.log("The next page never became ready", "warning");
-
-        return;
-      }
-
-      $.log(`Now on ${await $.navGetUrl()}`, "success");
-
-      return { next: "submit-form" };
-  - key: submit-form
-    code: |
-      // Submitting a form is the same story
-      await $.doType("[name=input-text]", "uindow", { replace: true, submit: true });
-      await $.doAwaitDomReady({ timeout: 30 });
-
-      // DOM ready is not the same as "the content I want is on screen".
-      // For anything rendered afterwards, wait for the element itself.
-      const resultsKey = await $.doAwaitPresent(".results", { timeout: 15 });
-      if (!resultsKey) {
-        $.log("Results never appeared", "warning");
-      }
+      const ready = await $.doAwaitDomReady({ timeout: 15 });
+      $.log(ready ? "🏠 Home again, DOM and all" : "⏳ Still loading", ready ? "success" : "warning");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -4810,9 +4400,8 @@ srcOutputs: []
 
 * * *
 
-This is the tool for content that arrives after the page has loaded - results fetched over the network, rows rendered by a script, a dialog opened by an earlier click. Use it instead of sleeping for a fixed interval, which either wastes time or breaks on a slow day.  
-A timeout returns `false` rather than throwing, so `if (!key)` covers it. That's worth noting alongside `$.doQuery`, which reports nothing found as `null`. With `{ all: true }` the result is an array of keys, so check with `Array.isArray` before reading `length`.  
-Present means in the DOM, which is not the same as on screen. Plenty of pages render a panel hidden and reveal it later - follow up with `$.doAwaitVisible` when you need it actually shown.
+Defer the thing that triggers the change, then wait for the change itself - far steadier than sleeping and hoping. A timeout returns `false`, so a plain truthiness check covers it.  
+Present means in the DOM, not on screen. Follow with `$.doAwaitVisible` when that difference matters.
 
 **example-doAwaitPresent.js.yaml**
 ```yaml
@@ -4821,32 +4410,11 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      // Trigger something, then wait for what it produces
-      const btnToggle = await $.doQuery('[data-role="toggle-present"]');
-      $.setTimeout(async () => await $.doClick(btnToggle), 1000);
+      const doorbell = await $.doQuery('[data-role="toggle-present"]');
+      $.setTimeout(async () => await $.doClick(doorbell), 1000);
 
-      const alertKey = await $.doAwaitPresent("#alert-present", { timeout: 10 });
-      if (!alertKey) {
-        $.log("The alert never appeared", "warning");
-
-        return;
-      }
-
-      await $.doHighlight(alertKey);
-      $.log(await $.doGetContent(alertKey), "success");
-
-      return { next: "wait-for-many" };
-  - key: wait-for-many
-    code: |
-      // Every match rather than the first, for lists that fill in gradually
-      const rowKeys = await $.doAwaitPresent("[data-role=row]", { timeout: 15, all: true });
-      if (!Array.isArray(rowKeys)) {
-        $.log("No rows arrived in time", "warning");
-
-        return;
-      }
-
-      $.log(`${rowKeys.length} rows arrived`, "success");
+      const guest = await $.doAwaitPresent("#alert-present", { timeout: 10 });
+      $.log(guest ? "👋 There you are!" : "🚪 Nobody came", guest ? "success" : "warning");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -4865,9 +4433,8 @@ srcOutputs: []
 
 * * *
 
-The mirror of `$.doAwaitPresent`, and the honest way to confirm a destructive action worked: click delete, then wait for the thing to actually leave the DOM instead of assuming it did.  
-Passing an element key rather than a selector makes the check specific. A selector would be satisfied the moment no element matches, which on a list of similar rows tells you far less than watching one particular row disappear.  
-Removal is not the same as hiding. Pages that merely add a class or set `display: none` keep the element in the DOM, and this call will sit there until it times out - `$.doAwaitNotVisible` is what those need.
+Passing the element key rather than a selector makes the check specific: a selector is satisfied the moment nothing matches, which on a list of similar rows tells you far less than watching one row disappear.  
+Removal is not hiding - an element merely given `display: none` stays in the DOM and this will time out.
 
 **example-doAwaitNotPresent.js.yaml**
 ```yaml
@@ -4876,37 +4443,14 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      // Wait for a spinner to be torn out of the DOM
-      if (!(await $.doAwaitNotPresent(".loading-spinner", { timeout: 30 }))) {
-        $.log("Still loading after 30 seconds", "warning");
+      const toggle = await $.doQuery('[data-role="toggle-present"]');
+      await $.doClick(toggle);
 
-        return;
-      }
+      const alert = await $.doAwaitPresent("#alert-present", { timeout: 5 });
+      $.setTimeout(async () => await $.doClick(toggle), 1000);
 
-      $.log("Content is ready", "success");
-
-      return { next: "confirm-removal" };
-  - key: confirm-removal
-    code: |
-      // An element key works here as well as a selector, which is what you want
-      // when confirming that one specific row went away rather than any match
-      const rowKey = await $.doQuery("[data-role=row]");
-      if (null === rowKey) {
-        return;
-      }
-
-      const deleteKey = await $.doQuery("button", { parent: rowKey, contains: "delete" });
-      if (null === deleteKey) {
-        return;
-      }
-
-      await $.doClick(deleteKey);
-
-      if (await $.doAwaitNotPresent(rowKey, { timeout: 10 })) {
-        $.log("Row removed", "success");
-      } else {
-        $.log("The row is still there - the delete may have failed", "error");
-      }
+      const gone = await $.doAwaitNotPresent(alert, { timeout: 5 });
+      $.log(gone ? "💨 Poof - out of the DOM entirely" : "🪨 Still hanging around", gone ? "success" : "warning");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -4925,9 +4469,8 @@ srcOutputs: []
 
 * * *
 
-Visibility here means the element is actually shown - not hidden through `display`, `visibility` or `opacity`. Animated panels and modals are the common case: they're in the DOM well before they finish appearing, and clicking one mid-transition often misses.  
-The element has to exist for this to be meaningful, so for content that hasn't rendered yet the pattern is two calls - `$.doAwaitPresent` to get a key, then this to wait for it to be shown.  
-Shown is still not the same as scrolled into view. Use `$.doGetInViewport` for that question, or just let the action's own automatic scrolling handle it.
+Visible means genuinely shown - not hidden by `display`, `visibility` or `opacity`. Modals are in the DOM long before they finish appearing, and a click mid-transition often misses.  
+The element must already exist, so for content not yet rendered use `$.doAwaitPresent` first.
 
 **example-doAwaitVisible.js.yaml**
 ```yaml
@@ -4936,35 +4479,11 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      const elKey = await $.doQuery("#alert-visible");
-      const btnToggle = await $.doQuery('[data-role="toggle-visible"]');
+      const ghost = await $.doQuery("#alert-visible");
+      $.setTimeout(async () => await $.doClick(await $.doQuery('[data-role="toggle-visible"]')), 1000);
 
-      // Reveal it in a moment, then wait for that to happen
-      $.setTimeout(async () => await $.doClick(btnToggle), 1000);
-
-      if (!(await $.doAwaitVisible(elKey, { timeout: 5 }))) {
-        $.log("It never became visible", "warning");
-
-        return;
-      }
-
-      await $.doHighlight(elKey);
-
-      return { next: "modal" };
-  - key: modal
-    code: |
-      // For something not in the DOM yet, wait for it to exist first,
-      // then wait for it to be shown
-      const modalKey = await $.doAwaitPresent(".modal", { timeout: 10 });
-      if (!modalKey) {
-        $.log("The dialog never opened", "warning");
-
-        return;
-      }
-
-      if (await $.doAwaitVisible(modalKey, { timeout: 5 })) {
-        await $.doClick(await $.doQuery("button", { parent: modalKey, contains: "confirm" }));
-      }
+      const seen = await $.doAwaitVisible(ghost, { timeout: 5 });
+      $.log(seen ? "👻 It materialised" : "🕳️ Nothing appeared", seen ? "success" : "warning");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
@@ -4983,9 +4502,8 @@ srcOutputs: []
 
 * * *
 
-Most of the things that get in an agent's way - cookie banners, modal backdrops, loading masks - are hidden rather than removed when dismissed. This waits for that, where `$.doAwaitNotPresent` would sit until it timed out.  
-It's worth waiting rather than clicking straight through. An overlay mid-fade still intercepts pointer events, so the click lands on the overlay and the action you intended silently doesn't happen.  
-A timeout returns `false` instead of throwing, which makes it usable as a condition and lets you decide whether a stubborn overlay is worth abandoning the run over.
+Cookie banners, modal backdrops and loading masks are usually hidden rather than removed, so this is what they need - `$.doAwaitNotPresent` would sit there until it timed out.  
+Worth waiting for: an overlay mid-fade still swallows pointer events, so a click sent too early lands on the overlay instead.
 
 **example-doAwaitNotVisible.js.yaml**
 ```yaml
@@ -4994,37 +4512,14 @@ srcStateMachine:
     code: |
       await $.navLoad("about:home/test/");
 
-      // Overlays and loading masks usually fade rather than being removed,
-      // and clicking through one before it's gone hits the overlay instead
-      if (await $.doAwaitNotVisible(".overlay", { timeout: 15 })) {
-        $.log("Overlay cleared", "success");
-      }
+      const ghost = await $.doQuery("#alert-visible");
+      const toggle = await $.doQuery('[data-role="toggle-visible"]');
 
-      return { next: "cookie-banner" };
-  - key: cookie-banner
-    code: |
-      const bannerKey = await $.doQuery("#cookie-banner");
-      if (null === bannerKey) {
-        $.log("No banner in the way");
+      await $.doClick(toggle);
+      $.setTimeout(async () => await $.doClick(toggle), 1000);
 
-        return;
-      }
-
-      const acceptKey = await $.doQuery("button", { parent: bannerKey, contains: "accept" });
-      if (null === acceptKey) {
-        return;
-      }
-
-      await $.doClick(acceptKey);
-
-      // Only carry on once it has actually gone
-      if (!(await $.doAwaitNotVisible(bannerKey, { timeout: 10 }))) {
-        $.log("The banner is still covering the page", "error");
-
-        return;
-      }
-
-      $.log("Banner dismissed", "success");
+      const gone = await $.doAwaitNotVisible(ghost, { timeout: 5 });
+      $.log(gone ? "🫥 Faded away" : "😑 Still staring back", gone ? "success" : "warning");
 srcFunctions: []
 srcInputs: []
 srcOutputs: []
